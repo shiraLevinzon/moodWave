@@ -16,9 +16,8 @@ const userSchema = new Schema({
   },
   country: {
     type: String,
-    required: true,
   },
-  birthday: {
+  birthDate: {
     type: Date,
     required: true,
   },
