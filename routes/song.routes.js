@@ -5,6 +5,7 @@ const router = express.Router();
 
 
 router.get("/", );
+router.get("/", );
 router.get("/songById/:id", );
 router.get("/songByName/:name", );
 router.get("/songByEmo/:emotion", );
