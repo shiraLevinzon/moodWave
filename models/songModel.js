@@ -57,9 +57,17 @@ const songSchema = new Schema({
     ],
     required: true,
   },
+  periodTag: {
+    type: String,
+    enum: [
+      "summer",
+      "winter",
+      "none",
+    ],
+    required: true,
+  },
   image: {
     type: String,
-    required: true,
   },
   date_upload: {
     type: Date,

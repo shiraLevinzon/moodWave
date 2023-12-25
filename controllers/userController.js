@@ -2,7 +2,6 @@ const bcrypt = require("bcryptjs");
 const Joi = require("joi");
 const { User } = require("../models/UserModel");
 const { generateToken } = require("../utils/jwt");
-// const { Toy } = require("../models/toyModel");
 
 const userJoiSchema = {
   login: Joi.object().keys({
@@ -12,14 +11,14 @@ const userJoiSchema = {
       .error(() => Error("Email is not valid")),
   }),
   register: Joi.object().keys({
+    userName: Joi.string().required(),
     password: Joi.string().max(20).required(),
     email: Joi.string()
       .email({ tlds: { allow: ["com"] } })
       .error(() => Error("Email is not valid")),
-    fullName: Joi.object().keys({
-      firstName: Joi.string().required(),
-      lastName: Joi.string(),
-    }),
+    country: Joi.string(),
+    birthDate: Joi.date().less("now"),
+
     role: Joi.string(),
   }),
 };

@@ -1,16 +1,15 @@
 const { Schema, model } = require("mongoose");
 
 const artistSchema = new Schema({
-  fullName: {
-    firstName: {
-      type: String,
-      required: [true, "first name is requred"],
-    },
-    lastName: {
-      type: String,
-      required: false,
-    },
+  firstName: {
+    type: String,
+    required: [true, "first name is requred"],
   },
+  lastName: {
+    type: String,
+    required: false,
+  },
+
   email: {
     type: String,
     required: true,
@@ -23,6 +22,7 @@ const artistSchema = new Schema({
   artistCode: {
     type: String,
     required: true,
+    unique: true,
   },
   genres: {
     type: [
@@ -66,7 +66,7 @@ const artistSchema = new Schema({
     type: String,
     required: true,
   },
-  birthday: {
+  birthDate: {
     type: Date,
     required: true,
   },
