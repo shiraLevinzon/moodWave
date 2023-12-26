@@ -4,11 +4,19 @@ const Joi = require("joi");
 const perPage = 10;
 
 // const songJoiSchema = {
-//     songObj: Joi.object().keys({
+//     songS: Joi.object().keys({
 //         name: Joi.string().required(),
-//         duration: Joi.string()
-//     })
-// }
+//         duration: Joi.string().required(),
+//         songUrl: Joi.string().required(),
+//         genres: Joi.array().required(),
+//         artistCode: Joi.string(), // Assuming artistCode is a string (change as needed)
+//         emotion: Joi.string().required(),
+//         periodTag: Joi.array().required(),
+//         image: Joi.string(),
+//         date_upload: Joi.date().default(Date.now(), 'current date'),
+//     }),
+// };
+
 
 
 exports.getAllSongs = async (req, res, next) => {
@@ -16,7 +24,7 @@ exports.getAllSongs = async (req, res, next) => {
         const { page } = req.query;
 
         const songs = await Song.find()
-            // .populate('artistCode')
+            .populate('artistCode')
             .skip((page - 1) * perPage)
             .limit(perPage);
         res.send(songs);
@@ -47,7 +55,7 @@ exports.getSongByName = async (req, res, next) => {
     try {
         const { sname, page } = req.query;
         const songs = await Song.find({ name: sname })
-            // .populate('artistCode')
+            .populate('artistCode')
             .skip((page - 1) * perPage)
             .limit(perPage);
         res.send(songs);
@@ -63,7 +71,7 @@ exports.getSongByArtist = async (req, res, next) => {
     try {
         const { artist, page } = req.query;
         const songs = await Song.find({ artistCode: artist })
-            // .populate('artistCode')
+            .populate('artistCode')
             .skip((page - 1) * perPage)
             .limit(perPage);
         res.send(songs);
@@ -79,7 +87,7 @@ exports.getSongByEmo = async (req, res, next) => {
         const { emo } = req.params;
         const { page } = req.query;
         const songs = await Song.find({ emotion: emo })
-            // .populate('artistCode')
+            .populate('artistCode')
             .skip((page - 1) * perPage)
             .limit(perPage);
         res.send(songs);
@@ -97,7 +105,7 @@ exports.getSongByGenre = async (req, res, next) => {
         const { gen } = req.params;
         const { page } = req.query;
         const songs = await Song.find({ genres: { $in: [gen] } })
-            // .populate('artistCode')
+            .populate('artistCode')
             .skip((page - 1) * perPage)
             .limit(perPage);
         res.send(songs);
@@ -114,7 +122,7 @@ exports.getSongByPeriodTag = async (req, res, next) => {
         const { pTag } = req.params;
         const { page } = req.query;
         const songs = await Song.find({ periodTag: { $in: [pTag] } })
-            // .populate('artistCode')
+            .populate('artistCode')
             .skip((page - 1) * perPage)
             .limit(perPage);
         res.send(songs);
@@ -132,7 +140,7 @@ exports.addSong = async (req, res, next) => {
     const body = req.body;
     const artistId = res.locals.userId;
     try {
-        // const valid = toyJoiSchema.toyObj.validate(body);
+        // const valid = songJoiSchema.songS.validate(body);
         // if (valid.error) {
         //     throw Error(valid.error);
         // }
@@ -149,7 +157,7 @@ exports.addSong = async (req, res, next) => {
 exports.deleteSong = async (req, res, next) => {
     try {
         //console.log(req.params.id);
-        const song= await Song.findOne({_id:req.params.id});
+        const song = await Song.findOne({ _id: req.params.id });
         if (res.locals.userId != song.artistCode)
             return res.status(404).json({ msg: "the login artist cant delete this song" });
 
