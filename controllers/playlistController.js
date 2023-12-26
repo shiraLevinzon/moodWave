@@ -3,6 +3,7 @@ const Joi = require("joi");
 const { Playlist } = require("../models/playlistModel");
 const { generateToken } = require("../utils/jwt");
 const { User } = require("../models/UserModel");
+const { Song } = require("../models/songModel");
 
 const playlistJoiSchema = {};
 
@@ -20,9 +21,16 @@ const checkIfUserExists = async (userId) => {
 };
 
 exports.getAllPlaylists = async (req, res, next) => {
+  //by user (add participant)
   const userId = res.locals.userId;
   try {
-    const playlists = await Playlist.find({ ownerId: userId });
+    // const playlists = await Playlist.find({ ownerId: userId });
+    const playlists = await Playlist.find({
+      $or: [
+        { ownerId: userId }, // Playlists where the user is the owner
+        { participants: { $in: [userId] } }, // Playlists where the user is a participant
+      ],
+    }).populate("songs.song");
     res.send(playlists);
   } catch (error) {
     console.log(error);
@@ -49,13 +57,12 @@ exports.createPlaylist = async (req, res, next) => {
 
 exports.addSong = async (req, res, next) => {
   const playlistId = req.params.playlistId;
-  const userId = res.locals.userId;
   const body = req.body;
   try {
-    // if (!(await isOwner(editId, userId)))
-    // throw new Error("You not allowd to edit this toy");
     const p = await Playlist.findOne({ _id: playlistId });
+    console.log(p);
     const newSongs = [...p.songs, body.song];
+    console.log(newSongs);
     const playlist = await Playlist.updateOne(
       { _id: playlistId },
       { songs: newSongs }
@@ -69,9 +76,7 @@ exports.addSong = async (req, res, next) => {
 
 exports.addParticipant = async (req, res, next) => {
   const playlistId = req.params.playlistId;
-  const userId = res.locals.userId;
   const body = req.body;
-  //   console.log("body", body);
   try {
     if (!(await checkIfUserExists(body.participant)))
       throw new Error("user is not exist");

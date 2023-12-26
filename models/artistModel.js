@@ -3,13 +3,12 @@ const { Schema, model } = require("mongoose");
 const artistSchema = new Schema({
   firstName: {
     type: String,
-    required: [true, "first name is requred"],
+    required: true,
   },
   lastName: {
     type: String,
     required: false,
   },
-
   email: {
     type: String,
     required: true,

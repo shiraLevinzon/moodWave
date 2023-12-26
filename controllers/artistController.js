@@ -4,30 +4,56 @@ const { Artist } = require("../models/artistModel");
 const { generateToken } = require("../utils/jwt");
 const { User } = require("../models/UserModel");
 
-const adminJoiSchema = {
+const artistJoiSchema = {
   login: Joi.object().keys({
-    email: Joi.string()
-      .email({ tlds: { allow: ["com"] } })
-      .error(() => Error("Email is not valid")),
+    artistCode: Joi.string(),
     password: Joi.string(),
   }),
-  register: Joi.object().keys({
-    userName: Joi.string().required(),
+  simpleRegister: Joi.object().keys({
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
     password: Joi.string().max(20).required(),
     email: Joi.string()
       .email({ tlds: { allow: ["com"] } })
       .error(() => Error("Email is not valid")),
     country: Joi.string(),
+    genres: Joi.array(),
+    image: Joi.string(),
+    artistCode: Joi.string(),
     birthDate: Joi.date().less("now"),
-    role: Joi.string(),
   }),
 };
 
 const checkIfUserExists = async (email) => {
-  const user = await User.findOne({ email });
+  const user = await Artist.findOne({ email });
   if (user) return user;
   return false;
 };
+
+const findArtist = async (artistCode) => {
+  const artist = await Artist.findOne({ artistCode });
+  if (artist) return artist;
+  return false;
+};
+
+function generateBackupCode() {
+  const generateRandomLetters = (length) => {
+    let result = "";
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters.charAt(randomIndex);
+    }
+
+    return result;
+  };
+
+  const letters = generateRandomLetters(2);
+  const digits = Math.floor(1000 + Math.random() * 9000); // Generates a random 4-digit number
+
+  return `${letters}${digits}`;
+}
 
 const isAdmin = async (userId) => {
   const user = await User.findOne({ _id: userId });
@@ -48,20 +74,25 @@ exports.getAllArtists = async (req, res, next) => {
   }
 };
 
-exports.register = async (req, res, next) => {
+exports.simpleRegister = async (req, res, next) => {
+  const userId = res.locals.userId;
   const body = req.body;
   try {
-    const validate = userJoiSchema.register.validate(body);
+    const validate = artistJoiSchema.simpleRegister.validate(body);
     if (validate.error) throw Error(validate.error);
+    if (!(await isAdmin(userId)))
+      throw new Error("You not allowd to add an artist");
     if (await checkIfUserExists(body.email)) {
       throw new Error("Already in the system");
     }
     const hash = await bcrypt.hash(body.password, 10);
     body.password = hash;
+    body.artistCode = generateBackupCode();
 
-    const newUser = new User(body);
-    await newUser.save();
-    return res.status(201).send(newUser);
+    const newArtist = new Artist(body);
+    console.log(newArtist);
+    await newArtist.save();
+    return res.status(201).send(newArtist);
   } catch (error) {
     next(error);
   }
@@ -70,14 +101,14 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   const body = req.body;
   try {
-    const validate = userJoiSchema.login.validate(body);
+    const validate = artistJoiSchema.login.validate(body);
     if (validate.error) throw Error(validate.error);
-    const user = await checkIfUserExists(body.email);
-    if (!user || !(await bcrypt.compare(body.password, user.password))) {
-      throw new Error("userName or password not valid");
+    const artist = await findArtist(body.artistCode);
+    if (!artist || !(await bcrypt.compare(body.password, artist.password))) {
+      throw new Error("code or password not valid");
     }
-    const token = generateToken(user);
-    return res.send({ user, token });
+    const token = generateToken(artist);
+    return res.send({ artist, token });
   } catch (error) {
     next(error);
   }

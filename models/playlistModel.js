@@ -6,6 +6,10 @@ const playlistSchema = new Schema({
     ref: "User",
     required: true,
   },
+  name: {
+    type: String,
+    default: "My Playlist",
+  },
   participants: {
     type: [
       {
@@ -17,10 +21,8 @@ const playlistSchema = new Schema({
   songs: {
     type: [
       {
-        song: {
-          type: mongoose.Types.ObjectId,
-          ref: "Song",
-        },
+        type: mongoose.Types.ObjectId,
+        ref: "Song",
       },
     ],
   },
