@@ -1,19 +1,23 @@
 const express = require("express");
 const { auth } = require('../middlewares/auth');
+const { getAllSongs, getSongById, getSongByName, getSongByArtist, getSongByEmo, getSongByGenre, getSongByPeriodTag ,addSong,deleteSong } = require('../controllers/songController');
 
 const router = express.Router();
 
 
-router.get("/", );
-router.get("/", );
-router.get("/songById/:id", );
-router.get("/songByName/:name", );
-router.get("/songByEmo/:emotion", );
-router.get("/songByGenre/:genre", );
-router.get("/songByArtist/:artist", );
-router.get("/songByPeriodTag/:tag", );
+router.get("/",getAllSongs);
+router.get("/songById/:id",getSongById);
+router.get("/songByName",getSongByName);
+router.get("/songByArtist",getSongByArtist);
+
+router.get("/songByEmo/:emo",getSongByEmo);
+router.get("/songByGenre/:gen",getSongByGenre);
+router.get("/songByPeriodTag/:pTag",getSongByPeriodTag);
 
 
-router.post("/", auth(), addTask);
+router.post("/", auth(), addSong);
 router.delete("/:id", auth(), deleteSong);
+
+module.exports = router;
+
 

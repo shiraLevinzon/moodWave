@@ -13,32 +13,37 @@ const songSchema = new Schema({
     type: String,
     required: true,
   },
-  genre: {
-    type: String,
-    enum: [
-      "Rock",
-      "Pop",
-      "Hip Hop",
-      "R&B",
-      "Jazz",
-      "Blues",
-      "Country",
-      "Electronic",
-      "Classical",
-      "Reggae",
-      "Folk",
-      "Indie",
-      "Metal",
-      "Punk",
-      "Funk",
-      "Soul",
-      "EDM",
-      "Gospel",
-      "Rap",
-      "Techno",
-      "Mizrahi",
-      "Israeli",
+  genres: {
+    type: [
+      {
+        type: String,
+        enum: [
+          "Rock",
+          "Pop",
+          "Hip Hop",
+          "R&B",
+          "Jazz",
+          "Blues",
+          "Country",
+          "Electronic",
+          "Classical",
+          "Reggae",
+          "Folk",
+          "Indie",
+          "Metal",
+          "Punk",
+          "Funk",
+          "Soul",
+          "EDM",
+          "Gospel",
+          "Rap",
+          "Techno",
+          "Mizrahi",
+          "Israeli",
+        ],
+      },
     ],
+    required: true,
   },
   artistCode: {
     type: mongoose.Types.ObjectId,
@@ -58,14 +63,20 @@ const songSchema = new Schema({
     required: true,
   },
   periodTag: {
-    type: String,
-    enum: [
-      "summer",
-      "winter",
-      "none",
+    type: [
+      {
+        type: String,
+        enum: [
+          "summer",
+          "winter",
+          "spring",
+          "none"
+        ],
+      },
     ],
     required: true,
   },
+
   image: {
     type: String,
   },
