@@ -57,7 +57,7 @@ function generateBackupCode() {
 
 const isAdmin = async (userId) => {
   const user = await User.findOne({ _id: userId });
-  const isManager = user.role == "admin";
+  const isManager = user?.role == "admin";
   return isManager;
 };
 
@@ -109,6 +109,19 @@ exports.login = async (req, res, next) => {
     }
     const token = generateToken(artist);
     return res.send({ artist, token });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateArtist = async (req, res, next) => {
+  const artistId = req.params.artistId;
+  const userId = res.locals.userId;
+  try {
+    if (artistId != userId && !(await isAdmin(userId)))
+      throw new Error("You not allowd to edit this artist");
+    const artist = await Artist.updateOne({ _id: artistId }, req.body);
+    res.send(artist);
   } catch (error) {
     next(error);
   }
