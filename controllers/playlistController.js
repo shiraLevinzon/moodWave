@@ -3,6 +3,7 @@ const Joi = require("joi");
 const { Playlist } = require("../models/playlistModel");
 const { generateToken } = require("../utils/jwt");
 const { User } = require("../models/UserModel");
+const { Song } = require("../models/songModel");
 
 const playlistJoiSchema = {};
 
@@ -20,9 +21,16 @@ const checkIfUserExists = async (userId) => {
 };
 
 exports.getAllPlaylists = async (req, res, next) => {
+  //by user (add participant)
   const userId = res.locals.userId;
   try {
-    const playlists = await Playlist.find({ ownerId: userId });
+    // const playlists = await Playlist.find({ ownerId: userId });
+    const playlists = await Playlist.find({
+      $or: [
+        { ownerId: userId }, // Playlists where the user is the owner
+        { participants: { $in: [userId] } }, // Playlists where the user is a participant
+      ],
+    }).populate("songs.song");
     res.send(playlists);
   } catch (error) {
     console.log(error);

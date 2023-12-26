@@ -6,6 +6,10 @@ const playlistSchema = new Schema({
     ref: "User",
     required: true,
   },
+  name: {
+    type: String,
+    default: "My Playlist",
+  },
   participants: {
     type: [
       {
