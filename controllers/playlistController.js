@@ -92,3 +92,43 @@ exports.addParticipant = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.deleteSong = async (req, res, next) => {
+  const playlistId = req.params.playlistId;
+  const body = req.body;
+  //   console.log("body", body);
+  try {
+    const playlist = await Playlist.updateOne(
+      { _id: playlistId },
+      { $pull: { songs: body.song } }
+    );
+    res.send(playlist);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+exports.deleteParticipant = async (req, res, next) => {
+  const playlistId = req.params.playlistId;
+  const body = req.body;
+  //   console.log("body", body);
+  try {
+    if (!(await checkIfUserExists(body.participant)))
+      throw new Error("user is not exist");
+    // const p = await Playlist.findOne({ _id: playlistId });
+    // const newSongs = p.songs.
+    // const playlist = await Playlist.updateOne(
+    //   { _id: playlistId },
+    //   { songs: newSongs }
+    // );
+    const playlist = await Playlist.updateOne(
+      { _id: playlistId },
+      { $pull: { participants: body.participant } }
+    );
+    res.send(playlist);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
