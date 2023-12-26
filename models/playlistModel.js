@@ -21,10 +21,8 @@ const playlistSchema = new Schema({
   songs: {
     type: [
       {
-        song: {
-          type: mongoose.Types.ObjectId,
-          ref: "Song",
-        },
+        type: mongoose.Types.ObjectId,
+        ref: "Song",
       },
     ],
   },
