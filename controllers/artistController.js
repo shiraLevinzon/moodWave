@@ -1,9 +1,10 @@
 const bcrypt = require("bcryptjs");
 const Joi = require("joi");
-const { User } = require("../models/UserModel");
+const { Artist } = require("../models/artistModel");
 const { generateToken } = require("../utils/jwt");
+const { User } = require("../models/UserModel");
 
-const userJoiSchema = {
+const adminJoiSchema = {
   login: Joi.object().keys({
     email: Joi.string()
       .email({ tlds: { allow: ["com"] } })
@@ -34,13 +35,13 @@ const isAdmin = async (userId) => {
   return isManager;
 };
 
-exports.getAllUsers = async (req, res, next) => {
+exports.getAllArtists = async (req, res, next) => {
   const userId = res.locals.userId;
   try {
     if (!(await isAdmin(userId)))
-      throw new Error("You not allowd to get the users list");
-    const users = await User.find({});
-    res.send(users);
+      throw new Error("You not allowd to get the artist list");
+    const artist = await Artist.find({});
+    res.send(artist);
   } catch (error) {
     console.log(error);
     next(error);
