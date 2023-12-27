@@ -3,6 +3,7 @@ const Joi = require("joi");
 const { Artist } = require("../models/artistModel");
 const { generateToken } = require("../utils/jwt");
 const { User } = require("../models/UserModel");
+const sendEmail = require("../utils/nodeMailer");
 
 const artistJoiSchema = {
   login: Joi.object().keys({
@@ -101,6 +102,7 @@ exports.simpleRegister = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   const body = req.body;
   try {
+    sendEmail();
     const validate = artistJoiSchema.login.validate(body);
     if (validate.error) throw Error(validate.error);
     const artist = await findArtist(body.artistCode);

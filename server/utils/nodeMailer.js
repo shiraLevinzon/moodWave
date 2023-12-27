@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-const sendEmail = async (options) => {
+const sendEmail = async () => {
   ///1 create transporter
   const transporter = nodemailer.createTransport({
     host: "sandbox.smtp.mailtrap.io",
@@ -17,7 +17,7 @@ const sendEmail = async (options) => {
   ///2 Define email options
   const mailOptions = {
     from: "Monkeys <info@monkeys.com>",
-    to: options.email,
+    to: "talyyamoshe@gmail.com",
     subject: "YOUR CODE",
     text: "AB1234",
     //html
