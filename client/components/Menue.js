@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon, Provider as PaperProvider } from 'react-native-paper';
 
 import MyPlaylist from '../pages/myPlaylist';
-import Camera from '../pages/camera';
 import Rooms from '../pages/romms';
 import Profile from '../pages/profile';
 import { Entypo } from '@expo/vector-icons'; 
@@ -13,6 +12,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons'; 
 import { View } from 'react-native';
 import Home from '../pages/home';
+import CameraPage from '../pages/camera';
 
 export default function Menue() {
 
@@ -35,7 +35,7 @@ export default function Menue() {
           ),
         }}
          />
-        <Tab.Screen name="Camera" component={Camera}
+        <Tab.Screen name="Camera" component={CameraPage}
         options={{
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="camera" size={24} color="black" />
