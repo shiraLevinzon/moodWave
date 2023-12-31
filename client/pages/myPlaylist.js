@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
-import DataContext from "../context/data";
+// import DataContext from "../context/data";
+import { FormContext } from "../context/data";
 import Search from "../components/Search";
 import { AntDesign } from "@expo/vector-icons";
 
