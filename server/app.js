@@ -1,5 +1,5 @@
 const express = require("express");
-// const cors = require("cors");
+const cors = require("cors");
 const userRoutes = require("./routes/user.routes");
 const artistRouts = require("./routes/artist.routes");
 const playlistRouts = require("./routes/playlist.routes");
@@ -11,6 +11,7 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/artists", artistRouts);
