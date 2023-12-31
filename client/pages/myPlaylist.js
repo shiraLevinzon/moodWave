@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
-import DataContext from "../context/data";
+// import DataContext from "../context/data";
+import { FormContext } from "../context/data";
 import Search from "../components/Search";
 import { AntDesign } from "@expo/vector-icons";
 
 //import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 export default function MyPlaylist({ navigation }) {
-  const { playlists, setPlaylists } = useContext(DataContext);
+  const { playlists, setPlaylists } = useContext(FormContext);
 
   const addNewPlaylist = () => {
     console.log("addNewPlaylis");
