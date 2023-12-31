@@ -22,8 +22,8 @@ const Provider = ({children})=>{
    ]);
    const [songlist, setSonglist] = useState([])
  
- const shared = {searchQuery, setSearchQuery,playlists, setPlaylists,songlist,setSonglist,currentUser,
-  setCurrentUser,}
+ const shared = {searchQuery, setSearchQuery,playlists, setPlaylists, songlist,setSonglist,currentUser,
+  setCurrentUser}
   return (
     <FormContext.Provider value={shared}>
         {children}

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 // import DataContext from "../context/data";
-import { FormContext } from "../context/data";
+import {FormContext}  from "../context/data";
 import Search from "../components/Search";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -9,7 +9,7 @@ import { AntDesign } from "@expo/vector-icons";
 //import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 export default function MyPlaylist({ navigation }) {
-  const { playlists, setSonglist } = useContext(DataContext);
+  const { playlists, setSonglist } = useContext(FormContext);
 
   const addNewPlaylist = () => {
     console.log("addNewPlaylis");
@@ -39,7 +39,7 @@ export default function MyPlaylist({ navigation }) {
         renderItem={({ item }) => (
           <View style={styles.viewItem}>
             <Text onPress={async ()=>{
-              await setSonglist(item.songs);
+              await setSonglist([...item.songs]);
                navigation.navigate("Playlist", { playlist: item.songs });
               // selectPlaylist(item.songs)
               }} style={styles.item}>

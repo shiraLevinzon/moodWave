@@ -1,15 +1,10 @@
 import React, { useContext } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
-import FormContext from  '../context/data';
-
-import { withNavigation } from "react-navigation";
-
+import {FormContext} from  '../context/data';
 export default function Playlist({navigation}) {
   
   const {songlist} = useContext(FormContext);
-  console.log(songlist);
 
   //const navigation = useNavigation();
   return (

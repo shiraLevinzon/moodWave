@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Camera } from 'expo-camera';
 import axios from 'axios';
 import * as ImageManipulator from 'expo-image-manipulator';
-import FormContext from '../context/data';
+import {FormContext} from '../context/data';
 
 
 export default function CameraPage({navigation}) {
