@@ -40,7 +40,7 @@ export default function MyPlaylist({ navigation }) {
           <View style={styles.viewItem}>
             <Text onPress={async ()=>{
               await setSonglist([...item.songs]);
-               navigation.navigate("Playlist", { playlist: item.songs });
+               navigation.navigate("Playlist");
               // selectPlaylist(item.songs)
               }} style={styles.item}>
               {item.playlistName}
