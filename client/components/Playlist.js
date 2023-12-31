@@ -1,24 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import FormContext from  '../context/data';
 
 import { withNavigation } from "react-navigation";
 
-export default function Playlist(props) {
-  const { playlistFromTheList } = props;
-  const navigation = useNavigation();
+export default function Playlist({navigation}) {
+  
+  const {songlist} = useContext(FormContext);
+  console.log(songlist);
+
+  //const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Text style={styles.playlistCoteret}>
         {/* {playlistFromTheList.playlistName} */}
-        playlistFromTheList
       </Text>
       <FlatList
-        data={playlistFromTheList}
-        renderItem={() => (
+        data={songlist}
+        renderItem={({ item }) => (
           <View style={styles.viewItem}>
-            <Text style={styles.item}>blablabla</Text>
+            <Text onPress={()=>{      
+              navigation.navigate("Song", { song: item  });}
+              } style={styles.item}>{item.name}</Text>
           </View>
         )}
       />
