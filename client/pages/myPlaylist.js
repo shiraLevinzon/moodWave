@@ -5,6 +5,7 @@ import { FormContext } from "../context/data";
 import Search from "../components/Search";
 import { AntDesign } from "@expo/vector-icons";
 
+
 //import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 export default function MyPlaylist({ navigation }) {
@@ -12,6 +13,7 @@ export default function MyPlaylist({ navigation }) {
 
   const addNewPlaylist = () => {
     console.log("addNewPlaylis");
+    navigation.navigate("addNewPlaylist")
   };
 
   const selectPlaylist = (item) => {

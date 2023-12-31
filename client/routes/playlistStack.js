@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 //import MyPlaylist from '../pages/MyPlaylist';
 import Playlist from "../components/Playlist";
 import MyPlaylist from "../pages/myPlaylist";
+import AddNewPlaylist from "../pages/addNewPlaylist";
 
 const Stack = createStackNavigator();
 
@@ -19,26 +20,14 @@ const PlaylistStack = () => {
         component={Playlist}
         options={{ title: "Playlist" }}
       />
+        <Stack.Screen
+        name="addNewPlaylist"
+        component={AddNewPlaylist}
+        options={{ title: "createNew" }}
+      />
     </Stack.Navigator>
   );
 };
 
 export default PlaylistStack;
 
-// import { createStackNavigator } from "react-navigation-stack";
-// import {createAppContainer} from 'react-navigation'
-// import Playlist from "../components/Playlist";
-// import MyPlaylist from "../pages/myPlaylist";
-
-// const screens={
-//     Playlists:{
-//         screen:MyPlaylist
-//     },
-//     Playlist:{
-//         screen:Playlist
-//     }
-// }
-
-// const PlaylistStack=createStackNavigator(screens)
-
-// export default createAppContainer(PlaylistStack);
