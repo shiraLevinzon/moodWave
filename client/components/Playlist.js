@@ -16,9 +16,9 @@ export default function Playlist(props) {
       </Text>
       <FlatList
         data={playlistFromTheList}
-        renderItem={({ item }) => (
+        renderItem={() => (
           <View style={styles.viewItem}>
-            <Text style={styles.item}>{item.name}</Text>
+            <Text style={styles.item}>blablabla</Text>
           </View>
         )}
       />

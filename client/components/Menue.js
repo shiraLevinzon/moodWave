@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon, Provider as PaperProvider } from "react-native-paper";
 
 import MyPlaylist from "../pages/myPlaylist";
-import Camera from "../pages/camera";
+import CameraPage from '../pages/camera';
 import Rooms from "../pages/romms";
 import Profile from "../pages/profile";
 import { Entypo } from "@expo/vector-icons";
@@ -12,19 +12,19 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { View } from "react-native";
-import Home from "../pages/home";
-import playlistStack from "../routes/playlistStack";
+
 import PlaylistStack from "../routes/playlistStack";
+import HomeStack from "../routes/homeStack";
 
 export default function Menue() {
   const Tab = createBottomTabNavigator();
 
   return (
-    <NavigationContainer>
+    <NavigationContainer independent={true}>
       <Tab.Navigator>
         <Tab.Screen
           name="Home"
-          component={Home}
+          component={HomeStack}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Entypo name="home" size={size} color={color} />
@@ -47,7 +47,7 @@ export default function Menue() {
         />
         <Tab.Screen
           name="Camera"
-          component={Camera}
+          component={CameraPage}
           options={{
             tabBarIcon: ({ color, size }) => (
               <AntDesign name="camera" size={24} color="black" />
