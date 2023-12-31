@@ -14,6 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { View } from "react-native";
 
 import PlaylistStack from "../routes/playlistStack";
+import CameraStack from "../routes/CameraStack";
 import HomeStack from "../routes/homeStack";
 
 export default function Menue() {
@@ -47,7 +48,7 @@ export default function Menue() {
         />
         <Tab.Screen
           name="Camera"
-          component={CameraPage}
+          component={CameraStack}
           options={{
             tabBarIcon: ({ color, size }) => (
               <AntDesign name="camera" size={24} color="black" />
