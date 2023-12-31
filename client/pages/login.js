@@ -22,6 +22,7 @@ export default function Login({ navigation }) {
         throw new Error(errorData || "Non-JSON server error occurred");
       }
       const data = await res.json();
+      setCurrentUser(data.token);
       console.log(data);
       navigation.navigate("Menue");
     } catch (error) {

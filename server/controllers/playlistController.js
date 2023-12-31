@@ -40,10 +40,13 @@ exports.getAllPlaylists = async (req, res, next) => {
 
 exports.createPlaylist = async (req, res, next) => {
   const userId = res.locals.userId;
+  const body = req.body;
+  console.log(body);
   try {
     const emptyPlaylist = {
       ownerId: userId,
-      songs: [],
+      name: body.name || "My Playlist",
+      songs: body.songs || [],
       participants: [],
     };
     const newPlaylist = new Playlist(emptyPlaylist);

@@ -2,13 +2,12 @@ import React, { useContext } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import FormContext from  '../context/data';
+import { FormContext } from "../context/data";
 
 import { withNavigation } from "react-navigation";
 
-export default function Playlist({navigation}) {
-  
-  const {songlist} = useContext(FormContext);
+export default function Playlist({ navigation }) {
+  const { songlist } = useContext(FormContext);
   console.log(songlist);
 
   //const navigation = useNavigation();
@@ -21,9 +20,14 @@ export default function Playlist({navigation}) {
         data={songlist}
         renderItem={({ item }) => (
           <View style={styles.viewItem}>
-            <Text onPress={()=>{      
-              navigation.navigate("Song", { song: item  });}
-              } style={styles.item}>{item.name}</Text>
+            <Text
+              onPress={() => {
+                navigation.navigate("Song", { song: item });
+              }}
+              style={styles.item}
+            >
+              {item}
+            </Text>
           </View>
         )}
       />
@@ -52,6 +56,5 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
     marginTop: 24,
     marginHorizontal: 10,
-    width: 150,
   },
 });
