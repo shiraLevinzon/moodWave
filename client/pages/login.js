@@ -13,8 +13,8 @@ export default function Login({navigation}) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.loginCoteret}>Firs, login</Text>
-            <View>
+            <Text style={styles.loginCoteret}>MOOD WAVE</Text>
+            <View style={styles.boxDeatails}>
                 <Text style={styles.textLogin}>email:</Text>
                 <TextInput
                     style={styles.input}
@@ -31,7 +31,7 @@ export default function Login({navigation}) {
                 //   onChangeText={(text) => setSearchQuery(text)}
                 //   onSubmitEditing={handleSearch}
                 />
-                <Button  onPress={moveToHome}>Menue</Button>
+              <Button  onPress={moveToHome}><Text style={styles.btnLogin}>Login</Text></Button>
             </View>
         </View>
     )
@@ -40,23 +40,44 @@ export default function Login({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: "black",
         paddingTop: 40,
         paddingHorizontal: 20,
     },
     loginCoteret: {
-        paddingLeft: 15,
+        
         fontSize: 20,
+        paddingTop:50,
+        display:'flex',
+        alignItems:'center',
+        textAlign:'center',
+        fontSize:60,
+        color:"purple",
+        fontWeight:'bold'
+    },
+    boxDeatails:{
+   paddingTop:30
     },
     textLogin: {
-
+     paddingLeft:10,
+     fontSize:19,
+     paddingBottom:10,
+     paddingTop:10,
+     color:"#777"
     },
     input: {
         flex: 1,
-        height: 20,
+        height: 40,
         borderColor: 'gray',
         borderWidth: 1,
         padding: 10,
-        marginLeft: 10, // Adjusted to add some space between icon and input
+        marginLeft: 10, // Adjusted to add some space between icon and input,
+        
+      },
+      btnLogin:{
+        color:"purple",
+        fontWeight:'bold',
+        fontSize:20,
+        paddingTop:10
       },
 });

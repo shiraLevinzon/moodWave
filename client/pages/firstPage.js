@@ -12,8 +12,10 @@ const Tab = createBottomTabNavigator();
 export default function FirstPage() {
   return (
     <NavigationContainer independent={true}>
-    <Tab.Navigator>
-      <Tab.Screen name="LoginPage" component={LoginStack} />
+    <Tab.Navigator screenOptions={{headerShown:false ,   tabBarStyle:{
+      display:"none"
+    }}}>
+      <Tab.Screen name="LoginPage" component={LoginStack} options={{ headerShown:false }}  />
       <Tab.Screen
           name="menue"
           component={Menu}

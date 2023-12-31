@@ -9,16 +9,22 @@ const Stack = createStackNavigator();
 
 const LoginStack = () => {
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown:false,
+    tabBarStyle:{
+      display:"none"
+    }
+     }}>
       <Stack.Screen
         name="Login"
         component={login}
-        options={{ title: "Login"}}
+        options={{ title: "Login" , headerShown: false }}
+       
 
       />
       <Stack.Screen
         name="Menue"
         component={Menue}
+        options={{ headerShown: false }}
         
       />
     </Stack.Navigator>

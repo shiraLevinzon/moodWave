@@ -28,7 +28,7 @@ export default function Menue() {
           options={{
             tabBarIcon: ({ color, size }) => (
               <Entypo name="home" size={size} color={color} />
-            ),
+            ),headerShown: false
           }}
         />
 
@@ -42,7 +42,7 @@ export default function Menue() {
                 size={24}
                 color="black"
               />
-            ),
+            ),headerShown: false
           }}
         />
         <Tab.Screen
@@ -51,7 +51,7 @@ export default function Menue() {
           options={{
             tabBarIcon: ({ color, size }) => (
               <AntDesign name="camera" size={24} color="black" />
-            ),
+            ),headerShown: false
           }}
         />
         <Tab.Screen
@@ -60,7 +60,7 @@ export default function Menue() {
           options={{
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="user-friends" size={24} color="black" />
-            ),
+            ),headerShown: false
           }}
         />
         <Tab.Screen
@@ -69,7 +69,7 @@ export default function Menue() {
           options={{
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="person-circle" size={24} color="black" />
-            ),
+            ),headerShown: false
           }}
         />
       </Tab.Navigator>

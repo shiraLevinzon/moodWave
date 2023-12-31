@@ -4,6 +4,8 @@ import { createContext,  useEffect,  useState } from "react";
 const FormContext = createContext()
 
 const Provider = ({children})=>{
+
+    
   
     const [searchQuery, setSearchQuery] = useState('');
     const [playlists, setPlaylists] = useState([
