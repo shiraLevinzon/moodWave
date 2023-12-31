@@ -7,16 +7,17 @@ import { AntDesign } from "@expo/vector-icons";
 //import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 export default function MyPlaylist({ navigation }) {
-  const { playlists, setPlaylists } = useContext(DataContext);
+  const { playlists, setSonglist } = useContext(DataContext);
 
   const addNewPlaylist = () => {
     console.log("addNewPlaylis");
   };
 
-  const selectPlaylist = (item) => {
-    console.log("selectPlaylist");
+  const selectPlaylist = async (item) => {
+    // console.log(item +"nm,n,n");
     // Alert.alert("selectPlaylist")
-    navigation.navigate("Playlist", { playlist: item });
+    await setSonglist(item);
+    navigation.navigate("Playlist", { playlist: item.songs });
     //return <PlaylistStack playlistFromTheList={item} />;
   };
 
@@ -34,7 +35,11 @@ export default function MyPlaylist({ navigation }) {
         data={playlists}
         renderItem={({ item }) => (
           <View style={styles.viewItem}>
-            <Text onPress={selectPlaylist} style={styles.item}>
+            <Text onPress={async ()=>{
+              await setSonglist(item.songs);
+               navigation.navigate("Playlist", { playlist: item.songs });
+              // selectPlaylist(item.songs)
+              }} style={styles.item}>
               {item.playlistName}
             </Text>
           </View>

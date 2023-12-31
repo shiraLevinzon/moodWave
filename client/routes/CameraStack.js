@@ -1,19 +1,18 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-//import MyPlaylist from '../pages/MyPlaylist';
 import Playlist from "../components/Playlist";
-import MyPlaylist from "../pages/myPlaylist";
+import CameraPage from "../pages/camera";
 import { Song } from "../components/Song";
 
 const Stack = createStackNavigator();
 
-const PlaylistStack = () => {
+const CameraStack = () => {
   return (
-    <Stack.Navigator initialRouteName="MyPlaylist">
+    <Stack.Navigator initialRouteName="CameraStack">
       <Stack.Screen
-        name="MyPlaylist"
-        component={MyPlaylist}
-        options={{ title: "My Playlist" }}
+        name="Camera"
+        component={CameraPage}
+        options={{ title: "Camera Page" }}
       />
       <Stack.Screen
         name="Playlist"
@@ -29,7 +28,7 @@ const PlaylistStack = () => {
   );
 };
 
-export default PlaylistStack;
+export default CameraStack;
 
 // import { createStackNavigator } from "react-navigation-stack";
 // import {createAppContainer} from 'react-navigation'

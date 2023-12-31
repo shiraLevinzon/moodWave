@@ -1,13 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Camera } from 'expo-camera';
 import axios from 'axios';
 import * as ImageManipulator from 'expo-image-manipulator';
+import FormContext from '../context/data';
 
 
-export default function CameraPage() {
+export default function CameraPage({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
+  const {setSonglist} = useContext(FormContext);
+
   const cameraRef = useRef(null);
   const [type, setType] = useState(Camera.Constants.Type.front);
 
@@ -72,6 +75,7 @@ export default function CameraPage() {
       });
 
       const maxFeeling = findMaxFeeling(response.data.faces[0].attributes.emotion);
+      fetchSongsByEmo(maxFeeling);
       console.log(maxFeeling);
       // Handle the result as needed
     } catch (error) {
@@ -79,6 +83,18 @@ export default function CameraPage() {
       if (error.response) {
         console.error('Response data:', error.response.data);
       }
+    }
+  };
+  const fetchSongsByEmo = async (emo) => {
+    try {
+      const response = await fetch(`http://192.168.0.135:3000/api/v1/songs/songByEmo/${emo}`);
+      const data = await response.json();
+
+      setSonglist(data);
+      console.log(data);
+      navigation.navigate("Playlist", { playlistFromTheList: data  });
+    } catch (error) {
+      console.log(error.message);
     }
   };
 

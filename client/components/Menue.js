@@ -15,6 +15,7 @@ import { View } from "react-native";
 import Home from "../pages/home";
 import playlistStack from "../routes/playlistStack";
 import PlaylistStack from "../routes/playlistStack";
+import CameraStack from "../routes/CameraStack";
 
 export default function Menue() {
   const Tab = createBottomTabNavigator();
@@ -47,7 +48,7 @@ export default function Menue() {
         />
         <Tab.Screen
           name="Camera"
-          component={CameraPage}
+          component={CameraStack}
           options={{
             tabBarIcon: ({ color, size }) => (
               <AntDesign name="camera" size={24} color="black" />

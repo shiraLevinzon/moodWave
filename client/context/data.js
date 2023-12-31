@@ -9,17 +9,18 @@ const Provider = ({children})=>{
     const [playlists, setPlaylists] = useState([
         {
          playlistName:'test1 playlist',
-         songs:[{songName:'bla'},{songName:'lala'}],
+         songs:[{name:'bla'},{name:'lala'}],
          participants:['lea','rina']
         },
         {
           playlistName:'test2 playlist',
-          songs:[{songName:'lili'},{songName:'lola'}],
+          songs:[{name:'lili'},{name:'lola'}],
           participants:['avi','dani']
          },
     ]);
+    const [songlist, setSonglist] = useState([])
   
-  const shared = {searchQuery, setSearchQuery,playlists, setPlaylists}
+  const shared = {searchQuery, setSearchQuery,playlists, setPlaylists,songlist,setSonglist}
   return (
     <FormContext.Provider value={shared}>
         {children}
