@@ -5,7 +5,7 @@ import { TextInput } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import Search from "../components/Search";
 
-export default function Home() {
+export default function Home({navigation}) {
   const [categories, setCategories] = useState([
     { name: "hot", key: "1" },
     { name: "pop", key: "2" },
@@ -33,16 +33,27 @@ export default function Home() {
     "Israeli",
   ]);
 
-  const selectGaner = () => {
-    console.log("selectGaner");
-    // Alert.alert("selectPlaylist")
-    //navigation.navigate("Playlist");
+  const selectGaner = async(event, item) => {
+    event.persist();
+
+    try {
+      const res = await fetch(`http://192.168.0.128:3000/api/v1/songs/songByGenre/${item}`);
+      const data = await res.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+
+    console.log("selectGaner", item);
+    navigation.navigate("Playlist", { playlist: item });
   };
 
-  const viewGaner = (item) => {
+
+
+  const viewGaners = (item) => {
     return (
       <View style={styles.viewItem}>
-        <Text onPress={selectGaner} style={styles.item}>
+        <Text onPress={(event) => selectGaner(event, item)} style={styles.item}>
           {item}
         </Text>
       </View>
@@ -56,7 +67,7 @@ export default function Home() {
       <FlatList
         numColumns={2}
         data={ganers}
-        renderItem={({ item }) => viewGaner(item)}
+        renderItem={({item}) => viewGaners(item)}
       />
     </View>
   );

@@ -3,7 +3,7 @@ const cors = require("cors");
 const userRoutes = require("./routes/user.routes");
 const artistRouts = require("./routes/artist.routes");
 const playlistRouts = require("./routes/playlist.routes");
-const songRoutes= require("./routes/song.routes");
+const songRoutes = require("./routes/song.routes");
 const bodyParser = require("body-parser");
 const path = require("path");
 
