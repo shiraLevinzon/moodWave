@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   playlistCoteret: {
     paddingLeft: 15,
-    fontSize: 20,
+    fontSize: 21,
   },
   item: {
     // marginTop:24,
