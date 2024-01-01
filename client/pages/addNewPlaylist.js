@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 
 export default function AddNewPlaylist() {
   const [allSongs, setAllSongs] = useState([]);
@@ -29,6 +29,7 @@ export default function AddNewPlaylist() {
         renderItem={(item) => (
           // (item) => console.log(item.item.image)
           <View style={styles.viewItem}>
+          
             <Text style={styles.item}>{item.item.name}</Text>
           </View>
         )}
@@ -38,15 +39,18 @@ export default function AddNewPlaylist() {
 }
 
 const styles = StyleSheet.create({
+  viewItem: {
+    backgroundColor: "pink",
+    marginTop: 24,
+    marginHorizontal: 10,
+    display:"flex"
+  },
+
   item: {
     marginTop: 24,
     padding: 30,
     fontSize: 24,
     // backgroundColor:'blue',
   },
-  viewItem: {
-    backgroundColor: "pink",
-    marginTop: 24,
-    marginHorizontal: 10,
-  },
+
 });
