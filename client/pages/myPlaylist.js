@@ -1,19 +1,41 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 // import DataContext from "../context/data";
 import { FormContext } from "../context/data";
 import Search from "../components/Search";
 import { AntDesign } from "@expo/vector-icons";
 
-
 //import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 export default function MyPlaylist({ navigation }) {
-  const { playlists, setSonglist } = useContext(DataContext);
+  const { playlists, setPlaylists, setSonglist, currentUser } =
+    useContext(FormContext);
+
+  useEffect(() => {
+    getPlaylists();
+  }, []);
+  const getPlaylists = async () => {
+    const res = await fetch(
+      `http://192.168.0.179:3000/api/v1/playlists/allPlaylists`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentUser}`,
+        },
+      }
+    );
+    if (!res.ok) {
+      const errorData = await res.text();
+      throw new Error(errorData || "Non-JSON server error occurred");
+    }
+    const data = await res.json();
+    setPlaylists(data);
+  };
 
   const addNewPlaylist = () => {
     console.log("addNewPlaylis");
-    navigation.navigate("addNewPlaylist")
+    navigation.navigate("addNewPlaylist");
   };
 
   const selectPlaylist = async (item) => {
@@ -38,12 +60,17 @@ export default function MyPlaylist({ navigation }) {
         data={playlists}
         renderItem={({ item }) => (
           <View style={styles.viewItem}>
-            <Text onPress={async ()=>{
-              await setSonglist(item.songs);
-               navigation.navigate("Playlist", { playlist: item.songs });
-              // selectPlaylist(item.songs)
-              }} style={styles.item}>
-              {item.playlistName}
+            <Text
+              onPress={() => {
+                console.log(item.songs);
+                setSonglist(...item.songs);
+                navigation.navigate("Playlist");
+
+                // selectPlaylist(item.songs)
+              }}
+              style={styles.item}
+            >
+              {item.name}
             </Text>
           </View>
         )}
