@@ -8,7 +8,7 @@ import { AntDesign } from "@expo/vector-icons";
 //import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 export default function MyPlaylist({ navigation }) {
-  const { playlists, setPlaylists, setSonglist, currentUser } =
+  const { playlists, setPlaylists, setSonglist, currentUser,setPlaylistName } =
     useContext(FormContext);
   const [message, setMessage] = useState("");
   useEffect(() => {
@@ -63,6 +63,7 @@ export default function MyPlaylist({ navigation }) {
             <Text
               onPress={() => {
                 console.log(item.songs);
+                setPlaylistName(item.name)
                 setSonglist(item.songs);
                 navigation.navigate("Playlist");
               }}
@@ -71,6 +72,7 @@ export default function MyPlaylist({ navigation }) {
               {item.name}
             </Text>
           </View>
+          
         )}
       />
       <AntDesign
@@ -113,14 +115,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   item: {
-    // marginTop:24,
-    padding: 30,
+   color:"#fff",
+    padding: 20,
     fontSize: 20,
-    // backgroundColor:'blue',
+    fontWeight:"bold",
+    backgroundColor:"purple"
   },
   viewItem: {
     backgroundColor: "#fff",
-    marginTop: 24,
+    // marginTop: 10,
     // marginHorizontal:10,
   },
 });
