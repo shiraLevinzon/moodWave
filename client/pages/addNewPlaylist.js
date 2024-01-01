@@ -13,6 +13,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { FormContext } from "../context/data";
 import { Modal, TextInput } from "react-native-paper";
 
+
 export default function AddNewPlaylist({ navigation }) {
   const { currentUser } = useContext(FormContext);
   const [allSongs, setAllSongs] = useState([]);
@@ -73,8 +74,11 @@ export default function AddNewPlaylist({ navigation }) {
   };
 
   return (
-    <View>
-      <Text>CREATE YOUR PLAYLIST</Text>
+    <View style={styles.allPage}>
+      <Text style={styles.coteretCreate}>CREATE YOUR PLAYLIST</Text>
+    
+        <Button color="purple" title="Create" onPress={giveName} />
+      
       <FlatList
         data={allSongs}
         renderItem={(item) => (
@@ -82,18 +86,21 @@ export default function AddNewPlaylist({ navigation }) {
             <AntDesign
               style={styles.plusItem}
               name="pluscircleo"
-              size={50}
+              size={40}
               color="black"
               onPress={() => addToPlaylist(item)}
             />
 
-            <Text style={styles.item}>{item.item.name}</Text>
+            <View style={styles.songDeatails}>
+              <Text style={styles.itemName}>{item.item.name}</Text>
+              <Text style={styles.itemArtistName}>{item.item.name}</Text>
+            </View>
 
-            <Image style={styles.imgItem} source={item.item.Image} />
+            <View style={styles.imgItem}><Image style={{ width: 70, height: 70}} src={item.item.image} /></View>
           </View>
         )}
       />
-      <Button title="Create" onPress={giveName} />
+      
       <Modal
         animationType="fade"
         transparent={true}
@@ -132,27 +139,54 @@ export default function AddNewPlaylist({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  item: {
+  allPage:{
+    flex:1,
+    backgroundColor:"black"
+  },
+
+  coteretCreate:{
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'space-between',
+    textAlign:"center",
+    fontSize:23,
+    color:"purple",
+    fontWeight:"bold"
+  
+  },
+  viewItem: {
+    backgroundColor: "#fff",
     marginTop: 24,
-    padding: 30,
+    marginHorizontal: 10,
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'space-between'
+   
+  },
+
+  itemName: {
+    // marginTop: 24,
+    // padding: 30,
     fontSize: 24,
     // backgroundColor:'blue',
   },
-  viewItem: {
-    backgroundColor: "pink",
-    marginTop: 24,
-    marginHorizontal: 10,
-    display: "flex",
+  itemArtistName:{
+    fontSize:15
   },
+
   imgItem: {
-    width: 50,
-    height: 50,
+    width: 70,
+    height: 70,
+    flexDirection: 'row',
+     alignItems: 'center' 
+    
   },
-  plusItem: {},
+  plusItem: {    paddingLeft:8},
   centeredView: {
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
+
   },
   modalView: {
     margin: 20,

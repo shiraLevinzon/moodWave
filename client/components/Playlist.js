@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, LogBox, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { FormContext } from "../context/data";
 
