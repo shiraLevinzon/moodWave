@@ -1,11 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { FormContext } from "../context/data";
+
 export default function Playlist({ navigation }) {
   const { songlist } = useContext(FormContext);
 
-  //const navigation = useNavigation();
+  useEffect(() => {
+    console.log("songs:", songlist);
+  }, []);
   return (
     <View style={styles.container}>
       <Text style={styles.playlistCoteret}>
@@ -21,7 +24,7 @@ export default function Playlist({ navigation }) {
               }}
               style={styles.item}
             >
-              {item}
+              {item.name}
             </Text>
           </View>
         )}

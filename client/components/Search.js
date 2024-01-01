@@ -14,7 +14,7 @@ export default function Search() {
       {/* <Ionicons name="search" size={20} color="black" style={styles.icon} /> */}
       <TextInput
         style={styles.input}
-        placeholder="Search by name or song..."
+        placeholder="Search Song..."
         value={searchQuery}
         //   onChangeText={(text) => setSearchQuery(text)}
         //   onSubmitEditing={handleSearch}

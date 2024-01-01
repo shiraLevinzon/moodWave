@@ -21,7 +21,7 @@ export default function MyPlaylist({ navigation }) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${currentUser}`,
+          Authorization: `Bearer ${currentUser.token}`,
         },
       }
     );
@@ -55,7 +55,7 @@ export default function MyPlaylist({ navigation }) {
         onPress={addNewPlaylist}
       />
       <Search />
-      <Text style={styles.playlistCoteret}>YOUR PLAYLIST</Text>
+      <Text style={styles.playlistCoteret}>MY PLAYLISTS</Text>
       <FlatList
         data={playlists}
         renderItem={({ item }) => (
@@ -63,10 +63,8 @@ export default function MyPlaylist({ navigation }) {
             <Text
               onPress={() => {
                 console.log(item.songs);
-                setSonglist(...item.songs);
+                setSonglist(item.songs);
                 navigation.navigate("Playlist");
-
-                // selectPlaylist(item.songs)
               }}
               style={styles.item}
             >

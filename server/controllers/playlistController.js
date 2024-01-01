@@ -30,7 +30,7 @@ exports.getAllPlaylists = async (req, res, next) => {
         { ownerId: userId }, // Playlists where the user is the owner
         { participants: { $in: [userId] } }, // Playlists where the user is a participant
       ],
-    }).populate("songs.song");
+    }).populate("songs");
     res.send(playlists);
   } catch (error) {
     console.log(error);

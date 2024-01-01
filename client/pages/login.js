@@ -22,7 +22,7 @@ export default function Login({ navigation }) {
         throw new Error(errorData || "Non-JSON server error occurred");
       }
       const data = await res.json();
-      setCurrentUser(data.token);
+      setCurrentUser(data);
       console.log(data);
       navigation.navigate("Menue");
     } catch (error) {
@@ -38,14 +38,14 @@ export default function Login({ navigation }) {
         <Text style={styles.textLogin}>email:</Text>
         <TextInput
           style={styles.input}
-          keyboardType="email-address"
+          // keyboardType="email-address"
           value={loginData}
           onChangeText={(text) => setLoginData({ ...loginData, email: text })}
         />
         <Text style={styles.textLogin}>password:</Text>
         <TextInput
           style={styles.input}
-          keyboardType="visible-password"
+          // keyboardType="visible-password"
           value={loginData}
           onChangeText={(text) =>
             setLoginData({ ...loginData, password: text })

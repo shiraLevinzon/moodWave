@@ -1,30 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { TextInput } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import Search from "../components/Search";
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 import { FormContext } from "../context/data";
 
-
 export default function Home({ navigation }) {
-  const [weather, setWeather] = useState(null);
-  const [holiday, setHoliday] = useState(null);
-
   const { setSonglist } = useContext(FormContext);
 
-
-  const [categories, setCategories] = useState([
-    { name: "hot", key: "1" },
-    { name: "pop", key: "2" },
-    { name: "israeli", key: "3" },
-    { name: "rock", key: "4" },
-    { name: "last", key: "5" },
-    { name: "soul", key: "6" },
-  ]);
-  // const [searchQuery, setSearchQuery] = useState('');
-
+  const [weather, setWeather] = useState(null);
+  const [holiday, setHoliday] = useState(null);
   const [ganers, setGaners] = useState([
     "Rock",
     "Pop",
@@ -41,11 +34,12 @@ export default function Home({ navigation }) {
     "Mizrahi",
     "Israeli",
   ]);
+
   const showPosition = async () => {
     try {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        console.error('Permission to access location was denied');
+      if (status !== "granted") {
+        console.error("Permission to access location was denied");
         return;
       }
 
@@ -63,8 +57,8 @@ export default function Home({ navigation }) {
       console.error("Error fetching weather data:", error);
     }
   };
-  const CurrentHoliday = () => {
 
+  const CurrentHoliday = () => {
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth() + 1; // Note: JavaScript months are zero-based
@@ -73,15 +67,17 @@ export default function Home({ navigation }) {
     const apiUrl = `https://www.hebcal.com/converter?cfg=json&gy=${year}&gm=${month}&gd=${day}&g2h=1`;
 
     fetch(apiUrl)
-      .then(response => response.json())
-      .then(data => {
-        console.log('Today\'s Jewish date:', data.hebrew);
-        console.log('Today\'s Jewish holiday(s):', data.holidays);
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Today's Jewish date:", data.hebrew);
+        console.log("Today's Jewish holiday(s):", data.holidays);
         setHoliday(data.holidays);
       })
-      .catch(error => console.error('Error fetching Jewish calendar data:', error));
+      .catch((error) =>
+        console.error("Error fetching Jewish calendar data:", error)
+      );
+  };
 
-  }
   useEffect(() => {
     showPosition();
     CurrentHoliday();
@@ -89,7 +85,9 @@ export default function Home({ navigation }) {
 
   const fetchSongsByWeather = async () => {
     try {
-      const response = await fetch(`http://192.168.0.135:3000/api/v1/songs/songByPeriodTag/${weather}`);
+      const response = await fetch(
+        `http://192.168.0.179:3000/api/v1/songs/songByPeriodTag/${weather}`
+      );
       const data = await response.json();
 
       setSonglist(data);
@@ -102,7 +100,9 @@ export default function Home({ navigation }) {
 
   const fetchSongsByHoliday = async () => {
     try {
-      const response = await fetch(`http://192.168.0.135:3000/api/v1/songs/songByPeriodTag/${holiday}`);
+      const response = await fetch(
+        `http://192.168.0.179:3000/api/v1/songs/songByPeriodTag/${holiday}`
+      );
       const data = await response.json();
 
       setSonglist(data);
@@ -113,33 +113,36 @@ export default function Home({ navigation }) {
     }
   };
 
-
   const selectGaner = async (event, item) => {
     event.persist();
-
     try {
-      const res = await fetch(`http://192.168.0.128:3000/api/v1/songs/songByGenre/${item}`);
+      const res = await fetch(
+        `http://192.168.0.179:3000/api/v1/songs/songByGenre/${item}`
+      );
       const data = await res.json();
       console.log(data);
+      setSonglist(data);
+      navigation.navigate("Playlist");
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
 
     console.log("selectGaner", item);
-    navigation.navigate("Playlist", { playlist: item });
   };
-
-
-
-
 
   const viewGaners = (item) => {
     return (
-      <View style={styles.viewItem}>
+      // <View style={styles.viewItem}>
+      <ImageBackground
+        source={require("../assets/rock.jpg")}
+        style={styles.viewItem}
+        resizeMode="cover"
+      >
         <Text onPress={(event) => selectGaner(event, item)} style={styles.item}>
           {item}
         </Text>
-      </View>
+      </ImageBackground>
+      // </View>
     );
   };
 
@@ -148,9 +151,7 @@ export default function Home({ navigation }) {
       <Search />
       <Text style={styles.albomsCoteret}>OUR CATEGORIES</Text>
 
-
       <View style={styles.item1}>
-
         <View style={styles.viewItem}>
           <Text onPress={fetchSongsByWeather} style={styles.item}>
             Weather- {weather}
@@ -164,17 +165,12 @@ export default function Home({ navigation }) {
         </View>
       </View>
 
-
-
       <FlatList
-
         numColumns={2}
         data={ganers}
         renderItem={({ item }) => viewGaners(item)}
       />
     </View>
-
-
   );
 }
 
@@ -190,19 +186,31 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   item: {
-    marginTop: 24,
-    padding: 30,
     fontSize: 24,
-    // backgroundColor:'blue',
+    backgroundColor: "white",
+    borderRadius: 5,
+    paddingRight: 10,
+    paddingLeft: 10,
   },
   item1: {
-    flexDirection: 'row', 
-    justifyContent: 'space-between', 
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   viewItem: {
     backgroundColor: "red",
+    borderRadius: 15,
     marginTop: 24,
+    padding: 10,
     marginHorizontal: 10,
     width: 150,
+    height: 100,
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+  },
+  genreImg: {
+    // flex: 1,
+    borderRadius: 100,
+    width: 150,
+    height: 100,
   },
 });

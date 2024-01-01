@@ -59,7 +59,7 @@ export default function AddNewPlaylist({ navigation }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${currentUser}`,
+          Authorization: `Bearer ${currentUser.token}`,
         },
         body: JSON.stringify(newPlaylist),
       }

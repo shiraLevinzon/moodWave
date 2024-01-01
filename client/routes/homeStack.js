@@ -5,7 +5,6 @@ import Playlist from "../components/Playlist";
 import Home from "../pages/home";
 import { Song } from "../components/Song";
 
-
 const Stack = createStackNavigator();
 
 const HomeStack = () => {
@@ -21,11 +20,7 @@ const HomeStack = () => {
         component={Playlist}
         options={{ title: "Playlist" }}
       />
-      <Stack.Screen
-        name="Song"
-        component={Song}
-        options={{ title: "Song" }}
-      />
+      <Stack.Screen name="Song" component={Song} options={{ title: "Song" }} />
     </Stack.Navigator>
   );
 };
