@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 // import DataContext from "../context/data";
 import { FormContext } from "../context/data";
@@ -8,9 +8,8 @@ import { AntDesign } from "@expo/vector-icons";
 //import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 export default function MyPlaylist({ navigation }) {
-  const { playlists, setPlaylists, setSonglist, currentUser } =
-    useContext(FormContext);
-
+  const { playlists, setPlaylists, setSonglist, currentUser } =useContext(FormContext);
+  const [message,setMessage]=useState('');
   useEffect(() => {
     getPlaylists();
   }, []);
@@ -30,6 +29,7 @@ export default function MyPlaylist({ navigation }) {
       throw new Error(errorData || "Non-JSON server error occurred");
     }
     const data = await res.json();
+    if (data.length==0){setMessage("your playlists is empty, lets create some!")}
     setPlaylists(data);
   };
 
@@ -48,14 +48,12 @@ export default function MyPlaylist({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <AntDesign
-        name="pluscircleo"
-        size={24}
-        color="black"
-        onPress={addNewPlaylist}
-      />
+      <View style={styles.searchAndIcon}>
+     
       <Search />
-      <Text style={styles.playlistCoteret}>YOUR PLAYLIST</Text>
+      </View>
+      <Text style={styles.playlistCoteret}>YOUR PLAYLISTS:</Text>
+      <Text style={styles.message}>{message}</Text>
       <FlatList
         data={playlists}
         renderItem={({ item }) => (
@@ -75,6 +73,13 @@ export default function MyPlaylist({ navigation }) {
           </View>
         )}
       />
+       <AntDesign
+        name="pluscircleo"
+        size={50}
+        color="#fff"
+        onPress={addNewPlaylist}
+        style={styles.iconView}
+      />
     </View>
   );
 }
@@ -82,13 +87,32 @@ export default function MyPlaylist({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: 'relative',
     backgroundColor: "#fff",
     paddingTop: 40,
     paddingHorizontal: 20,
+    backgroundColor:"black"
+  },
+  iconView:{
+  paddingTop:580,
+  paddingLeft:25,
+   position: 'absolute',
   },
   playlistCoteret: {
-    paddingLeft: 15,
-    fontSize: 21,
+
+    fontSize: 24,
+    fontWeight:"bold",
+ 
+    textAlign:"center",
+    color:"purple"
+  },
+  message:{
+    paddingTop:50,
+    fontSize: 20,
+    fontWeight:"bold",
+    color:"#fff",
+    textAlign:"center",
+   
   },
   item: {
     // marginTop:24,
@@ -97,7 +121,7 @@ const styles = StyleSheet.create({
     // backgroundColor:'blue',
   },
   viewItem: {
-    backgroundColor: "pink",
+    backgroundColor: "#fff",
     marginTop: 24,
     // marginHorizontal:10,
   },

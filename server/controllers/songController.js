@@ -22,7 +22,7 @@ exports.getAllSongs = async (req, res, next) => {
     const { page } = req.query;
 
     const songs = await Song.find()
-      //   .populate("artistCode")
+       .populate("artistCode")
       .skip((page - 1) * perPage)
       .limit(perPage);
     res.send(songs);
