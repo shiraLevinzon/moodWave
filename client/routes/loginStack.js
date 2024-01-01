@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import login from "../pages/login";
 import Menue from "../components/Menue";
+import { UserRegister } from "../pages/userRegister";
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,13 @@ const LoginStack = () => {
         name="Login"
         component={login}
         options={{ title: "Login" , headerShown: false }}
+       
+
+      />
+      <Stack.Screen
+        name="UserRegister"
+        component={UserRegister}
+        options={{ title: "UserRegister" , headerShown: false }}
        
 
       />
