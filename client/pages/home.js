@@ -131,14 +131,22 @@ export default function Home({ navigation }) {
   };
 
   const viewGaners = (item) => {
+    let url = "../assets/HipHop.jpg";
+    // if (item == "Hip Hop") {
+    //   url = "../assets/HipHop.jpg";
+    // } else url = "../assets/Blues.jpg";
+    // const url1 = "../assets/Blues.jpg";
     return (
       // <View style={styles.viewItem}>
       <ImageBackground
-        source={require("../assets/rock.jpg")}
+        source={require(url)}
         style={styles.viewItem}
         resizeMode="cover"
       >
-        <Text onPress={(event) => selectGaner(event, item)} style={styles.item}>
+        <Text
+          onPress={(event) => selectGaner(event, item)}
+          style={styles.genreText}
+        >
           {item}
         </Text>
       </ImageBackground>
@@ -153,13 +161,13 @@ export default function Home({ navigation }) {
 
       <View style={styles.item1}>
         <View style={styles.viewItem}>
-          <Text onPress={fetchSongsByWeather} style={styles.item}>
+          <Text onPress={fetchSongsByWeather} style={styles.genreText}>
             Weather- {weather}
           </Text>
         </View>
 
         <View style={styles.viewItem}>
-          <Text onPress={fetchSongsByHoliday} style={styles.item}>
+          <Text onPress={fetchSongsByHoliday} style={styles.genreText}>
             Holiday- {holiday}
           </Text>
         </View>
@@ -167,6 +175,7 @@ export default function Home({ navigation }) {
 
       <FlatList
         numColumns={2}
+        style={styles.stam}
         data={ganers}
         renderItem={({ item }) => viewGaners(item)}
       />
@@ -181,13 +190,17 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingHorizontal: 20,
   },
+  stam: {
+    backgroundColor: "green",
+    // justifyContent: "space-between",
+  },
   albomsCoteret: {
     paddingLeft: 15,
     fontSize: 20,
   },
-  item: {
+  genreText: {
     fontSize: 24,
-    backgroundColor: "white",
+    backgroundColor: "black",
     borderRadius: 5,
     paddingRight: 10,
     paddingLeft: 10,
