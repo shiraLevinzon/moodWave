@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import DatePicker from 'react-native-datepicker';
+
 
 export const UserRegister = ({ navigation }) => {
     const [userData, setUserData] = useState({

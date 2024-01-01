@@ -15,10 +15,10 @@ import { Modal, TextInput } from "react-native-paper";
 
 
 export default function AddNewPlaylist({ navigation }) {
-  const { currentUser } = useContext(FormContext);
+  const { currentUser,playlistName, setPlaylistName } = useContext(FormContext);
   const [allSongs, setAllSongs] = useState([]);
   const [songArr, setSongArr] = useState([]);
-  const [playlistName, setPlaylistName] = useState([]);
+ 
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
