@@ -7,10 +7,65 @@ export default function Login({ navigation }) {
   const { currentUser, setCurrentUser } = useContext(FormContext);
   const [loginData, setLoginData] = useState({});
 
+  const getPlaylistByName = async (playlistName) => {
+    try {
+      console.log(currentUser);
+      const res = await fetch(
+        `http://192.168.0.135:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${currentUser.token}`,
+          },
+        }
+      );
+  
+      if (!res.ok) {
+        throw new Error(`Server error: ${res.status} ${res.statusText}`);
+      }
+  
+      const data = await res.json();
+      console.log(data);
+      return data.length > 0;
+    } catch (error) {
+      console.error("Error in getPlaylistByName:", error.message);
+      return false; // Return false on error
+    }
+  };
+  
+  const createDefoultPlaylists = async (playlistName) => {
+
+    if (!getPlaylistByName(playlistName)) {
+      const newPlaylist = {
+        songs: [],
+        name: playlistName,
+      };
+      const res = await fetch(
+        `http://192.168.0.135:3000/api/v1/playlists/createPlaylist`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${currentUser.token}`,
+          },
+          body: JSON.stringify(newPlaylist),
+        }
+      );
+      if (!res.ok) {
+        const errorData = await res.text();
+        console.log("p1");
+        console.log(errorData || "Non-JSON server error occurred");
+      }
+      const data = await res.json();
+      console.log(data);
+    }
+  };
+
   const moveToHome = async () => {
     try {
       console.log(JSON.stringify(loginData));
-      const res = await fetch(`http://192.168.0.179:3000/api/v1/users/login`, {
+      const res = await fetch(`http://192.168.0.135:3000/api/v1/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,6 +79,10 @@ export default function Login({ navigation }) {
       const data = await res.json();
       setCurrentUser(data);
       console.log(data);
+
+      createDefoultPlaylists("Heard Recently");
+      createDefoultPlaylists("My Favorites");
+      
       navigation.navigate("Menue");
     } catch (error) {
       console.error("Error occurred during fetch:", error);
@@ -55,8 +114,8 @@ export default function Login({ navigation }) {
           <Button onPress={moveToHome}>
             <Text style={styles.btnLogin}>Login</Text>
           </Button>
-          <Button onPress={()=>{navigation.navigate("UserRegister")}}>
-            <Text  style={styles.btnLogin}>Register</Text>
+          <Button onPress={() => { navigation.navigate("UserRegister") }}>
+            <Text style={styles.btnLogin}>Register</Text>
           </Button>
         </View>
       </View>
