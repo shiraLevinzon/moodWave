@@ -13,7 +13,7 @@ export default function Playlist({ navigation }) {
       </Text>
       <FlatList
         data={songlist}
-        renderItem={({ item }) => (
+        renderItem={( {item} ) => (
           <View style={styles.viewItem}>
             <Text
               onPress={() => {
@@ -21,7 +21,7 @@ export default function Playlist({ navigation }) {
               }}
               style={styles.item}
             >
-              {item}
+              {item.name}
             </Text>
           </View>
         )}

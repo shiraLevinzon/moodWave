@@ -62,7 +62,16 @@ const songSchema = new Schema({
           "summer",
           "winter",
           "spring",
-          "none"
+          "none",
+          "clear sky",
+          "few clouds",
+          "scattered clouds",
+          "broken clouds",
+          "shower rain",
+          "rain",
+          "thunderstorm",
+          "snow",
+          "mist"
         ],
       },
     ],

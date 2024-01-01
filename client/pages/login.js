@@ -55,8 +55,8 @@ export default function Login({ navigation }) {
           <Button onPress={moveToHome}>
             <Text style={styles.btnLogin}>Login</Text>
           </Button>
-          <Button>
-            <Text style={styles.btnLogin}>Register</Text>
+          <Button onPress={()=>{navigation.navigate("UserRegister")}}>
+            <Text  style={styles.btnLogin}>Register</Text>
           </Button>
         </View>
       </View>
