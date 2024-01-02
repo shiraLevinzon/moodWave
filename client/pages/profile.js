@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import { Text, View, Image, StyleSheet, Button } from "react-native";
 import { FormContext } from "../context/data";
 
-export default function Profile() {
+export default function Profile({ navigation }) {
   const { currentUser, setCurrentUser } = useContext(FormContext);
   const pressHandler = () => {
     setCurrentUser({});
-    alert("go to login page");
+    navigation.navigate("login");
   };
 
   return (
@@ -16,9 +16,9 @@ export default function Profile() {
         source={require(`../assets/default-profile.jpg`)}
       />
       <View style={styles.container}>
-        <Text style={styles.title}>{currentUser.user.userName}</Text>
-        <Text style={styles.details}>{currentUser.user.email}</Text>
-        <Text style={styles.details}>{currentUser.user.country}</Text>
+        <Text style={styles.title}>{currentUser.user?.userName}</Text>
+        <Text style={styles.details}>{currentUser.user?.email}</Text>
+        <Text style={styles.details}>{currentUser.user?.country}</Text>
       </View>
       <Button style={styles.btn} title="Log Out" onPress={pressHandler} />
     </View>
