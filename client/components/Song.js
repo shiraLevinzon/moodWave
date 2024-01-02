@@ -42,8 +42,8 @@ export const Song = ({ route }) => {
 
   const updateStatus = async () => {
     const status = await sound?.getStatusAsync();
-    setDuration(status.durationMillis || 0);
-    setPosition(status.positionMillis || 0);
+    setDuration(status?.durationMillis || 0);
+    setPosition(status?.positionMillis || 0);
   };
 
   useEffect(() => {

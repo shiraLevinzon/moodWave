@@ -5,6 +5,7 @@ import Playlist from "../components/Playlist";
 import MyPlaylist from "../pages/myPlaylist";
 import { Song } from "../components/Song";
 import AddNewPlaylist from "../pages/addNewPlaylist";
+import Search from "../components/Search";
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,11 @@ const PlaylistStack = () => {
         name="addNewPlaylist"
         component={AddNewPlaylist}
         options={{ title: "createNew" }}
+      />
+        <Stack.Screen
+        name="searchSong"
+        component={Search}
+        options={{ title: "searchSong" }}
       />
     </Stack.Navigator>
   );

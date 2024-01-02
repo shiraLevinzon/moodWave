@@ -7,15 +7,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Entypo } from "@expo/vector-icons";
-import { TextInput } from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
+
 import Search from "../components/Search";
 import * as Location from "expo-location";
 import { FormContext } from "../context/data";
 
 export default function Home({ navigation }) {
-  const { setSonglist, setPlaylistName } = useContext(FormContext);
+  const { setSonglist, searchQuery, setSearchQuery  } = useContext(FormContext);
 
   const [weather, setWeather] = useState(null);
   const [holiday, setHoliday] = useState(null);
@@ -211,7 +209,7 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Search />
+       <Search navigation={navigation} />
       <Text style={styles.albomsCoteret}>OUR CATEGORIES</Text>
 
       <View style={styles.item1}>
