@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { FormContext } from "../context/data";
+import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 export default function Login({ navigation }) {
   const { currentUser, setCurrentUser } = useContext(FormContext);
@@ -65,7 +66,7 @@ export default function Login({ navigation }) {
   const moveToHome = async () => {
     try {
       console.log(JSON.stringify(loginData));
-      const res = await fetch(`http://192.168.0.135:3000/api/v1/users/login`, {
+      const res = await fetch(`http://192.168.0.128:3000/api/v1/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -91,6 +92,7 @@ export default function Login({ navigation }) {
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
       <Text style={styles.loginCoteret}>MOOD WAVE</Text>
       <View style={styles.boxDeatails}>
@@ -120,6 +122,7 @@ export default function Login({ navigation }) {
         </View>
       </View>
     </View>
+    </TouchableWithoutFeedback>
   );
 }
 
