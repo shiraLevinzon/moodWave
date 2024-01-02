@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { FormContext } from "../context/data";
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { TouchableWithoutFeedback, Keyboard } from "react-native";
 
 export default function Login({ navigation }) {
   const { currentUser, setCurrentUser } = useContext(FormContext);
@@ -10,7 +10,7 @@ export default function Login({ navigation }) {
 
   const getPlaylistByName = async (playlistName) => {
     try {
-      console.log(currentUser);
+      // console.log(currentUser);
       const res = await fetch(
         `http://192.168.0.128:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
         {
@@ -21,11 +21,11 @@ export default function Login({ navigation }) {
           },
         }
       );
-  
+
       if (!res.ok) {
         throw new Error(`Server error: ${res.status} ${res.statusText}`);
       }
-  
+
       const data = await res.json();
       console.log(data);
       return data.length > 0;
@@ -34,9 +34,8 @@ export default function Login({ navigation }) {
       return false; // Return false on error
     }
   };
-  
-  const createDefoultPlaylists = async (playlistName) => {
 
+  const createDefoultPlaylists = async (playlistName) => {
     if (!getPlaylistByName(playlistName)) {
       const newPlaylist = {
         songs: [],
@@ -66,7 +65,7 @@ export default function Login({ navigation }) {
   const moveToHome = async () => {
     try {
       console.log(JSON.stringify(loginData));
-      const res = await fetch(`http://192.168.0.128:3000/api/v1/users/login`, {
+      const res = await fetch(`http://192.168.0.179:3000/api/v1/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +82,7 @@ export default function Login({ navigation }) {
 
       createDefoultPlaylists("Heard Recently");
       createDefoultPlaylists("My Favorites");
-      
+
       navigation.navigate("Menue");
     } catch (error) {
       console.error("Error occurred during fetch:", error);
@@ -93,35 +92,39 @@ export default function Login({ navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View style={styles.container}>
-      <Text style={styles.loginCoteret}>MOOD WAVE</Text>
-      <View style={styles.boxDeatails}>
-        <Text style={styles.textLogin}>email:</Text>
-        <TextInput
-          style={styles.input}
-          // keyboardType="email-address"
-          value={loginData}
-          onChangeText={(text) => setLoginData({ ...loginData, email: text })}
-        />
-        <Text style={styles.textLogin}>password:</Text>
-        <TextInput
-          style={styles.input}
-          // keyboardType="visible-password"
-          value={loginData}
-          onChangeText={(text) =>
-            setLoginData({ ...loginData, password: text })
-          }
-        />
-        <View style={styles.viewLogin}>
-          <Button onPress={moveToHome}>
-            <Text style={styles.btnLogin}>Login</Text>
-          </Button>
-          <Button onPress={() => { navigation.navigate("UserRegister") }}>
-            <Text style={styles.btnLogin}>Register</Text>
-          </Button>
+      <View style={styles.container}>
+        <Text style={styles.loginCoteret}>MOOD WAVE</Text>
+        <View style={styles.boxDeatails}>
+          <Text style={styles.textLogin}>email:</Text>
+          <TextInput
+            style={styles.input}
+            // keyboardType="email-address"
+            value={loginData}
+            onChangeText={(text) => setLoginData({ ...loginData, email: text })}
+          />
+          <Text style={styles.textLogin}>password:</Text>
+          <TextInput
+            style={styles.input}
+            // keyboardType="visible-password"
+            value={loginData}
+            onChangeText={(text) =>
+              setLoginData({ ...loginData, password: text })
+            }
+          />
+          <View style={styles.viewLogin}>
+            <Button onPress={moveToHome}>
+              <Text style={styles.btnLogin}>Login</Text>
+            </Button>
+            <Button
+              onPress={() => {
+                navigation.navigate("UserRegister");
+              }}
+            >
+              <Text style={styles.btnLogin}>Register</Text>
+            </Button>
+          </View>
         </View>
       </View>
-    </View>
     </TouchableWithoutFeedback>
   );
 }

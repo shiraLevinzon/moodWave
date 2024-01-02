@@ -85,10 +85,54 @@ export default function Home({ navigation }) {
     CurrentHoliday();
   }, []);
 
+  // const findClosestHolidayToHebrewDate = (hebrewDate) => {
+  //   const { year, month, day } = hebrewDate;
+
+  //   const apiUrl = `https://www.hebcal.com/converter?cfg=json&hy=${year}&hm=${month}&hd=${day}&g2h=1`;
+
+  //   return fetch(apiUrl)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       if (data.error) {
+  //         throw new Error(data.error); // Throw an error if Hebcal API returns an error
+  //       }
+
+  //       console.log("Converted Gregorian date:", data.gd, data.gm, data.gy);
+  //       console.log("Converted Jewish date:", data.hebrew);
+  //       console.log("Corresponding Jewish holiday(s):", data.events);
+  //       return data.events;
+  //     })
+  //     .catch((error) => {
+  //       console.error(
+  //         "Error fetching Jewish calendar data:",
+  //         error.message || error
+  //       );
+  //       return [];
+  //     });
+  // };
+
+  // // Example usage:
+  // const hebrewDate = {
+  //   year: 5783,
+  //   month: 4,
+  //   day: 23,
+  // };
+
+  // findClosestHolidayToHebrewDate(hebrewDate).then((closestHolidays) => {
+  //   console.log(closestHolidays);
+  //   if (closestHolidays.length > 0) {
+  //     console.log("Closest Jewish holiday(s):", closestHolidays);
+  //     // Perform further actions with closestHolidays as needed
+  //   } else {
+  //     console.log("No holiday found for the given Hebrew date.");
+  //   }
+  // });
+
   const fetchSongsByWeather = async () => {
     try {
       const response = await fetch(
-        `http://192.168.0.128:3000/api/v1/songs/songByPeriodTag/${weather}`
+        `http://192.168.0.179:3000/api/v1/songs/songByPeriodTag/${weather}`
       );
       const data = await response.json();
 
@@ -103,7 +147,7 @@ export default function Home({ navigation }) {
   const fetchSongsByHoliday = async () => {
     try {
       const response = await fetch(
-        `http://192.168.0.128:3000/api/v1/songs/songByPeriodTag/${holiday}`
+        `http://192.168.0.179:3000/api/v1/songs/songByPeriodTag/${holiday}`
       );
       const data = await response.json();
 
@@ -119,7 +163,7 @@ export default function Home({ navigation }) {
     event.persist();
     try {
       const res = await fetch(
-        `http://192.168.0.128:3000/api/v1/songs/songByGenre/${item}`
+        `http://192.168.0.179:3000/api/v1/songs/songByGenre/${item}`
       );
       const data = await res.json();
       setPlaylistName(`${item} Songs`);

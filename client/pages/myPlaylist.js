@@ -8,7 +8,7 @@ import { AntDesign } from "@expo/vector-icons";
 //import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 export default function MyPlaylist({ navigation }) {
-  const { playlists, setPlaylists, setSonglist, currentUser,setPlaylistName } =
+  const { playlists, setPlaylists, setSonglist, currentUser, setPlaylistName } =
     useContext(FormContext);
   const [message, setMessage] = useState("");
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function MyPlaylist({ navigation }) {
   }, []);
   const getPlaylists = async () => {
     const res = await fetch(
-      `http://192.168.0.128:3000/api/v1/playlists/allPlaylists`,
+      `http://192.168.0.179:3000/api/v1/playlists/allPlaylists`,
       {
         method: "GET",
         headers: {
@@ -63,7 +63,7 @@ export default function MyPlaylist({ navigation }) {
             <Text
               onPress={() => {
                 console.log(item.songs);
-                setPlaylistName(item.name)
+                setPlaylistName(item.name);
                 setSonglist(item.songs);
                 navigation.navigate("Playlist");
               }}
@@ -72,7 +72,6 @@ export default function MyPlaylist({ navigation }) {
               {item.name}
             </Text>
           </View>
-          
         )}
       />
       <AntDesign
@@ -115,11 +114,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   item: {
-   color:"#fff",
+    color: "#fff",
     padding: 20,
     fontSize: 20,
-    fontWeight:"bold",
-    backgroundColor:"purple"
+    fontWeight: "bold",
+    backgroundColor: "purple",
   },
   viewItem: {
     backgroundColor: "#fff",

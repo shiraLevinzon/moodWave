@@ -6,6 +6,8 @@ const playlistRouts = require("./routes/playlist.routes");
 const songRoutes = require("./routes/song.routes");
 const bodyParser = require("body-parser");
 const path = require("path");
+require("dotenv").config();
+
 
 const app = express();
 
