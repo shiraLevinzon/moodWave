@@ -4,6 +4,7 @@ import {
   ImageBackground,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
@@ -14,14 +15,14 @@ import * as Location from "expo-location";
 import { FormContext } from "../context/data";
 
 export default function Home({ navigation }) {
-  const { setSonglist } = useContext(FormContext);
+  const { setSonglist, setPlaylistName } = useContext(FormContext);
 
   const [weather, setWeather] = useState(null);
   const [holiday, setHoliday] = useState(null);
   const [ganers, setGaners] = useState([
     "Rock",
     "Pop",
-    "Hip Hop",
+    "HipHop",
     "Jazz",
     "Blues",
     "Country",
@@ -91,7 +92,7 @@ export default function Home({ navigation }) {
       const data = await response.json();
 
       setSonglist(data);
-      console.log(data);
+      setPlaylistName(`${weather} Songs`);
       navigation.navigate("Playlist");
     } catch (error) {
       console.log(error.message);
@@ -106,7 +107,7 @@ export default function Home({ navigation }) {
       const data = await response.json();
 
       setSonglist(data);
-      console.log(data);
+      setPlaylistName(`${holiday} Songs`);
       navigation.navigate("Playlist");
     } catch (error) {
       console.log(error.message);
@@ -120,37 +121,47 @@ export default function Home({ navigation }) {
         `http://192.168.0.179:3000/api/v1/songs/songByGenre/${item}`
       );
       const data = await res.json();
-      console.log(data);
+      setPlaylistName(`${item} Songs`);
       setSonglist(data);
       navigation.navigate("Playlist");
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-
-    console.log("selectGaner", item);
+  };
+  const urls = {
+    Pop: require("../assets/Pop.jpg"),
+    Rock: require("../assets/Rock.jpg"),
+    Jazz: require("../assets/Jazz.jpg"),
+    HipHop: require("../assets/HipHop.jpg"),
+    Country: require("../assets/Country.jpg"),
+    Blues: require("../assets/Blues.jpg"),
+    Classical: require("../assets/Classical.jpg"),
+    Electronic: require("../assets/Electronic.jpg"),
+    Funk: require("../assets/Funk.jpg"),
+    Metal: require("../assets/Metal.jpg"),
+    Rap: require("../assets/Rap.jpg"),
+    Soul: require("../assets/Soul.jpg"),
+    Israeli: require("../assets/Israeli.jpg"),
+    Mizrahi: require("../assets/Mizrahi.jpg"),
   };
 
   const viewGaners = (item) => {
-    let url = "../assets/HipHop.jpg";
-    // if (item == "Hip Hop") {
-    //   url = "../assets/HipHop.jpg";
-    // } else url = "../assets/Blues.jpg";
-    // const url1 = "../assets/Blues.jpg";
     return (
-      // <View style={styles.viewItem}>
-      <ImageBackground
-        source={require(url)}
-        style={styles.viewItem}
-        resizeMode="cover"
+      <TouchableOpacity
+        key={item}
+        style={styles.touchable}
+        onPress={(event) => selectGaner(event, item)}
       >
-        <Text
-          onPress={(event) => selectGaner(event, item)}
-          style={styles.genreText}
+        <ImageBackground
+          source={urls[item]}
+          style={styles.viewItem}
+          resizeMode="cover"
         >
-          {item}
-        </Text>
-      </ImageBackground>
-      // </View>
+          <Text style={styles.genreText}>
+            {item.replace(/([a-z])([A-Z])/g, "$1 $2")}
+          </Text>
+        </ImageBackground>
+      </TouchableOpacity>
     );
   };
 
@@ -175,7 +186,6 @@ export default function Home({ navigation }) {
 
       <FlatList
         numColumns={2}
-        style={styles.stam}
         data={ganers}
         renderItem={({ item }) => viewGaners(item)}
       />
@@ -190,17 +200,13 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingHorizontal: 20,
   },
-  stam: {
-    backgroundColor: "green",
-    // justifyContent: "space-between",
-  },
   albomsCoteret: {
     paddingLeft: 15,
     fontSize: 20,
   },
   genreText: {
     fontSize: 24,
-    backgroundColor: "black",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
     borderRadius: 5,
     paddingRight: 10,
     paddingLeft: 10,
@@ -211,7 +217,7 @@ const styles = StyleSheet.create({
   },
   viewItem: {
     backgroundColor: "red",
-    borderRadius: 15,
+    borderRadius: 10,
     marginTop: 24,
     padding: 10,
     marginHorizontal: 10,
@@ -219,11 +225,19 @@ const styles = StyleSheet.create({
     height: 100,
     alignItems: "flex-end",
     justifyContent: "flex-end",
+    overflow: "hidden",
   },
   genreImg: {
     // flex: 1,
     borderRadius: 100,
     width: 150,
     height: 100,
+  },
+  touchable: {
+    width: "45%", // Adjust the width as needed for your layout
+    aspectRatio: 1, // Maintain aspect ratio or use fixed height/width
+    marginBottom: 10,
+    borderRadius: 15,
+    overflow: "hidden",
   },
 });

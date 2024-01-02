@@ -67,7 +67,7 @@ exports.getAllArtists = async (req, res, next) => {
   try {
     if (!(await isAdmin(userId)))
       throw new Error("You not allowd to get the artist list");
-    const artist = await Artist.find({});
+    const artist = await Artist.find(req.query);
     res.send(artist);
   } catch (error) {
     console.log(error);
