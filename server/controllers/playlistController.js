@@ -19,6 +19,17 @@ const checkIfUserExists = async (userId) => {
   if (user) return true;
   return false;
 };
+exports.getPlaylistsByName=async (req, res, next)=>{
+  try {
+    const { pname } = req.query;
+    const playlist = await Playlist.find({ name: pname })
+      .populate("artistCode");
+    res.send(playlist);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+}
 
 exports.getAllPlaylists = async (req, res, next) => {
   //by user (add participant)

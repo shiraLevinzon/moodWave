@@ -16,7 +16,7 @@ export default function MyPlaylist({ navigation }) {
   }, []);
   const getPlaylists = async () => {
     const res = await fetch(
-      `http://192.168.0.179:3000/api/v1/playlists/allPlaylists`,
+      `http://192.168.0.128:3000/api/v1/playlists/allPlaylists`,
       {
         method: "GET",
         headers: {

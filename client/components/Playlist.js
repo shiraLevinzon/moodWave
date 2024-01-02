@@ -5,8 +5,8 @@ import { FormContext } from "../context/data";
 import { AntDesign } from '@expo/vector-icons'; 
 
 export default function Playlist({ navigation }) {
-  const { songlist,playlistName } = useContext(FormContext);
-  const[heartColor,setHeartColor]=useState('false');
+  const { songlist,playlistName ,likeSongList, setLikeSongList} = useContext(FormContext);
+  const[heartColor,setHeartColor]=useState({});
  console.log(songlist);  
 
   useEffect(() => {
@@ -14,9 +14,21 @@ export default function Playlist({ navigation }) {
   }, []);
 
 
-  const handlePress=()=>{
-    setHeartColor(!heartColor);
-  }
+  const handlePress = (item,index) => {
+    setHeartColor((prevColors) => ({
+      ...prevColors,
+      [index]: !prevColors[index] || false,
+    }));
+
+    setLikeSongList({
+      ...likeSongList,
+      item}
+    );
+   
+    console.log("the likeSongList is:",likeSongList);
+  };
+
+  // {navigation.navigate("Song", { song: item });}
 
   return (
     <View style={styles.container}>
@@ -26,13 +38,13 @@ export default function Playlist({ navigation }) {
       </Text>
       <FlatList
         data={songlist}
-        renderItem={({ item }) => (
-          <View style={styles.viewItem} onPress={() => 
-            {navigation.navigate("Song", { song: item });}}>
-              <AntDesign name="heart" size={30} color={heartColor ? 'gray' : 'red'} style={styles.heartItem} onPress={handlePress}  />
+        renderItem={({ item,index }) => (
+          <View style={styles.viewItem} >
+              <AntDesign name="heart" size={30} color={heartColor[index] ? 'red' : 'gray'} style={styles.heartItem} onPress={()=>handlePress(item,index)}  />
              
               <View style={styles.songDeatails}>
-              <Text style={styles.itemName}>{item.name}</Text>
+              <Text style={styles.itemName} onPress={() => 
+           {navigation.navigate("Song", { song: item });}}>{item.name}</Text>
               <Text style={styles.itemArtistName}>{item.name}</Text>
               </View>
               <View style={styles.imgItem}><Image style={{ width: 70, height: 70}} src={item.image} /></View>
@@ -93,4 +105,9 @@ const styles = StyleSheet.create({
      alignItems: 'center' 
     
   },
+  songDeatails:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });

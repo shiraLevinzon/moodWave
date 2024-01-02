@@ -87,7 +87,7 @@ export default function Home({ navigation }) {
   const fetchSongsByWeather = async () => {
     try {
       const response = await fetch(
-        `http://192.168.0.179:3000/api/v1/songs/songByPeriodTag/${weather}`
+        `http://192.168.0.128:3000/api/v1/songs/songByPeriodTag/${weather}`
       );
       const data = await response.json();
 
@@ -102,7 +102,7 @@ export default function Home({ navigation }) {
   const fetchSongsByHoliday = async () => {
     try {
       const response = await fetch(
-        `http://192.168.0.179:3000/api/v1/songs/songByPeriodTag/${holiday}`
+        `http://192.168.0.128:3000/api/v1/songs/songByPeriodTag/${holiday}`
       );
       const data = await response.json();
 
@@ -118,7 +118,7 @@ export default function Home({ navigation }) {
     event.persist();
     try {
       const res = await fetch(
-        `http://192.168.0.179:3000/api/v1/songs/songByGenre/${item}`
+        `http://192.168.0.128:3000/api/v1/songs/songByGenre/${item}`
       );
       const data = await res.json();
       setPlaylistName(`${item} Songs`);
@@ -196,7 +196,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "black",
     paddingTop: 40,
     paddingHorizontal: 20,
   },

@@ -19,7 +19,7 @@ import HomeStack from "../routes/homeStack";
 
 export default function Menue() {
   const Tab = createBottomTabNavigator();
-
+  console.log("welcome to menue");
   return (
     <NavigationContainer independent={true}>
       <Tab.Navigator>
