@@ -1,71 +1,153 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, FlatList, StyleSheet, Text, Pressable, View } from "react-native";
 // import DataContext from '../context/data'
 import { FormContext } from "../context/data";
-import { Button, TextInput } from "react-native-paper";
+import { Button, Modal, TextInput } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
+
 export default function Search({ navigation }) {
   //  const [searchQuery, setSearchQuery] = useState('');
   const { searchQuery, setSearchQuery,songlist, setSonglist } = useContext(FormContext);
 
-  const searchSongs = async () => {
-    try {
-      const response = await fetch(
-        `http://192.168.0.128:3000/api/v1/songs/songByName?sname=${searchQuery}`
-      );
-      const data = await response.json();
-  
-      setSonglist(data);
-      console.log(data);
-      navigation.navigate("Playlist");
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalResults, setModalResults] = useState([]);
 
-
-  const handleSearch = () => {
-  console.log(searchQuery);
-    searchSongs();
-  };
-
-  useEffect(() => {
-   
-    searchSongs();
-  }, [searchQuery]); 
 
   return (
-    <View style={styles.searchContainer}>
-      {/* <Ionicons name="search" size={20} color="black" style={styles.icon} /> */}
-      <TextInput
-        style={styles.input}
-        placeholder="Search Song..."
-        value={searchQuery}
-       onChangeText={(text) => setSearchQuery(text)}
-      //  onSubmitEditing={handleSearch}
-      />
-      <Button onPress={handleSearch}>SEARCH</Button>
+     <View style={styles.centeredView}>
+     <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}
+        style={{zIndex:10000}}
+        >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Hello World!</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(false)}>
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Pressable
+        style={[styles.button, styles.buttonOpen]}
+        onPress={() => setModalVisible(!modalVisible)}>
+        <Text style={styles.textStyle}>Show Modal</Text>
+      </Pressable>
     </View>
-  );
+);
 }
 
+
 const styles = StyleSheet.create({
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    margin: 10,
-  },
-  icon: {
-    padding: 10,
-  },
-  input: {
+  centeredView: {
     flex: 1,
-    height: 20,
-    width: 80,
-    borderColor: "gray",
-    borderWidth: 1,
-    padding: 10,
-    marginLeft: 10, // Adjusted to add some space between icon and input
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalContainer:{
+    },
+  modalView: {flex:1,
+    position: 'absolute', // Add this line
+    top:0,
+    left:0,
+    // zIndex:10000,
+    position: 'absolute', // Add this line
+    margin: 0, // Set margin to 0
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 20,
+      height: 20,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: 200,
+    // zIndex:10000 // Set height to cover the entire screen
+  },
+  
+  button: {
+    borderRadius: 20,
+     padding: 10,
+    elevation: 2,
+    backgroundColor:"red"
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });
+
+
+
+
+// const styles = StyleSheet.create({
+
+ 
+//   centeredView: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     marginTop: 22,
+    
+//   },
+//   modalView: {
+//     margin: 20,
+//     backgroundColor: 'white',
+//     borderRadius: 20,
+//     padding: 35,
+//     alignItems: 'center',
+//     shadowColor: '#000',
+//     shadowOffset: {
+//       width: 20,
+//       height: 20,
+//     },
+//     shadowOpacity: 0.25,
+//     shadowRadius: 4,
+//     elevation: 5,
+//   },
+//   button: {
+//     borderRadius: 20,
+//     padding: 10,
+//     elevation: 2,
+//   },
+//   buttonOpen: {
+//     backgroundColor: '#F194FF',
+//   },
+//   buttonClose: {
+//     backgroundColor: '#2196F3',
+//   },
+//   textStyle: {
+//     color: 'white',
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//   },
+//   modalText: {
+//     marginBottom: 15,
+//     textAlign: 'center',
+//   },
+// });

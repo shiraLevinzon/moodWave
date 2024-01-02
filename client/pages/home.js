@@ -2,15 +2,18 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   FlatList,
   ImageBackground,
+  Keyboard,
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 
 import Search from "../components/Search";
 import * as Location from "expo-location";
 import { FormContext } from "../context/data";
+
 
 export default function Home({ navigation }) {
   const { setSonglist, searchQuery, setSearchQuery  } = useContext(FormContext);
@@ -164,8 +167,9 @@ export default function Home({ navigation }) {
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
-       <Search navigation={navigation} />
+       <Search/>
       <Text style={styles.albomsCoteret}>OUR CATEGORIES</Text>
 
       <View style={styles.item1}>
@@ -188,6 +192,7 @@ export default function Home({ navigation }) {
         renderItem={({ item }) => viewGaners(item)}
       />
     </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -208,10 +213,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingRight: 10,
     paddingLeft: 10,
+    color:"white"
   },
   item1: {
     flexDirection: "row",
     justifyContent: "space-between",
+    zIndex:90
   },
   viewItem: {
     backgroundColor: "red",

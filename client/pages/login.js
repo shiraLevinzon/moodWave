@@ -12,7 +12,7 @@ export default function Login({ navigation }) {
     try {
       console.log(currentUser);
       const res = await fetch(
-        `http://192.168.0.135:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
+        `http://192.168.0.128:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
         {
           method: "GET",
           headers: {
@@ -43,7 +43,7 @@ export default function Login({ navigation }) {
         name: playlistName,
       };
       const res = await fetch(
-        `http://192.168.0.135:3000/api/v1/playlists/createPlaylist`,
+        `http://192.168.0.128:3000/api/v1/playlists/createPlaylist`,
         {
           method: "POST",
           headers: {
