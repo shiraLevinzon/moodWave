@@ -86,7 +86,7 @@ export default function Home({ navigation }) {
   const fetchSongsByWeather = async () => {
     try {
       const response = await fetch(
-        `http://192.168.0.179:3000/api/v1/songs/songByPeriodTag/${weather}`
+        `http://192.168.0.128:3000/api/v1/songs/songByPeriodTag/${weather}`
       );
       const data = await response.json();
 
@@ -101,7 +101,7 @@ export default function Home({ navigation }) {
   const fetchSongsByHoliday = async () => {
     try {
       const response = await fetch(
-        `http://192.168.0.179:3000/api/v1/songs/songByPeriodTag/${holiday}`
+        `http://192.168.0.128:3000/api/v1/songs/songByPeriodTag/${holiday}`
       );
       const data = await response.json();
 
@@ -117,7 +117,7 @@ export default function Home({ navigation }) {
     event.persist();
     try {
       const res = await fetch(
-        `http://192.168.0.179:3000/api/v1/songs/songByGenre/${item}`
+        `http://192.168.0.128:3000/api/v1/songs/songByGenre/${item}`
       );
       const data = await res.json();
       console.log(data);
@@ -131,11 +131,11 @@ export default function Home({ navigation }) {
   };
 
   const viewGaners = (item) => {
-    let url = "../assets/HipHop.jpg";
+    let url = `../assets/HipHop.jpg`;
     // if (item == "Hip Hop") {
     //   url = "../assets/HipHop.jpg";
-    // } else url = "../assets/Blues.jpg";
-    // const url1 = "../assets/Blues.jpg";
+    // } else url = "https://images.pexels.com/photos/811838/pexels-photo-811838.jpeg?auto=compress&cs=tinysrgb&w=600";
+   
     return (
       // <View style={styles.viewItem}>
       <ImageBackground
@@ -175,7 +175,7 @@ export default function Home({ navigation }) {
 
       <FlatList
         numColumns={2}
-        style={styles.stam}
+        
         data={ganers}
         renderItem={({ item }) => viewGaners(item)}
       />
@@ -186,21 +186,21 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "black",
     paddingTop: 40,
     paddingHorizontal: 20,
   },
-  stam: {
-    backgroundColor: "green",
-    // justifyContent: "space-between",
-  },
+  // stam: {
+  //   backgroundColor: "black",
+  //   // justifyContent: "space-between",
+  // },
   albomsCoteret: {
     paddingLeft: 15,
     fontSize: 20,
   },
   genreText: {
     fontSize: 24,
-    backgroundColor: "black",
+    backgroundColor: "white",
     borderRadius: 5,
     paddingRight: 10,
     paddingLeft: 10,

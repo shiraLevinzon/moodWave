@@ -8,8 +8,11 @@ const Provider = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [playlists, setPlaylists] = useState([]);
   const [songlist, setSonglist] = useState([]);
+  const [likeSongList, setLikeSongList] = useState({});
 
   const shared = {
+    likeSongList,
+     setLikeSongList,
     searchQuery,
     setSearchQuery,
     playlists,

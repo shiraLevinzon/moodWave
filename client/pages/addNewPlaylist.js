@@ -139,6 +139,10 @@ export default function AddNewPlaylist({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  songDeatails:{ flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',},
+ 
   allPage:{
     flex:1,
     backgroundColor:"black"
