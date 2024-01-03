@@ -22,9 +22,9 @@ const checkIfUserExists = async (userId) => {
 exports.getPlaylistsByName = async (req, res, next) => {
   try {
     const { pname } = req.query;
-    const playlist = await Playlist.find({ name: pname }).populate(
-      "artistCode"
-    );
+    const searchReg = new RegExp(pname, "i");
+    const playlist = await Playlist.find({ name: searchReg });
+    // .populate("artistCode");
     res.send(playlist);
   } catch (error) {
     console.log(error);
