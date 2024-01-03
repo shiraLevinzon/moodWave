@@ -54,7 +54,7 @@ export default function MyPlaylist({ navigation }) {
       <View style={styles.searchAndIcon}>
         <Search />
       </View>
-      <Text style={styles.playlistCoteret}>YOUR PLAYLISTS:</Text>
+      <Text style={styles.playlistCoteret}>MY PLAYLISTS:</Text>
       <Text style={styles.message}>{message}</Text>
       <FlatList
         data={playlists}
