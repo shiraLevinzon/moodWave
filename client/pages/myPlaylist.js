@@ -16,7 +16,7 @@ export default function MyPlaylist({ navigation }) {
   }, []);
   const getPlaylists = async () => {
     const res = await fetch(
-      `http://192.168.0.179:3000/api/v1/playlists/allPlaylists`,
+      `http://192.168.14.152:3000/api/v1/playlists/allPlaylists`,
       {
         method: "GET",
         headers: {
@@ -52,7 +52,7 @@ export default function MyPlaylist({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.searchAndIcon}>
-        <Search />
+      <Search navigation={navigation} />
       </View>
       <Text style={styles.playlistCoteret}>MY PLAYLISTS:</Text>
       <Text style={styles.message}>{message}</Text>

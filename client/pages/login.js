@@ -12,7 +12,7 @@ export default function Login({ navigation }) {
     try {
       // console.log(currentUser);
       const res = await fetch(
-        `http://192.168.0.128:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
+        `http://192.168.14.152:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
         {
           method: "GET",
           headers: {
@@ -42,7 +42,7 @@ export default function Login({ navigation }) {
         name: playlistName,
       };
       const res = await fetch(
-        `http://192.168.0.128:3000/api/v1/playlists/createPlaylist`,
+        `http://192.168.14.152:3000/api/v1/playlists/createPlaylist`,
         {
           method: "POST",
           headers: {
@@ -65,7 +65,7 @@ export default function Login({ navigation }) {
   const moveToHome = async () => {
     try {
       console.log(JSON.stringify(loginData));
-      const res = await fetch(`http://192.168.0.179:3000/api/v1/users/login`, {
+      const res = await fetch(`http://192.168.14.152:3000/api/v1/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

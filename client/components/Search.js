@@ -1,153 +1,168 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Button, Overlay } from 'react-native-elements';
 
-import { Alert, FlatList, StyleSheet, Text, Pressable, View } from "react-native";
+import { Alert, FlatList, StyleSheet, Text, Image, View, ScrollView } from "react-native";
 // import DataContext from '../context/data'
 import { FormContext } from "../context/data";
-import { Button, Modal, TextInput } from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
+import { TextInput } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+// import { debounce } from 'lodash';
+import { KeyboardAvoidingView} from "react-native";
 
-export default function Search({ navigation }) {
+export default function Search() {
   //  const [searchQuery, setSearchQuery] = useState('');
   const { searchQuery, setSearchQuery,songlist, setSonglist } = useContext(FormContext);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalResults, setModalResults] = useState([]);
 
+  const navigation = useNavigation();
+    const [visible, setVisible] = useState(false);
+    const [filter, setFilter] = useState([]);
+
+    // const debouncedSearch = debounce(handleSearch, 300);
+  
+    const toggleOverlay = async() => {
+      setVisible(!visible);
+      try {
+        const response = await fetch(
+          `http://192.168.14.152:3000/api/v1/songs/`
+        );
+        const data = await response.json();
+        setSonglist(data);
+        setFilter(data)
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    const closeOverlay=()=>{
+      setVisible(!visible);
+    }
+
+    const handleSearch = () => {
+      // Filter the songlist based on the searchQuery
+      const filteredList = songlist.filter(
+        (song) =>
+          song.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          `${song.artistCode?.firstName} ${song.artistCode?.lastName}`.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+  
+      // Update the filteredSongList state
+      setFilter(filteredList);
+    };
+
+
+
 
   return (
-     <View style={styles.centeredView}>
-     <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}
-        style={{zIndex:10000}}
-        >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(false)}>
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
+    <View>
+    <View style={{backgroundColor:"purple", color:"black"}}><Button title="Search" onPress={toggleOverlay} /></View>
+  
+    <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+    <KeyboardAvoidingView behavior="padding" style={styles.overlay}>
+    <ScrollView>
+    <View style={styles.overlayContent}>
+  
+          <FlatList
+        data={filter}
+        renderItem={({ item, index }) => (
+          <View style={styles.viewItem}>
+         
+            <View style={styles.songDeatails}>
+              <Text
+                style={styles.itemName}
+                onPress={() => {
+                  navigation.navigate("Song", { song: item });
+                }}
+              >
+                {item.name}
+              </Text>
+              <Text
+                style={styles.itemArtistName}
+              >{`${item.artistCode?.firstName} ${item.artistCode?.lastName}`}</Text>
+            </View>
+            <View style={styles.imgItem}>
+              <Image style={{ width: 70, height: 70 }} src={item.image} />
+            </View>
           </View>
+        )}
+      />
+            <TextInput
+        style={styles.searchInput}
+        placeholder="click song or artist..."
+        value={searchQuery}
+        onChangeText={(text) => {
+          setSearchQuery(text);
+          handleSearch();
+        }}
+        
+      />
+        <Button title="close" onPress={closeOverlay} />
         </View>
-      </Modal>
-      <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(!modalVisible)}>
-        <Text style={styles.textStyle}>Show Modal</Text>
-      </Pressable>
-    </View>
-);
-}
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </Overlay>
+  </View>
 
+  )}
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalContainer:{
-    },
-  modalView: {flex:1,
-    position: 'absolute', // Add this line
-    top:0,
-    left:0,
-    // zIndex:10000,
-    position: 'absolute', // Add this line
-    margin: 0, // Set margin to 0
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 20,
-      height: 20,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    height: 200,
-    // zIndex:10000 // Set height to cover the entire screen
-  },
+
+  overlay:{
+    width:370,
+    height:600,
+    backgroundColor:"black",
+    color:"red",
   
-  button: {
-    borderRadius: 20,
-     padding: 10,
-    elevation: 2,
-    backgroundColor:"red"
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
+
+  textOverlay:{
+    fontSize:20,
+    color:'white'
   },
-  buttonClose: {
-    backgroundColor: '#2196F3',
+  overlayContent: {
+    flex: 1,
+    marginTop: 20, // Adjust this value based on your design
   },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+
+
+
+
+  viewItem: {
+    backgroundColor: "#fff",
+    marginTop: 24,
+    marginHorizontal: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
+  itemName: {
+    fontSize: 24,
+    flexDirection: "row",
+
+    justifyContent: "space-between",
+  },
+  itemArtistName: {
+    fontSize: 15,
+  },
+  heartItem: {
+    paddingLeft: 8,
+  },
+
+  imgItem: {
+    width: 70,
+    height: 70,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  songDeatails: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
 
 
 
-// const styles = StyleSheet.create({
-
- 
-//   centeredView: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     marginTop: 22,
-    
-//   },
-//   modalView: {
-//     margin: 20,
-//     backgroundColor: 'white',
-//     borderRadius: 20,
-//     padding: 35,
-//     alignItems: 'center',
-//     shadowColor: '#000',
-//     shadowOffset: {
-//       width: 20,
-//       height: 20,
-//     },
-//     shadowOpacity: 0.25,
-//     shadowRadius: 4,
-//     elevation: 5,
-//   },
-//   button: {
-//     borderRadius: 20,
-//     padding: 10,
-//     elevation: 2,
-//   },
-//   buttonOpen: {
-//     backgroundColor: '#F194FF',
-//   },
-//   buttonClose: {
-//     backgroundColor: '#2196F3',
-//   },
-//   textStyle: {
-//     color: 'white',
-//     fontWeight: 'bold',
-//     textAlign: 'center',
-//   },
-//   modalText: {
-//     marginBottom: 15,
-//     textAlign: 'center',
-//   },
-// });
