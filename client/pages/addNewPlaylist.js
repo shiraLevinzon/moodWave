@@ -30,7 +30,7 @@ export default function AddNewPlaylist({ navigation }) {
       console.log(
         "-------------------------------------------------------------"
       );
-      const res = await fetch(`http://192.168.0.179:3000/api/v1/songs`);
+      const res = await fetch(`http://192.168.0.128:3000/api/v1/songs`);
       const data = await res.json();
       console.log(data);
       setAllSongs(data);
@@ -55,7 +55,7 @@ export default function AddNewPlaylist({ navigation }) {
       name: playlistName.name,
     };
     const res = await fetch(
-      `http://192.168.0.179:3000/api/v1/playlists/createPlaylist`,
+      `http://192.168.0.128:3000/api/v1/playlists/createPlaylist`,
       {
         method: "POST",
         headers: {

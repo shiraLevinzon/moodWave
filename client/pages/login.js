@@ -1,3 +1,4 @@
+
 import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
@@ -10,9 +11,8 @@ export default function Login({ navigation }) {
 
   const getPlaylistByName = async (playlistName) => {
     try {
-      // console.log(currentUser);
       const res = await fetch(
-        `http://192.168.14.152:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
+        `http://192.168.0.128:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
         {
           method: "GET",
           headers: {
@@ -21,13 +21,10 @@ export default function Login({ navigation }) {
           },
         }
       );
-
       if (!res.ok) {
         throw new Error(`Server error: ${res.status} ${res.statusText}`);
       }
-
       const data = await res.json();
-      console.log(data);
       return data.length > 0;
     } catch (error) {
       console.error("Error in getPlaylistByName:", error.message);
@@ -36,13 +33,12 @@ export default function Login({ navigation }) {
   };
 
   const createDefoultPlaylists = async (playlistName) => {
-    if (!getPlaylistByName(playlistName)) {
+    if (!(await getPlaylistByName(playlistName))) {
       const newPlaylist = {
-        songs: [],
         name: playlistName,
       };
       const res = await fetch(
-        `http://192.168.14.152:3000/api/v1/playlists/createPlaylist`,
+        `http://192.168.0.128:3000/api/v1/playlists/createPlaylist`,
         {
           method: "POST",
           headers: {
@@ -54,8 +50,7 @@ export default function Login({ navigation }) {
       );
       if (!res.ok) {
         const errorData = await res.text();
-        console.log("p1");
-        console.log(errorData || "Non-JSON server error occurred");
+        console.log(errorData || "server error occurred");
       }
       const data = await res.json();
       console.log(data);
@@ -65,7 +60,7 @@ export default function Login({ navigation }) {
   const moveToHome = async () => {
     try {
       console.log(JSON.stringify(loginData));
-      const res = await fetch(`http://192.168.14.152:3000/api/v1/users/login`, {
+      const res = await fetch(`http://192.168.0.128:3000/api/v1/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +69,7 @@ export default function Login({ navigation }) {
       });
       if (!res.ok) {
         const errorData = await res.text();
-        throw new Error(errorData || "Non-JSON server error occurred");
+        throw new Error(errorData || "server error occurred");
       }
       const data = await res.json();
       setCurrentUser(data);
@@ -98,14 +93,14 @@ export default function Login({ navigation }) {
           <Text style={styles.textLogin}>email:</Text>
           <TextInput
             style={styles.input}
-            // keyboardType="email-address"
+            keyboardType="email-address"
             value={loginData}
             onChangeText={(text) => setLoginData({ ...loginData, email: text })}
           />
           <Text style={styles.textLogin}>password:</Text>
           <TextInput
             style={styles.input}
-            // keyboardType="visible-password"
+            keyboardType="visible-password"
             value={loginData}
             onChangeText={(text) =>
               setLoginData({ ...loginData, password: text })

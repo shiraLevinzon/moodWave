@@ -26,7 +26,7 @@ export default function Search() {
       setVisible(!visible);
       try {
         const response = await fetch(
-          `http://192.168.14.152:3000/api/v1/songs/`
+          `http://192.168.0.128:3000/api/v1/songs/`
         );
         const data = await response.json();
         setSonglist(data);
