@@ -34,6 +34,7 @@ export default function Login({ navigation }) {
 
   const createDefoultPlaylists = async (playlistName) => {
     if (!(await getPlaylistByName(playlistName))) {
+    if (!(await getPlaylistByName(playlistName))) {
       const newPlaylist = {
         name: playlistName,
       };
@@ -50,6 +51,7 @@ export default function Login({ navigation }) {
       );
       if (!res.ok) {
         const errorData = await res.text();
+        console.log(errorData || "server error occurred");
         console.log(errorData || "server error occurred");
       }
       const data = await res.json();
@@ -69,6 +71,7 @@ export default function Login({ navigation }) {
       });
       if (!res.ok) {
         const errorData = await res.text();
+        throw new Error(errorData || "server error occurred");
         throw new Error(errorData || "server error occurred");
       }
       const data = await res.json();
@@ -94,12 +97,14 @@ export default function Login({ navigation }) {
           <TextInput
             style={styles.input}
             keyboardType="email-address"
+            keyboardType="email-address"
             value={loginData}
             onChangeText={(text) => setLoginData({ ...loginData, email: text })}
           />
           <Text style={styles.textLogin}>password:</Text>
           <TextInput
             style={styles.input}
+            keyboardType="visible-password"
             keyboardType="visible-password"
             value={loginData}
             onChangeText={(text) =>

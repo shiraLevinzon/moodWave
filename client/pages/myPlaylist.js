@@ -27,7 +27,7 @@ export default function MyPlaylist({ navigation }) {
     );
     if (!res.ok) {
       const errorData = await res.text();
-      throw new Error(errorData || "Non-JSON server error occurred");
+      throw new Error(errorData || "server error occurred");
     }
     const data = await res.json();
     if (data.length == 0) {
@@ -52,9 +52,9 @@ export default function MyPlaylist({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.searchAndIcon}>
-      <Search navigation={navigation} />
+        <Search navigation={navigation} />
       </View>
-      <Text style={styles.playlistCoteret}>YOUR PLAYLISTS:</Text>
+      <Text style={styles.playlistCoteret}>MY PLAYLISTS:</Text>
       <Text style={styles.message}>{message}</Text>
       <FlatList
         data={playlists}

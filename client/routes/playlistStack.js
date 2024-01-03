@@ -28,7 +28,7 @@ const PlaylistStack = () => {
         component={AddNewPlaylist}
         options={{ title: "createNew" }}
       />
-        <Stack.Screen
+      <Stack.Screen
         name="searchSong"
         component={Search}
         options={{ title: "searchSong" }}

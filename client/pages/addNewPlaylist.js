@@ -49,7 +49,6 @@ export default function AddNewPlaylist({ navigation }) {
   };
 
   const createPlaylist = async () => {
-    console.log(playlistName);
     const newPlaylist = {
       songs: songArr,
       name: playlistName.name,
@@ -67,7 +66,7 @@ export default function AddNewPlaylist({ navigation }) {
     );
     if (!res.ok) {
       const errorData = await res.text();
-      throw new Error(errorData || "Non-JSON server error occurred");
+      throw new Error(errorData || "server error occurred");
     }
     const data = await res.json();
     console.log(data);
