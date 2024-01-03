@@ -58,6 +58,7 @@ export default function Login({ navigation }) {
       console.log(data);
     }
   };
+}
 
   const moveToHome = async () => {
     try {
@@ -97,14 +98,12 @@ export default function Login({ navigation }) {
           <TextInput
             style={styles.input}
             keyboardType="email-address"
-            keyboardType="email-address"
             value={loginData}
             onChangeText={(text) => setLoginData({ ...loginData, email: text })}
           />
           <Text style={styles.textLogin}>password:</Text>
           <TextInput
             style={styles.input}
-            keyboardType="visible-password"
             keyboardType="visible-password"
             value={loginData}
             onChangeText={(text) =>
