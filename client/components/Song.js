@@ -5,7 +5,7 @@ import { Audio } from 'expo-av';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { ProgressBar } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons'; 
-
+import { Feather } from '@expo/vector-icons'; 
 
 
 export const Song = ({ route }) => {
@@ -98,7 +98,7 @@ useEffect(() => {
             <Text style={styles.nameSong}>{song.name}</Text>
             <Text style={styles.artistNameSong}>{song.name}</Text>
            </View>
-          
+          <View style={styles.addToPlaylist}><Feather name="more-horizontal" size={24} color="black" onPress={openOverlay} /></View>
       <View style={styles.controlButtons}>
   <TouchableOpacity onPress={seekBackward}>
  

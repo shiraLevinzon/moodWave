@@ -1,8 +1,9 @@
+
 import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { FormContext } from "../context/data";
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { TouchableWithoutFeedback, Keyboard } from "react-native";
 
 export default function Login({ navigation }) {
   const { currentUser, setCurrentUser } = useContext(FormContext);
@@ -10,9 +11,8 @@ export default function Login({ navigation }) {
 
   const getPlaylistByName = async (playlistName) => {
     try {
-      console.log(currentUser);
       const res = await fetch(
-        `http://192.168.0.135:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
+        `http://192.168.0.128:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
         {
           method: "GET",
           headers: {
@@ -21,29 +21,25 @@ export default function Login({ navigation }) {
           },
         }
       );
-  
       if (!res.ok) {
         throw new Error(`Server error: ${res.status} ${res.statusText}`);
       }
-  
       const data = await res.json();
-      console.log(data);
       return data.length > 0;
     } catch (error) {
       console.error("Error in getPlaylistByName:", error.message);
       return false; // Return false on error
     }
   };
-  
-  const createDefoultPlaylists = async (playlistName) => {
 
-    if (!getPlaylistByName(playlistName)) {
+  const createDefoultPlaylists = async (playlistName) => {
+    if (!(await getPlaylistByName(playlistName))) {
+    if (!(await getPlaylistByName(playlistName))) {
       const newPlaylist = {
-        songs: [],
         name: playlistName,
       };
       const res = await fetch(
-        `http://192.168.0.135:3000/api/v1/playlists/createPlaylist`,
+        `http://192.168.0.128:3000/api/v1/playlists/createPlaylist`,
         {
           method: "POST",
           headers: {
@@ -55,8 +51,8 @@ export default function Login({ navigation }) {
       );
       if (!res.ok) {
         const errorData = await res.text();
-        console.log("p1");
-        console.log(errorData || "Non-JSON server error occurred");
+        console.log(errorData || "server error occurred");
+        console.log(errorData || "server error occurred");
       }
       const data = await res.json();
       console.log(data);
@@ -75,7 +71,8 @@ export default function Login({ navigation }) {
       });
       if (!res.ok) {
         const errorData = await res.text();
-        throw new Error(errorData || "Non-JSON server error occurred");
+        throw new Error(errorData || "server error occurred");
+        throw new Error(errorData || "server error occurred");
       }
       const data = await res.json();
       setCurrentUser(data);
@@ -83,7 +80,7 @@ export default function Login({ navigation }) {
 
       createDefoultPlaylists("Heard Recently");
       createDefoultPlaylists("My Favorites");
-      
+
       navigation.navigate("Menue");
     } catch (error) {
       console.error("Error occurred during fetch:", error);
@@ -93,39 +90,44 @@ export default function Login({ navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View style={styles.container}>
-      <Text style={styles.loginCoteret}>MOOD WAVE</Text>
-      <View style={styles.boxDeatails}>
-        <Text style={styles.textLogin}>email:</Text>
-        <TextInput
-          style={styles.input}
-          // keyboardType="email-address"
-          value={loginData}
-          onChangeText={(text) => setLoginData({ ...loginData, email: text })}
-        />
-        <Text style={styles.textLogin}>password:</Text>
-        <TextInput
-          style={styles.input}
-          // keyboardType="visible-password"
-          value={loginData}
-          onChangeText={(text) =>
-            setLoginData({ ...loginData, password: text })
-          }
-        />
-        <View style={styles.viewLogin}>
-          <Button onPress={moveToHome}>
-            <Text style={styles.btnLogin}>Login</Text>
-          </Button>
-          <Button onPress={() => { navigation.navigate("UserRegister") }}>
-            <Text style={styles.btnLogin}>Register</Text>
-          </Button>
-
-          <Button onPress={() => { navigation.navigate("AddSong") }}>
+      <View style={styles.container}>
+        <Text style={styles.loginCoteret}>MOOD WAVE</Text>
+        <View style={styles.boxDeatails}>
+          <Text style={styles.textLogin}>email:</Text>
+          <TextInput
+            style={styles.input}
+            keyboardType="email-address"
+            keyboardType="email-address"
+            value={loginData}
+            onChangeText={(text) => setLoginData({ ...loginData, email: text })}
+          />
+          <Text style={styles.textLogin}>password:</Text>
+          <TextInput
+            style={styles.input}
+            keyboardType="visible-password"
+            keyboardType="visible-password"
+            value={loginData}
+            onChangeText={(text) =>
+              setLoginData({ ...loginData, password: text })
+            }
+          />
+          <View style={styles.viewLogin}>
+            <Button onPress={moveToHome}>
+              <Text style={styles.btnLogin}>Login</Text>
+            </Button>
+            <Button
+              onPress={() => {
+                navigation.navigate("UserRegister");
+              }}
+            >
+              <Text style={styles.btnLogin}>Register</Text>
+            </Button>
+            <Button onPress={() => { navigation.navigate("AddSong") }}>
             <Text style={styles.btnLogin}>Enter As Artist</Text>
           </Button>
+          </View>
         </View>
       </View>
-    </View>
     </TouchableWithoutFeedback>
   );
 }

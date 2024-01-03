@@ -22,7 +22,7 @@ exports.getAllSongs = async (req, res, next) => {
     const { page } = req.query;
 
     const songs = await Song.find()
-       .populate("artistCode")
+      .populate("artistCode")
       .skip((page - 1) * perPage)
       .limit(perPage);
     res.send(songs);
@@ -46,7 +46,7 @@ exports.getSongByName = async (req, res, next) => {
   try {
     const { sname, page } = req.query;
     const songs = await Song.find({ name: sname })
-      //   .populate("artistCode")
+      .populate("artistCode")
       .skip((page - 1) * perPage)
       .limit(perPage);
     res.send(songs);
@@ -60,7 +60,7 @@ exports.getSongByArtist = async (req, res, next) => {
   try {
     const { artist, page } = req.query;
     const songs = await Song.find({ artistCode: artist })
-      //   .populate("_id")
+      // .populate("artistCode")
       .skip((page - 1) * perPage)
       .limit(perPage);
     res.send(songs);
@@ -74,7 +74,7 @@ exports.getSongByEmo = async (req, res, next) => {
     const { emo } = req.params;
     const { page } = req.query;
     const songs = await Song.find({ emotion: emo })
-      //   .populate("artistCode")
+      .populate("artistCode")
       .skip((page - 1) * perPage)
       .limit(perPage);
     res.send(songs);
@@ -89,7 +89,7 @@ exports.getSongByGenre = async (req, res, next) => {
     const { gen } = req.params;
     const { page } = req.query;
     const songs = await Song.find({ genres: { $in: [gen] } })
-      //   .populate("artistCode")
+      .populate("artistCode")
       .skip((page - 1) * perPage)
       .limit(perPage);
     res.send(songs);
@@ -103,7 +103,7 @@ exports.getSongByPeriodTag = async (req, res, next) => {
     const { pTag } = req.params;
     const { page } = req.query;
     const songs = await Song.find({ periodTag: { $in: [pTag] } })
-      //   .populate("artistCode")
+      .populate("artistCode")
       .skip((page - 1) * perPage)
       .limit(perPage);
     res.send(songs);

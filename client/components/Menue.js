@@ -16,6 +16,7 @@ import { View } from "react-native";
 import PlaylistStack from "../routes/playlistStack";
 import CameraStack from "../routes/CameraStack";
 import HomeStack from "../routes/homeStack";
+import profileStack from "../routes/profileStack";
 
 export default function Menue() {
   const Tab = createBottomTabNavigator();
@@ -66,7 +67,7 @@ export default function Menue() {
         />
         <Tab.Screen
           name="Profile"
-          component={Profile}
+          component={profileStack}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="person-circle" size={24} color="black" />

@@ -19,17 +19,18 @@ const checkIfUserExists = async (userId) => {
   if (user) return true;
   return false;
 };
-exports.getPlaylistsByName=async (req, res, next)=>{
+exports.getPlaylistsByName = async (req, res, next) => {
   try {
     const { pname } = req.query;
-    const playlist = await Playlist.find({ name: pname })
-      .populate("artistCode");
+    const searchReg = new RegExp(pname, "i");
+    const playlist = await Playlist.find({ name: searchReg });
+    // .populate("artistCode");
     res.send(playlist);
   } catch (error) {
     console.log(error);
     res.sendStatus(400);
   }
-}
+};
 
 exports.getAllPlaylists = async (req, res, next) => {
   //by user (add participant)
@@ -41,7 +42,13 @@ exports.getAllPlaylists = async (req, res, next) => {
         { ownerId: userId }, // Playlists where the user is the owner
         { participants: { $in: [userId] } }, // Playlists where the user is a participant
       ],
-    }).populate("songs");
+    }).populate({
+      path: "songs",
+      populate: {
+        path: "artistCode",
+        model: "Artist",
+      },
+    });
     res.send(playlists);
   } catch (error) {
     console.log(error);

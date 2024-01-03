@@ -1,71 +1,195 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Button, Overlay } from "react-native-elements";
 
-import { StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  Text,
+  Image,
+  View,
+  ScrollView,
+} from "react-native";
 // import DataContext from '../context/data'
 import { FormContext } from "../context/data";
-import { Button, TextInput } from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
-export default function Search({ navigation }) {
+import { TextInput } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+// import { debounce } from 'lodash';
+import { KeyboardAvoidingView } from "react-native";
+
+export default function Search() {
   //  const [searchQuery, setSearchQuery] = useState('');
-  const { searchQuery, setSearchQuery,songlist, setSonglist } = useContext(FormContext);
+  const { searchQuery, setSearchQuery, songlist, setSonglist } =
+    useContext(FormContext);
 
-  const searchSongs = async () => {
-    try {
-      const response = await fetch(
-        `http://192.168.0.128:3000/api/v1/songs/songByName?sname=${searchQuery}`
-      );
-      const data = await response.json();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalResults, setModalResults] = useState([]);
+
+  const navigation = useNavigation();
+  const [visible, setVisible] = useState(false);
+  const [filter, setFilter] = useState([]);
+
+    // const debouncedSearch = debounce(handleSearch, 300);
   
-      setSonglist(data);
-      console.log(data);
-      navigation.navigate("Playlist");
-    } catch (error) {
-      console.log(error.message);
-    }
+    const toggleOverlay = async() => {
+      setVisible(!visible);
+      try {
+        const response = await fetch(
+          `http://192.168.0.128:3000/api/v1/songs/`
+        );
+        const data = await response.json();
+        setSonglist(data);
+        setFilter(data)
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+  const closeOverlay = () => {
+    setVisible(!visible);
   };
 
+  // const handleSearch = () => {
+  //   // Filter the songlist based on the searchQuery
+  //   const filteredList = songlist.filter(
+  //     (song) =>
+  //       song.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       `${song.artistCode?.firstName} ${song.artistCode?.lastName}`
+  //         .toLowerCase()
+  //         .includes(searchQuery.toLowerCase())
+  //   );
 
-  const handleSearch = () => {
-  console.log(searchQuery);
-    searchSongs();
+  //   // Update the filteredSongList state
+  //   setFilter(filteredList);
+  // };
+
+  const handleSearch = (text) => {
+    // Update the searchQuery state directly
+    setSearchQuery(text);
+
+    // Filter the songlist based on the updated searchQuery
+    const filteredList = songlist.filter(
+      (song) =>
+        song.name.toLowerCase().includes(text.toLowerCase()) ||
+        `${song.artistCode?.firstName} ${song.artistCode?.lastName}`
+          .toLowerCase()
+          .includes(text.toLowerCase())
+    );
+
+    // Update the filteredSongList state
+    setFilter(filteredList);
   };
-
   useEffect(() => {
-   
-    searchSongs();
-  }, [searchQuery]); 
+    handleSearch(searchQuery);
+  }, [searchQuery]);
 
   return (
-    <View style={styles.searchContainer}>
-      {/* <Ionicons name="search" size={20} color="black" style={styles.icon} /> */}
-      <TextInput
-        style={styles.input}
-        placeholder="Search Song..."
-        value={searchQuery}
-       onChangeText={(text) => setSearchQuery(text)}
-      //  onSubmitEditing={handleSearch}
-      />
-      <Button onPress={handleSearch}>SEARCH</Button>
+    <View>
+      <View style={{ backgroundColor: "purple", color: "black" }}>
+        <Button title="Search" onPress={toggleOverlay} />
+      </View>
+
+      <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+        <Button
+          title="back"
+          style={{ width: 50, backgroundColor: "purple" }}
+          onPress={closeOverlay}
+        />
+
+        <KeyboardAvoidingView behavior="padding" style={styles.overlay}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="click song or artist..."
+            value={searchQuery}
+            // onChangeText={(text) => {
+            //   setSearchQuery(text);
+            //   handleSearch();
+            // }}
+            onChangeText={(text) => setSearchQuery(text)}
+          />
+          <ScrollView>
+            <View style={styles.overlayContent}>
+              <FlatList
+                data={filter}
+                renderItem={({ item, index }) => (
+                  <View style={styles.viewItem}>
+                    <View style={styles.songDeatails}>
+                      <Text
+                        style={styles.itemName}
+                        onPress={() => {
+                          navigation.navigate("Song", { song: item });
+                        }}
+                      >
+                        {item.name}
+                      </Text>
+                      <Text
+                        style={styles.itemArtistName}
+                      >{`${item.artistCode?.firstName} ${item.artistCode?.lastName}`}</Text>
+                    </View>
+                    <View style={styles.imgItem}>
+                      <Image
+                        style={{ width: 70, height: 70 }}
+                        src={item.image}
+                      />
+                    </View>
+                  </View>
+                )}
+              />
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </Overlay>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  searchContainer: {
+  overlay: {
+    width: 370,
+    height: 600,
+    backgroundColor: "black",
+    color: "red",
+  },
+
+  textOverlay: {
+    fontSize: 20,
+    color: "white",
+  },
+  overlayContent: {
+    flex: 1,
+    marginTop: 20, // Adjust this value based on your design
+  },
+
+  viewItem: {
+    backgroundColor: "#fff",
+    marginTop: 24,
+    marginHorizontal: 10,
     flexDirection: "row",
     alignItems: "center",
-    margin: 10,
+    justifyContent: "space-between",
   },
-  icon: {
-    padding: 10,
+  itemName: {
+    fontSize: 24,
+    flexDirection: "row",
+
+    justifyContent: "space-between",
   },
-  input: {
+  itemArtistName: {
+    fontSize: 15,
+  },
+  heartItem: {
+    paddingLeft: 8,
+  },
+
+  imgItem: {
+    width: 70,
+    height: 70,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  songDeatails: {
     flex: 1,
-    height: 20,
-    width: 80,
-    borderColor: "gray",
-    borderWidth: 1,
-    padding: 10,
-    marginLeft: 10, // Adjusted to add some space between icon and input
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

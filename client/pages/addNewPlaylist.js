@@ -13,12 +13,12 @@ import { AntDesign } from "@expo/vector-icons";
 import { FormContext } from "../context/data";
 import { Modal, TextInput } from "react-native-paper";
 
-
 export default function AddNewPlaylist({ navigation }) {
-  const { currentUser,playlistName, setPlaylistName } = useContext(FormContext);
+  const { currentUser, playlistName, setPlaylistName } =
+    useContext(FormContext);
   const [allSongs, setAllSongs] = useState([]);
   const [songArr, setSongArr] = useState([]);
- 
+
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function AddNewPlaylist({ navigation }) {
       console.log(
         "-------------------------------------------------------------"
       );
-      const res = await fetch(`http://192.168.0.179:3000/api/v1/songs`);
+      const res = await fetch(`http://192.168.0.128:3000/api/v1/songs`);
       const data = await res.json();
       console.log(data);
       setAllSongs(data);
@@ -49,13 +49,12 @@ export default function AddNewPlaylist({ navigation }) {
   };
 
   const createPlaylist = async () => {
-    console.log(playlistName);
     const newPlaylist = {
       songs: songArr,
       name: playlistName.name,
     };
     const res = await fetch(
-      `http://192.168.0.179:3000/api/v1/playlists/createPlaylist`,
+      `http://192.168.0.128:3000/api/v1/playlists/createPlaylist`,
       {
         method: "POST",
         headers: {
@@ -67,7 +66,7 @@ export default function AddNewPlaylist({ navigation }) {
     );
     if (!res.ok) {
       const errorData = await res.text();
-      throw new Error(errorData || "Non-JSON server error occurred");
+      throw new Error(errorData || "server error occurred");
     }
     const data = await res.json();
     console.log(data);
@@ -76,9 +75,9 @@ export default function AddNewPlaylist({ navigation }) {
   return (
     <View style={styles.allPage}>
       <Text style={styles.coteretCreate}>CREATE YOUR PLAYLIST</Text>
-    
-        <Button color="purple" title="Create" onPress={giveName} />
-      
+
+      <Button color="purple" title="Create" onPress={giveName} />
+
       <FlatList
         data={allSongs}
         renderItem={(item) => (
@@ -93,14 +92,18 @@ export default function AddNewPlaylist({ navigation }) {
 
             <View style={styles.songDeatails}>
               <Text style={styles.itemName}>{item.item.name}</Text>
-              <Text style={styles.itemArtistName}>{item.item.name}</Text>
+              <Text
+                style={styles.itemArtistName}
+              >{`${item.item.artistCode?.firstName} ${item.item.artistCode?.lastName}`}</Text>
             </View>
 
-            <View style={styles.imgItem}><Image style={{ width: 70, height: 70}} src={item.item.image} /></View>
+            <View style={styles.imgItem}>
+              <Image style={{ width: 70, height: 70 }} src={item.item.image} />
+            </View>
           </View>
         )}
       />
-      
+
       <Modal
         animationType="fade"
         transparent={true}
@@ -139,33 +142,29 @@ export default function AddNewPlaylist({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  songDeatails:{ flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',},
- 
-  allPage:{
-    flex:1,
-    backgroundColor:"black"
+  songDeatails: { flex: 1, justifyContent: "center", alignItems: "center" },
+
+  allPage: {
+    flex: 1,
+    backgroundColor: "black",
   },
 
-  coteretCreate:{
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    justifyContent: 'space-between',
-    textAlign:"center",
-    fontSize:23,
-    color:"purple",
-    fontWeight:"bold"
-  
+  coteretCreate: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    textAlign: "center",
+    fontSize: 23,
+    color: "purple",
+    fontWeight: "bold",
   },
   viewItem: {
     backgroundColor: "#fff",
     marginTop: 24,
     marginHorizontal: 10,
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    justifyContent: 'space-between'
-   
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 
   itemName: {
@@ -174,23 +173,21 @@ const styles = StyleSheet.create({
     fontSize: 24,
     // backgroundColor:'blue',
   },
-  itemArtistName:{
-    fontSize:15
+  itemArtistName: {
+    fontSize: 15,
   },
 
   imgItem: {
     width: 70,
     height: 70,
-    flexDirection: 'row',
-     alignItems: 'center' 
-    
+    flexDirection: "row",
+    alignItems: "center",
   },
-  plusItem: {    paddingLeft:8},
+  plusItem: { paddingLeft: 8 },
   centeredView: {
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
-
   },
   modalView: {
     margin: 20,
