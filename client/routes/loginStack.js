@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import login from "../pages/login";
 import Menue from "../components/Menue";
 import { UserRegister } from "../pages/userRegister";
+import AddSong from "../pages/addSong";
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,13 @@ const LoginStack = () => {
         name="UserRegister"
         component={UserRegister}
         options={{ title: "UserRegister" , headerShown: false }}
+       
+
+      />
+      <Stack.Screen
+        name="AddSong"
+        component={AddSong}
+        options={{ title: "AddSong" , headerShown: false }}
        
 
       />
