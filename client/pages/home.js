@@ -15,7 +15,10 @@ import * as Location from "expo-location";
 import { FormContext } from "../context/data";
 
 
+
 export default function Home({ navigation }) {
+
+ 
   const { setSonglist, searchQuery, setSearchQuery  } = useContext(FormContext);
 
   const [weather, setWeather] = useState(null);
@@ -243,7 +246,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor:'#fafafa',
     paddingTop: 40,
     paddingHorizontal: 20,
   },
