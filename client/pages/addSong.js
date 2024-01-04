@@ -3,63 +3,53 @@ import { StyleSheet, View, StatusBar } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import * as MediaLibrary from 'expo-media-library';
 import * as DocumentPicker from 'expo-document-picker';
+import { uploadFiles, DocumentDirectoryPath } from "react-native-fs";
 
-import { Audio } from 'expo-av';
 
 export default function AddSong() {
   const [songData, setSongData] = useState({
     name: "",
     duration: "",
-    songUrl: "", // This will store the picked audio file URL
+    songUrl: null, // This will store the picked audio file URL
     emotion: "",
     image: "https://images.pexels.com/photos/16971942/pexels-photo-16971942/free-photo-of-black-and-white-picture-of-foamy-waves.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
   });
 
-  const handleAudioSelection = useCallback(async () => {
+
+var files = [
+  {
+    name: "file",
+    filename: "file.jpg",
+    filepath: DocumentDirectoryPath + "/file.jpg",
+    filetype: "image/jpeg",
+  },
+];
+
+uploadFiles({
+  toUrl: "https://upload-service-url",
+  files: files,
+  method: "POST",
+  headers: {
+    Accept: "application/json",
+  },
+  
+});
+
+  const handleAudioSelection = async () => {
     try {
       const documentResult = await DocumentPicker.getDocumentAsync({
         type: 'audio/*',
         copyToCacheDirectory: false,
       });
-
-      if (documentResult.type === 'success') {
-        setSongData({ ...songData, songUrl: documentResult.uri });
-      }
+      //if (documentResult.type === 'success') {
+        await setSongData({ ...songData, songUrl: documentResult });
+        console.log(documentResult);
+      //}
     } catch (err) {
       console.warn(err);
     }
 
-    // try {
-    //   const documentResult = await DocumentPicker.getDocumentAsync({
-    //     type: 'audio/*',
-    //     copyToCacheDirectory: false,
-    //   });
-
-    //   if (documentResult.type === 'success') {
-    //     const asset = await MediaLibrary.createAssetAsync(documentResult.uri);
-    //     setSongData({ ...songData, songUrl: asset.uri });
-    //   }
-    // } catch (err) {
-    //   console.warn(err);
-    // }
-    // try {
-    //   const { status } = await MediaLibrary.requestPermissionsAsync();
-
-    //   if (status === 'granted') {
-    //     const asset = await MediaLibrary.getAssetsAsync({
-    //       mediaType: MediaLibrary.MediaType.audio,
-    //       first: 1,
-    //     });
-
-    //     if (asset && asset.assets.length > 0) {
-    //       const audioAsset = asset.assets[0];
-    //       setSongData({ ...songData, songUrl: audioAsset.uri });
-    //     }
-    //   }
-    // } catch (err) {
-    //   console.warn(err);
-    // }
-  }, [songData]);
+  };
 
   const handlePress = async () => {
 
@@ -69,21 +59,21 @@ export default function AddSong() {
     //formData.append('genres', songData.genres); // Convert to string if it's an array
     formData.append('emotion', songData.emotion);
     //formData.append('periodTag', songData.periodTag); // Convert to string if it's an array
-
-    formData.append('audio',songData.songUrl);
-
+    //console.log(songData);
+    formData.append('audio',songData.songUrl.assets[0] );
+    console.log(formData);
 
     try {
         const response = await fetch('http://192.168.0.135:3000/api/v1/songs', {
             method: 'POST',
             body: formData,
-            // headers: {
-            //      'Content-Type': 'multipart/form-data',
-            // },
+            headers: {
+                 'Content-Type': 'multipart/form-data'
+            }
         });
 
         // Check if the request was successful (status code in the range 200-299)
-        if (response.ok) {
+        if (response.status===200) {
             // Parse the response JSON if applicable
             const responseData = await response.json();
             console.log('Upload successful:', responseData);
@@ -116,13 +106,11 @@ export default function AddSong() {
         onChangeText={(text) => setSongData({ ...songData, emotion: text })}
       />
 
-      <StatusBar barStyle={'dark-content'}style={styles.input}/>
+      {/* <StatusBar barStyle={'dark-content'}style={styles.input}/>
       {songData.songUrl && (
         <Text style={styles.uri} numberOfLines={1} ellipsizeMode={'middle'}>
-          {songData.songUrl}
-          {console.log(songData)}
         </Text>
-      )}
+      )} */}
       <Button style={styles.input} title="Select Audio 🎵" onPress={handleAudioSelection} >Select Audio 🎶 </Button>
 
       <Button style={styles.input} onPress={handlePress} >Add</Button>

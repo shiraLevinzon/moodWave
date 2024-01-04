@@ -30,7 +30,6 @@ router.get("/songByPeriodTag/:pTag", getSongByPeriodTag);
 
 router.delete("/:id", auth(), deleteSong);
 
-//...
 
 router.post("/", async (req, res) => {
   // Get the file name and extension with multer
@@ -79,6 +78,7 @@ router.post("/", async (req, res) => {
       api_key: process.env.CLOUDINARY_API_KEY,
       api_secret: process.env.CLOUDINARY_API_SECRET,
     });
+    console.log(req.file);
     const { path } = req.file; // file becomes available in req at this point
 
     const fName = req.file.originalname.split(".")[0];
@@ -104,7 +104,7 @@ router.post("/", async (req, res) => {
         newSong.songUrl = audio.secure_url;
         await newSong.save();
 
-        res.send(newSong);
+        res.status(200).send(newSong);
       }
     );
   });
