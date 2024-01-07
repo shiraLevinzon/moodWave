@@ -11,8 +11,8 @@ const Stack = createStackNavigator();
 
 const PlaylistStack = () => {
   return (
-    <Stack.Navigator initialRouteName="MyPlaylist">
-      <Stack.Screen
+    <Stack.Navigator initialRouteName="MyPlaylist" >
+      <Stack.Screen screenOptions={{ headerShown: false,  tabBarStyle: {  display: "none",}, }}
         name="MyPlaylist"
         component={MyPlaylist}
         options={{ title: "My Playlist" }}

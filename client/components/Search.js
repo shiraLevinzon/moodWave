@@ -130,7 +130,7 @@ export default function Search({changePage}) {
                       <Text
                         style={styles.itemName}
                         onPress={() => {
-                          setVisible(!visible);
+                           setVisible(!visible);
                           changePage(item)
 
                         }}

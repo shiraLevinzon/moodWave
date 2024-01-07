@@ -34,57 +34,8 @@ export const Song = ({ route }) => {
     />
   );
 
-  //   async function playSound() {
-  //     if (!sound) {
-  //       console.log('Loading Sound');
-  //       const { sound: loadedSound } = await Audio.Sound.createAsync(
-  //         require('../assets/shayach.mp3')
-  //       );
-  //       setSound(loadedSound);
-  //       console.log('Playing Sound');
-  //       await loadedSound.playAsync();
-  //       updateStatus(); // Initial update
-  //     } else {
-  //       if (isPlaying) {
-  //         await sound.pauseAsync();
-  //       } else {
-  //         await sound.playAsync();
-  //       }
-  //     }
 
-  //     setIsPlaying(!isPlaying);
-  //   }
 
-  //   const updateStatus = async () => {
-  //     const status = await sound?.getStatusAsync();
-  //     setDuration(status?.durationMillis || 0);
-  //     setPosition(status?.positionMillis || 0);
-  //     setVolume(status?.volume || 1); // Update volume
-  //
-  //   };
-
-  //   useEffect(() => {
-  //     const intervalId = setInterval(() => {
-  //       updateStatus();
-  //     }, 1000); // Update every 1000 milliseconds (1 second)
-
-  //     return () => {
-  //       clearInterval(intervalId);
-  //     };
-  //   }, [sound]);
-
-  // useEffect(() => {
-  //     if (isPlaying && !isNaN(duration) && !isNaN(position) && duration > 0) {
-  //       const progress = (position / duration) * 100;
-  //       setProgressbar(
-  //         <ProgressBar
-  //           progress={progress / 100}
-  //           color="purple"
-  //           style={styles.progress}
-  //         />
-  //       );
-  //     }
-  //   }, [position, duration, isPlaying]);
 
   useEffect(() => {
     if (defaultPlaylists["Heard Recently"].songs.length >= 10)
@@ -96,7 +47,7 @@ export const Song = ({ route }) => {
     console.log("jjj");
     const songToAdd = { song: song._id };
     const res = await fetch(
-      `http://192.168.0.179:3000/api/v1/playlists/${defaultPlaylists["Heard Recently"]._id}/addSong`,
+      `http://192.168.0.128:3000/api/v1/playlists/${defaultPlaylists["Heard Recently"]._id}/addSong`,
       {
         method: "PATCH",
         headers: {
@@ -116,7 +67,7 @@ export const Song = ({ route }) => {
   const deleteFromHeardRecently = async (songToDel) => {
     const songToDelete = { song: songToDel };
     const res = await fetch(
-      `http://192.168.0.179:3000/api/v1/playlists/${defaultPlaylists["Heard Recently"]._id}/deleteSong`,
+      `http://192.168.0.128:3000/api/v1/playlists/${defaultPlaylists["Heard Recently"]._id}/deleteSong`,
       {
         method: "PATCH",
         headers: {

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, Alert, StyleSheet, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { FormContext } from "../context/data";
 
 export const UserRegister = ({ navigation }) => {
@@ -69,7 +69,7 @@ export const UserRegister = ({ navigation }) => {
         }
       );
       if (!response.ok) {
-        const errorData = await res.text();
+        const errorData = await response.text();
         throw new Error(errorData || "server error occurred");
       }
       // const data = await response.json();
@@ -93,36 +93,46 @@ export const UserRegister = ({ navigation }) => {
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
       <Text style={styles.title}>User Registration</Text>
       <TextInput
         style={styles.input}
         placeholder="Username"
+        placeholderTextColor="white"
         onChangeText={(text) => setUserData({ ...userData, userName: text })}
       />
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor="white"
         onChangeText={(text) => setUserData({ ...userData, email: text })}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
+        placeholderTextColor="white"
         secureTextEntry
         onChangeText={(text) => setUserData({ ...userData, password: text })}
       />
       <TextInput
         style={styles.input}
         placeholder="Country"
+        placeholderTextColor="white"
         onChangeText={(text) => setUserData({ ...userData, country: text })}
       />
       <TextInput
         style={styles.input}
         placeholder="Birth Date"
+        placeholderTextColor="white"
         onChangeText={(text) => setUserData({ ...userData, birthDate: text })}
       />
-      <Button title="Register" onPress={handleRegister} />
+      
+      <View style={styles.buttonContainer}>
+        <Button title="Register" onPress={handleRegister} buttonStyle={styles.searchButton} containerStyle={styles.buttonContainerStyle}   titleStyle={styles.searchButtonText} />
+      </View>
     </View>
+   </TouchableWithoutFeedback>
   );
 };
 
@@ -131,12 +141,45 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     paddingHorizontal: 16,
+    backgroundColor:"black"
   },
+  buttonContainer: {
+    backgroundColor: "purple",
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5, // Set the shadow for Android
+  },
+
+  searchButton: {
+    backgroundColor: "purple",
+    color:"black",
+   
+  },
+  searchButtonText: {
+    color: "black",
+  },
+  buttonContainerStyle: {
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
+  },
+  buttonContainerStyle: {
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
+  },
+
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 16,
     textAlign: "center",
+    color:"purple"
   },
   input: {
     height: 40,
@@ -144,5 +187,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 12,
     paddingHorizontal: 10,
+    color:"white"
   },
 });

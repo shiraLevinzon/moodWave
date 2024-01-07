@@ -46,11 +46,11 @@ const styles = StyleSheet.create({
     // fontWeight: "bold",
     // fontSize: 50,
     fontSize: 40,
-    color: 'rgb(28, 28, 30)'
+    color: 'purple'
   },
   details: {
     fontSize: 20,
-    color: 'rgb(28, 28, 30)'
+    color: 'purple'
   },
   btn: {
     // marginTop: 26,
