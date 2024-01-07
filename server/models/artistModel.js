@@ -57,7 +57,7 @@ const artistSchema = new Schema({
   },
   image: {
     type: String,
-    required: true,
+    required: false,
   },
   country: {
     type: String,

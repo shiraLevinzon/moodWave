@@ -11,7 +11,7 @@ const songSchema = new Schema({
   },
   songUrl: {
     type: String,
-    //required: true,
+    required: true,
   },
   genres: {
     type: [
@@ -35,7 +35,7 @@ const songSchema = new Schema({
         ],
       },
     ],
-    //required: true,
+    required: true,
   },
   artistCode: {
     type: mongoose.Types.ObjectId,
@@ -75,7 +75,7 @@ const songSchema = new Schema({
         ],
       },
     ],
-    //required: true,
+    required: false,
   },
 
   image: {

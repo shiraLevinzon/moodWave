@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { FormContext } from "../context/data";
-import { TouchableWithoutFeedback, Keyboard } from "react-native";
+import { TouchableWithoutFeedback, Keyboard } from "react-native";  
 
 export default function Login({ navigation }) {
   const { currentUser, setCurrentUser, defaultPlaylists, setDefaultPlaylists } =
@@ -113,7 +113,6 @@ export default function Login({ navigation }) {
       });
       if (!res.ok) {
         const errorData = await res.text();
-        throw new Error(errorData || "server error occurred");
         throw new Error(errorData || "server error occurred");
       }
       const data = await res.json();

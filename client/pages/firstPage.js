@@ -5,6 +5,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import LoginStack from "../routes/loginStack";
 
 
+
+
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-elements';
 import Menue from '../components/Menue';
@@ -19,11 +21,13 @@ export default function FirstPage() {
   return (
     <NavigationContainer independent={true}>
       <Tab.Navigator screenOptions={{ headerShown: false,  tabBarStyle: {  display: "none",}, }} >
+      <Tab.Navigator screenOptions={{ headerShown: false,  tabBarStyle: {  display: "none",}, }} >
         <Tab.Screen
           name="LoginPage"
           component={LoginStack}
           options={{ headerShown: false }}
         />
+
 
       <Tab.Screen
           name="menue"
@@ -33,6 +37,9 @@ export default function FirstPage() {
       </Tab.Navigator>
     </NavigationContainer>
   );
+
+}
+
 
 }
 

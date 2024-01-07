@@ -115,6 +115,7 @@ exports.getSongByPeriodTag = async (req, res, next) => {
 
 exports.addSong = async (req, res, next) => {
   const body = req.body;
+  console.log(body);
   const artistId = res.locals.userId;
   try {
     // const valid = songJoiSchema.songS.validate(body);
