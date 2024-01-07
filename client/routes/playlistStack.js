@@ -22,7 +22,6 @@ const PlaylistStack = () => {
         component={Playlist}
         options={{ title: "Playlist" }}
       />
-      <Stack.Screen name="Song" component={Song} options={{ title: "Song" }} />
       <Stack.Screen
         name="addNewPlaylist"
         component={AddNewPlaylist}
@@ -33,6 +32,7 @@ const PlaylistStack = () => {
         component={Search}
         options={{ title: "searchSong" }}
       />
+      <Stack.Screen name="Song" component={Song} options={{ title: "Song" }} />
     </Stack.Navigator>
   );
 };

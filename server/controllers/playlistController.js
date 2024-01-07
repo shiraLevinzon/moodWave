@@ -20,10 +20,13 @@ const checkIfUserExists = async (userId) => {
   return false;
 };
 exports.getPlaylistsByName = async (req, res, next) => {
+  const userId = res.locals.userId;
   try {
     const { pname } = req.query;
     const searchReg = new RegExp(pname, "i");
-    const playlist = await Playlist.find({ name: searchReg });
+    const playlist = await Playlist.find({
+      $and: [{ ownerId: userId }, { name: searchReg }],
+    });
     // .populate("artistCode");
     res.send(playlist);
   } catch (error) {

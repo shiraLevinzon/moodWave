@@ -19,17 +19,19 @@ import HomeStack from "../routes/homeStack";
 import profileStack from "../routes/profileStack";
 
 export default function Menue() {
+
+  
   const Tab = createBottomTabNavigator();
   console.log("welcome to menue");
   return (
     <NavigationContainer independent={true}>
-      <Tab.Navigator>
+      <Tab.Navigator >
         <Tab.Screen
           name="Home"
           component={HomeStack}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <Entypo name="home" size={size} color={color} />
+              <Entypo name="home" size={size} color={"purple"} />
             ),headerShown: false
           }}
         />
@@ -42,7 +44,7 @@ export default function Menue() {
               <MaterialCommunityIcons
                 name="playlist-music"
                 size={24}
-                color="black"
+                color="purple"
               />
             ),headerShown: false
           }}
@@ -52,7 +54,7 @@ export default function Menue() {
           component={CameraStack}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <AntDesign name="camera" size={24} color="black" />
+              <AntDesign name="camera" size={24} color="purple" />
             ),headerShown: false
           }}
         />
@@ -61,7 +63,7 @@ export default function Menue() {
           component={Rooms}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <FontAwesome5 name="user-friends" size={24} color="black" />
+              <FontAwesome5 name="user-friends" size={24} color="purple" />
             ),headerShown: false
           }}
         />
@@ -70,7 +72,7 @@ export default function Menue() {
           component={profileStack}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="person-circle" size={24} color="black" />
+              <Ionicons name="person-circle" size={24} color="purple" />
             ),headerShown: false
           }}
         />

@@ -1,15 +1,84 @@
-
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { FormContext } from "../context/data";
 import { TouchableWithoutFeedback, Keyboard } from "react-native";  
 
 export default function Login({ navigation }) {
-  const { currentUser, setCurrentUser } = useContext(FormContext);
-  const [loginData, setLoginData] = useState({});
+  const { currentUser, setCurrentUser, defaultPlaylists, setDefaultPlaylists } =
+    useContext(FormContext);
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
 
-  const getPlaylistByName = async (playlistName) => {
+  // const getPlaylistByName = async (playlistName) => {
+  //   console.log("get");
+  //   try {
+  //     const res = await fetch(
+  //       `http://192.168.0.179:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${currentUser.token}`,
+  //         },
+  //       }
+  //     );
+  //     if (!res.ok) {
+  //       throw new Error(`Server error: ${res.status} ${res.statusText}`);
+  //     }
+  //     const data = await res.json();
+  //     console.log(data.length);
+  //     return data.length > 0;
+  //   } catch (error) {
+  //     console.error("Error in getPlaylistByName:", error.message);
+  //     return false; // Return false on error
+  //   }
+  // };
+
+  // const createDefoultPlaylists = async (playlistName) => {
+  //   console.log("create");
+  //   if (!(await getPlaylistByName(playlistName))) {
+  //     const newPlaylist = {
+  //       name: playlistName,
+  //     };
+  //     const res = await fetch(
+  //       `http://192.168.0.179:3000/api/v1/playlists/createPlaylist`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${currentUser.token}`,
+  //         },
+  //         body: JSON.stringify(newPlaylist),
+  //       }
+  //     );
+  //     if (!res.ok) {
+  //       const errorData = await res.text();
+  //       console.log(errorData.message || "server error occurred");
+  //     }
+  //     const data = await res.json();
+  //     console.log("check", { newPlaylist: data._id });
+  //     setDefaultPlaylits({ newPlaylist: data._id });
+  //     console.log(setDefaultPlaylits);
+  //     console.log(data);
+  //   }
+  // };
+
+  useEffect(() => {
+    const updateDefaultsPlaylists = async () => {
+      console.log("current is change");
+      console.log(currentUser);
+      const heardRecently = await getDefaultPlaylistsId("Heard Recently");
+      const myFavorites = await getDefaultPlaylistsId("My Favorites");
+      setDefaultPlaylists({
+        ["Heard Recently"]: heardRecently,
+        ["My Favorites"]: myFavorites,
+      });
+    };
+    updateDefaultsPlaylists();
+  }, [currentUser]);
+
+  const getDefaultPlaylistsId = async (playlistName) => {
+    console.log("getdefault");
     try {
       const res = await fetch(
         `http://192.168.0.128:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
@@ -25,43 +94,17 @@ export default function Login({ navigation }) {
         throw new Error(`Server error: ${res.status} ${res.statusText}`);
       }
       const data = await res.json();
-      return data.length > 0;
+      console.log(data[0]);
+      return data[0]; //return data[0]._id
     } catch (error) {
-      console.error("Error in getPlaylistByName:", error.message);
+      console.error("Error in getDefaultPlaylistsId:", error.message);
       return false; // Return false on error
     }
   };
 
-  const createDefoultPlaylists = async (playlistName) => {
-    if (!(await getPlaylistByName(playlistName))) {
-      const newPlaylist = {
-        name: playlistName,
-      };
-      const res = await fetch(
-        `http://192.168.0.128:3000/api/v1/playlists/createPlaylist`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${currentUser.token}`,
-          },
-          body: JSON.stringify(newPlaylist),
-        }
-      );
-      if (!res.ok) {
-        const errorData = await res.text();
-        console.log(errorData || "server error occurred");
-      }
-      const data = await res.json();
-      console.log(data);
-    }
-  };
-
-
   const moveToHome = async () => {
     try {
-      console.log(JSON.stringify(loginData));
-      const res = await fetch(`http://192.168.0.135:3000/api/v1/users/login`, {
+      const res = await fetch(`http://192.168.0.179:3000/api/v1/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,11 +116,15 @@ export default function Login({ navigation }) {
         throw new Error(errorData || "server error occurred");
       }
       const data = await res.json();
-      setCurrentUser(data);
       console.log(data);
+      setCurrentUser(data);
 
-      createDefoultPlaylists("Heard Recently");
-      createDefoultPlaylists("My Favorites");
+      // const heardRecently = await getDefaultPlaylistsId("Heard Recently");
+      // const myFavorites = await getDefaultPlaylistsId("My Favorites");
+      // setDefaultPlaylists({
+      //   ["Heard Recently"]: heardRecently,
+      //   ["My Favorites"]: myFavorites,
+      // });
 
       navigation.navigate("Menue");
     } catch (error) {
@@ -95,14 +142,15 @@ export default function Login({ navigation }) {
           <TextInput
             style={styles.input}
             keyboardType="email-address"
-            value={loginData}
+            value={loginData.email}
             onChangeText={(text) => setLoginData({ ...loginData, email: text })}
           />
           <Text style={styles.textLogin}>password:</Text>
           <TextInput
-            style={styles.input}
+            style={styles.input.stringValue}
             keyboardType="visible-password"
-            value={loginData}
+            value={loginData.password}
+            value={loginData.password}
             onChangeText={(text) =>
               setLoginData({ ...loginData, password: text })
             }
@@ -118,9 +166,6 @@ export default function Login({ navigation }) {
             >
               <Text style={styles.btnLogin}>Register</Text>
             </Button>
-            <Button onPress={() => { navigation.navigate("ArtistRegistration") }}>
-            <Text style={styles.btnLogin}>Enter As Artist</Text>
-          </Button>
           </View>
         </View>
       </View>

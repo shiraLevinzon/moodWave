@@ -23,4 +23,3 @@
 //       marginHorizontal: 10,
 //     },
 //   });
-  
