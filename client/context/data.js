@@ -9,10 +9,14 @@ const Provider = ({ children }) => {
   const [playlists, setPlaylists] = useState([]);
   const [songlist, setSonglist] = useState([]);
   const [likeSongList, setLikeSongList] = useState({});
+  const [defaultPlaylists, setDefaultPlaylists] = useState({
+    "Heard Recently": "",
+    "My Favorites": "",
+  });
 
   const shared = {
     likeSongList,
-     setLikeSongList,
+    setLikeSongList,
     searchQuery,
     setSearchQuery,
     playlists,
@@ -21,7 +25,9 @@ const Provider = ({ children }) => {
     setSonglist,
     currentUser,
     setCurrentUser,
-    playlistName, setPlaylistName
+    playlistName,
+    setPlaylistName,
+    defaultPlaylists, setDefaultPlaylists
   };
   return <FormContext.Provider value={shared}>{children}</FormContext.Provider>;
 };

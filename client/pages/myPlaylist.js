@@ -62,7 +62,6 @@ export default function MyPlaylist({ navigation }) {
           <View style={styles.viewItem}>
             <Text
               onPress={() => {
-                console.log(item.songs);
                 setPlaylistName(item.name);
                 setSonglist(item.songs);
                 navigation.navigate("Playlist");

@@ -3,29 +3,135 @@ import { FlatList, Image, LogBox, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { FormContext } from "../context/data";
 import { AntDesign } from "@expo/vector-icons";
+import { color } from "react-native-elements/dist/helpers";
 
 export default function Playlist({ navigation }) {
-  const { songlist, playlistName, likeSongList, setLikeSongList } =
-    useContext(FormContext);
+  const {
+    songlist,
+    setSonglist,
+    playlistName,
+    likeSongList,
+    setLikeSongList,
+    defaultPlaylists,
+    setDefaultPlaylists,
+    currentUser,
+  } = useContext(FormContext);
   const [heartColor, setHeartColor] = useState({});
-  console.log(songlist);
 
-  // useEffect(() => {
-  //   console.log("songs:", songlist);
-  // }, []);
+  useEffect(() => {
+    console.log(defaultPlaylists);
+    const favorites = defaultPlaylists["My Favorites"].songs;
 
-  const handlePress = (item, index) => {
-    setHeartColor((prevColors) => ({
-      ...prevColors,
-      [index]: !prevColors[index] || false,
-    }));
+    // Use functional update to correctly update heartColor state
+    setHeartColor((prevHeartColor) => {
+      const updatedColors = { ...prevHeartColor };
 
-    setLikeSongList({
-      ...likeSongList,
-      item,
+      songlist.forEach((song, index) => {
+        if (favorites.includes(song._id)) {
+          updatedColors[index] = "red";
+        } else {
+          updatedColors[index] = "grey";
+        }
+      });
+
+      return updatedColors;
     });
+  }, [songlist, defaultPlaylists]);
 
-    console.log("the likeSongList is:", likeSongList);
+  const addSongToFavorites = async (song) => {
+    const res = await fetch(
+      `http://192.168.0.179:3000/api/v1/playlists/${defaultPlaylists["My Favorites"]._id}/addSong`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentUser.token}`,
+        },
+        body: JSON.stringify(song),
+      }
+    );
+    if (!res.ok) {
+      const errorData = await res.text();
+      throw new Error(errorData || "server error occurred");
+    }
+    const data = await res.json();
+
+    const newFavorites = [...defaultPlaylists["My Favorites"].songs, song.song];
+
+    setDefaultPlaylists((prevPlaylists) => ({
+      ...prevPlaylists,
+      "My Favorites": {
+        ...prevPlaylists["My Favorites"],
+        songs: newFavorites,
+      },
+    }));
+  };
+  const deleteSongFromFavorites = async (song) => {
+    const res = await fetch(
+      `http://192.168.0.179:3000/api/v1/playlists/${defaultPlaylists["My Favorites"]._id}/deleteSong`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentUser.token}`,
+        },
+        body: JSON.stringify(song),
+      }
+    );
+    if (!res.ok) {
+      const errorData = await res.text();
+      throw new Error(errorData || "server error occurred");
+    }
+    const data = await res.json();
+
+    const newFavorites = defaultPlaylists["My Favorites"].songs.filter(
+      (song1) => song1 != null && song1 != song.song
+    );
+    setDefaultPlaylists((prevPlaylists) => ({
+      ...prevPlaylists,
+      "My Favorites": {
+        ...prevPlaylists["My Favorites"],
+        songs: newFavorites,
+      },
+    }));
+  };
+
+  const handlePress = async (event, item, index) => {
+    console.log(
+      "---------------------------------------------------------------------"
+    );
+    const favorites = defaultPlaylists["My Favorites"].songs;
+    console.log("favorite:", favorites);
+    if (favorites.includes(item._id)) {
+      setHeartColor({ ...heartColor, [index]: "grey" });
+      deleteSongFromFavorites({ song: item._id });
+    } else {
+      setHeartColor({ ...heartColor, [index]: "red" });
+      addSongToFavorites({ song: item._id });
+    }
+  };
+
+  const getPlaylistByName = async (playlistName) => {
+    try {
+      const res = await fetch(
+        `http://192.168.0.179:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${currentUser.token}`,
+          },
+        }
+      );
+      if (!res.ok) {
+        throw new Error(`Server error: ${res.status} ${res.statusText}`);
+      }
+      const data = await res.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error in getPlaylistByName:", error.message);
+      return false; // Return false on error
+    }
   };
 
   // {navigation.navigate("Song", { song: item });}
@@ -40,9 +146,10 @@ export default function Playlist({ navigation }) {
             <AntDesign
               name="heart"
               size={30}
-              color={heartColor[index] ? "red" : "gray"}
+              // color={isFavoriteSong(item._id)}
+              color={heartColor[index]}
               style={styles.heartItem}
-              onPress={() => handlePress(item, index)}
+              onPress={(event) => handlePress(event, item, index)}
             />
 
             <View style={styles.songDeatails}>
