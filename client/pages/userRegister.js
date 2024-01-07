@@ -69,7 +69,7 @@ export const UserRegister = ({ navigation }) => {
         }
       );
       if (!response.ok) {
-        const errorData = await res.text();
+        const errorData = await response.text();
         throw new Error(errorData || "server error occurred");
       }
       // const data = await response.json();
