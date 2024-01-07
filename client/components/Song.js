@@ -4,20 +4,87 @@ import { Audio } from "expo-av";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { ProgressBar } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import Slider from "@react-native-community/slider";
 import { FormContext } from "../context/data";
 
 export const Song = ({ route }) => {
   const song = route.params?.song || "Default Value";
-
-  const { defaultPlaylists, currentUser } = useContext(FormContext);
+  const [volume, setVolume] = useState(1); // Initial volume
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [sound, setSound] = useState();
   const [duration, setDuration] = useState(0);
   const [position, setPosition] = useState(0);
+  const { defaultPlaylists, currentUser } = useContext(FormContext);
+  // const [progressbar, setProgressbar] = useState(
+  //   <ProgressBar progress={0} color="white" style={styles.progress} />
+  // );
+
   const [progressbar, setProgressbar] = useState(
-    <ProgressBar progress={0} color="white" style={styles.progress} />
+    <Slider
+      style={styles.progress}
+      minimumValue={0}
+      maximumValue={1}
+      value={0}
+      minimumTrackTintColor="purple"
+      maximumTrackTintColor="white"
+      thumbTintColor="purple"
+      onValueChange={handleSliderChange}
+    />
   );
+
+  //   async function playSound() {
+  //     if (!sound) {
+  //       console.log('Loading Sound');
+  //       const { sound: loadedSound } = await Audio.Sound.createAsync(
+  //         require('../assets/shayach.mp3')
+  //       );
+  //       setSound(loadedSound);
+  //       console.log('Playing Sound');
+  //       await loadedSound.playAsync();
+  //       updateStatus(); // Initial update
+  //     } else {
+  //       if (isPlaying) {
+  //         await sound.pauseAsync();
+  //       } else {
+  //         await sound.playAsync();
+  //       }
+  //     }
+
+  //     setIsPlaying(!isPlaying);
+  //   }
+
+  //   const updateStatus = async () => {
+  //     const status = await sound?.getStatusAsync();
+  //     setDuration(status?.durationMillis || 0);
+  //     setPosition(status?.positionMillis || 0);
+  //     setVolume(status?.volume || 1); // Update volume
+  //
+  //   };
+
+  //   useEffect(() => {
+  //     const intervalId = setInterval(() => {
+  //       updateStatus();
+  //     }, 1000); // Update every 1000 milliseconds (1 second)
+
+  //     return () => {
+  //       clearInterval(intervalId);
+  //     };
+  //   }, [sound]);
+
+  // useEffect(() => {
+  //     if (isPlaying && !isNaN(duration) && !isNaN(position) && duration > 0) {
+  //       const progress = (position / duration) * 100;
+  //       setProgressbar(
+  //         <ProgressBar
+  //           progress={progress / 100}
+  //           color="purple"
+  //           style={styles.progress}
+  //         />
+  //       );
+  //     }
+  //   }, [position, duration, isPlaying]);
 
   useEffect(() => {
     if (defaultPlaylists["Heard Recently"].songs.length >= 10)
@@ -66,7 +133,7 @@ export const Song = ({ route }) => {
     const data = await res.json();
   };
 
-  async function playSound() {
+  const playSound = async () => {
     if (!sound) {
       console.log("Loading Sound");
       const { sound: loadedSound } = await Audio.Sound.createAsync(
@@ -85,7 +152,7 @@ export const Song = ({ route }) => {
     }
 
     setIsPlaying(!isPlaying);
-  }
+  };
 
   const updateStatus = async () => {
     const status = await sound?.getStatusAsync();
@@ -93,10 +160,18 @@ export const Song = ({ route }) => {
     setPosition(status?.positionMillis || 0);
   };
 
+  const handleSliderChange = async (value) => {
+    if (!sound) return;
+
+    const newPosition = value * duration;
+    await sound.setPositionAsync(newPosition);
+    updateStatus();
+  };
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       updateStatus();
-    }, 1000); // Update every 1000 milliseconds (1 second)
+    }, 1000);
 
     return () => {
       clearInterval(intervalId);
@@ -107,10 +182,15 @@ export const Song = ({ route }) => {
     if (isPlaying && !isNaN(duration) && !isNaN(position) && duration > 0) {
       const progress = (position / duration) * 100;
       setProgressbar(
-        <ProgressBar
-          progress={progress / 100}
-          color="gray"
+        <Slider
           style={styles.progress}
+          minimumValue={0}
+          maximumValue={1}
+          value={progress / 100}
+          minimumTrackTintColor="purple"
+          maximumTrackTintColor="white"
+          thumbTintColor="purple"
+          onValueChange={handleSliderChange}
         />
       );
     }
@@ -147,6 +227,9 @@ export const Song = ({ route }) => {
         <Text style={styles.artistNameSong}>{song.name}</Text>
       </View>
 
+      <View style={styles.addToPlaylist}>
+        <Feather name="more-horizontal" size={24} color="black" />
+      </View>
       <View style={styles.controlButtons}>
         <TouchableOpacity onPress={seekBackward}>
           <MaterialIcons
@@ -190,7 +273,9 @@ export const Song = ({ route }) => {
         <Text style={{ color: "#fff" }}>{formatTime(position)}</Text>
         <Text style={{ color: "#fff" }}>{formatTime(duration)}</Text>
       </View>
-      <View style={styles.viewProgressbar}>{progressbar}</View>
+      <TouchableOpacity onPress={(e) => handleProgressBarPress(e)}>
+        <View style={styles.viewProgressbar}>{progressbar}</View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -227,6 +312,8 @@ const styles = StyleSheet.create({
   progress: {
     width: "90%",
     height: 20,
+    width: "90%",
+    height: 10,
   },
   viewProgressbar: {
     paddingLeft: 40,

@@ -81,7 +81,7 @@ export default function Login({ navigation }) {
     console.log("getdefault");
     try {
       const res = await fetch(
-        `http://192.168.0.179:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
+        `http://192.168.0.128:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
         {
           method: "GET",
           headers: {
@@ -113,6 +113,7 @@ export default function Login({ navigation }) {
       });
       if (!res.ok) {
         const errorData = await res.text();
+        throw new Error(errorData || "server error occurred");
         throw new Error(errorData || "server error occurred");
       }
       const data = await res.json();
@@ -147,8 +148,9 @@ export default function Login({ navigation }) {
           />
           <Text style={styles.textLogin}>password:</Text>
           <TextInput
-            style={styles.input}
+            style={styles.input.stringValue}
             keyboardType="visible-password"
+            value={loginData.password}
             value={loginData.password}
             onChangeText={(text) =>
               setLoginData({ ...loginData, password: text })

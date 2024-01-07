@@ -156,6 +156,7 @@ export default function Playlist({ navigation }) {
               <Text
                 style={styles.itemName}
                 onPress={() => {
+                  console.log(item);
                   navigation.navigate("Song", { song: item });
                 }}
               >
