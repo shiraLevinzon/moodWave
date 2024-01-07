@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: 'black',
   },
   container: {
     padding: 24,
@@ -42,13 +43,20 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   title: {
-    fontWeight: "bold",
-    fontSize: 50,
+    // fontWeight: "bold",
+    // fontSize: 50,
+    fontSize: 40,
+    color: 'rgb(28, 28, 30)'
   },
   details: {
     fontSize: 20,
+    color: 'rgb(28, 28, 30)'
   },
   btn: {
-    marginTop: 26,
+    // marginTop: 26,
+    margin: 30,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

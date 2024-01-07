@@ -9,7 +9,7 @@ import { TextInput } from "react-native-paper";
 //import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 export default function MyPlaylist({ navigation }) {
-  const {searchQuery,setSearchQuery, playlists, setPlaylists, setSonglist, currentUser, setPlaylistName } =useContext(FormContext);
+  const {searchQuery,setSearchQuery, playlists, setPlaylists, setSonglist,songlist, currentUser, setPlaylistName } =useContext(FormContext);
   const [message, setMessage] = useState("");
   const [filter, setFilter] = useState([]);
   useEffect(() => {
@@ -70,7 +70,7 @@ export default function MyPlaylist({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
-      <View style={styles.searchAndIcon}>
+      <View style={styles.inputContainer}>
       <TextInput
             style={styles.searchInput}
             placeholder="Search playlist"
@@ -112,6 +112,7 @@ export default function MyPlaylist({ navigation }) {
         )}
       />
       </View>
+      <View style={styles.viewCoterte}><Text style={styles.playlistCoteret}>MY FAVORITS:</Text></View>
       <AntDesign
         name="pluscircleo"
         size={50}
@@ -125,6 +126,20 @@ export default function MyPlaylist({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+
+  inputContainer: {
+    backgroundColor: "purple",
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5, // Set the shadow for Android
+  },
   container: {
     flex: 1,
     position: "relative",
@@ -136,6 +151,10 @@ const styles = StyleSheet.create({
   searchInput:{
     borderRadius:10,
     shadowColor:"rgba(0, 0, 0, 0.3)",
+    backgroundColor:"black",
+     borderColor: 'white',
+    borderBottomWidth: 1, 
+    borderTopWidth: 1,  
   },
   viewCoterte:{
     paddingTop:13

@@ -98,14 +98,14 @@ export default function Login({ navigation }) {
           <TextInput
             style={styles.input}
             keyboardType="email-address"
-            value={loginData}
+            value={loginData.stringValue}
             onChangeText={(text) => setLoginData({ ...loginData, email: text })}
           />
           <Text style={styles.textLogin}>password:</Text>
           <TextInput
-            style={styles.input}
+            style={styles.input.stringValue}
             keyboardType="visible-password"
-            value={loginData}
+            value={loginData.password}
             onChangeText={(text) =>
               setLoginData({ ...loginData, password: text })
             }

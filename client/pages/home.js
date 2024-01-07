@@ -212,11 +212,14 @@ export default function Home({ navigation }) {
       </TouchableOpacity>
     );
   };
-
+const changePage= (song)=>{
+  console.log(song);
+  navigation.navigate("Song", { song: song });
+}
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
-    <Search navigation={navigation} />
+    <Search changePage={changePage} />
       <Text style={styles.albomsCoteret}>OUR CATEGORIES</Text>
 
       <View style={styles.item1}>
@@ -246,7 +249,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'#fafafa',
+    backgroundColor:'black',
     paddingTop: 40,
     paddingHorizontal: 20,
   },
@@ -268,8 +271,8 @@ const styles = StyleSheet.create({
     zIndex:90
   },
   viewItem: {
-    backgroundColor: "red",
-    borderRadius: 10,
+    backgroundColor: "purple",
+     borderRadius: 10,
     marginTop: 24,
     padding: 10,
     marginHorizontal: 10,

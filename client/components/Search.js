@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Overlay } from "react-native-elements";
+import { AntDesign } from "@expo/vector-icons";
 
 import {
   Alert,
@@ -17,21 +18,21 @@ import { useNavigation } from "@react-navigation/native";
 // import { debounce } from 'lodash';
 import { KeyboardAvoidingView } from "react-native";
 
-export default function Search() {
+export default function Search({changePage}) {
   //  const [searchQuery, setSearchQuery] = useState('');
   const { searchQuery, setSearchQuery, songlist, setSonglist } =
     useContext(FormContext);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalResults, setModalResults] = useState([]);
+  const [heartColor, setHeartColor] = useState([]);
 
-  const navigation = useNavigation();
+  
   const [visible, setVisible] = useState(false);
   const [filter, setFilter] = useState([]);
 
     // const debouncedSearch = debounce(handleSearch, 300);
   
-    const toggleOverlay = async() => {
+    const openOverlay = async() => {
       setVisible(!visible);
       try {
         const response = await fetch(
@@ -49,19 +50,6 @@ export default function Search() {
     setVisible(!visible);
   };
 
-  // const handleSearch = () => {
-  //   // Filter the songlist based on the searchQuery
-  //   const filteredList = songlist.filter(
-  //     (song) =>
-  //       song.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       `${song.artistCode?.firstName} ${song.artistCode?.lastName}`
-  //         .toLowerCase()
-  //         .includes(searchQuery.toLowerCase())
-  //   );
-
-  //   // Update the filteredSongList state
-  //   setFilter(filteredList);
-  // };
 
   const handleSearch = (text) => {
     // Update the searchQuery state directly
@@ -83,20 +71,35 @@ export default function Search() {
     handleSearch(searchQuery);
   }, [searchQuery]);
 
+  const handlePress = (item, index) => {
+    setHeartColor((prevColors) => ({
+      ...prevColors,
+      [index]: !prevColors[index] || false,
+    }));
+
+    setLikeSongList({
+      ...likeSongList,
+      item,
+    });
+
+    console.log("the likeSongList is:", likeSongList);
+  };
+
   return (
     <View>
-      <View style={{ backgroundColor: "purple", color: "black" }}>
-        <Button title="Search" onPress={toggleOverlay} />
+      <View style={styles.buttonContainer}>
+        <Button title="Search"  buttonStyle={styles.searchButton} containerStyle={styles.buttonContainerStyle}   titleStyle={styles.searchButtonText}  onPress={openOverlay} />
       </View>
 
-      <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+      <Overlay isVisible={visible} onBackdropPress={openOverlay} style={styles.overlatView}>
         <Button
           title="back"
-          style={{ width: 50, backgroundColor: "purple" }}
+          buttonStyle={styles.searchButton} containerStyle={styles.buttonContainerStyle}   titleStyle={styles.searchButtonText}
           onPress={closeOverlay}
         />
 
         <KeyboardAvoidingView behavior="padding" style={styles.overlay}>
+        <View style={styles.inputContainer}>
           <TextInput
             style={styles.searchInput}
             placeholder="click song or artist..."
@@ -107,17 +110,29 @@ export default function Search() {
             // }}
             onChangeText={(text) => setSearchQuery(text)}
           />
-          <ScrollView>
+          </View>
+         
             <View style={styles.overlayContent}>
+
               <FlatList
                 data={filter}
                 renderItem={({ item, index }) => (
                   <View style={styles.viewItem}>
+                      <AntDesign
+              name="heart"
+              size={30}
+              color={heartColor[index] ? "red" : "gray"}
+              style={styles.heartItem}
+              onPress={() => handlePress(item, index)}
+            />
+
                     <View style={styles.songDeatails}>
                       <Text
                         style={styles.itemName}
                         onPress={() => {
-                          navigation.navigate("Song", { song: item });
+                          setVisible(!visible);
+                          changePage(item)
+
                         }}
                       >
                         {item.name}
@@ -136,7 +151,7 @@ export default function Search() {
                 )}
               />
             </View>
-          </ScrollView>
+         
         </KeyboardAvoidingView>
       </Overlay>
     </View>
@@ -144,11 +159,48 @@ export default function Search() {
 }
 
 const styles = StyleSheet.create({
+
+  searchInput:{
+    borderRadius:10,
+ 
+    backgroundColor:"black",
+     borderColor: 'white',
+    borderWidth: 1, 
+    borderWidth: 1,  
+  },
+  
+  overlatView:{ backgroundColor: "black"},
   overlay: {
     width: 370,
     height: 600,
     backgroundColor: "black",
     color: "red",
+  },
+  buttonContainer: {
+    backgroundColor: "purple",
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5, // Set the shadow for Android
+  },
+
+  searchButton: {
+    backgroundColor: "purple",
+    color:"black",
+   
+  },
+  searchButtonText: {
+    color: "black",
+  },
+  buttonContainerStyle: {
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
   },
 
   textOverlay: {

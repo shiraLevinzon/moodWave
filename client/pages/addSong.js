@@ -3,7 +3,7 @@ import { StyleSheet, View, StatusBar } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import * as MediaLibrary from 'expo-media-library';
 import * as DocumentPicker from 'expo-document-picker';
-import { uploadFiles, DocumentDirectoryPath } from "react-native-fs";
+
 
 
 export default function AddSong() {
@@ -64,7 +64,7 @@ uploadFiles({
     console.log(formData);
 
     try {
-        const response = await fetch('http://192.168.0.135:3000/api/v1/songs', {
+        const response = await fetch('http://192.168.0.128:3000/api/v1/songs', {
             method: 'POST',
             body: formData,
             headers: {
