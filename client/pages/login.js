@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { FormContext } from "../context/data";
-import { TouchableWithoutFeedback, Keyboard } from "react-native";
+import { TouchableWithoutFeedback, Keyboard } from "react-native";  
 
 export default function Login({ navigation }) {
   const { currentUser, setCurrentUser } = useContext(FormContext);
@@ -34,7 +34,6 @@ export default function Login({ navigation }) {
 
   const createDefoultPlaylists = async (playlistName) => {
     if (!(await getPlaylistByName(playlistName))) {
-    if (!(await getPlaylistByName(playlistName))) {
       const newPlaylist = {
         name: playlistName,
       };
@@ -52,13 +51,12 @@ export default function Login({ navigation }) {
       if (!res.ok) {
         const errorData = await res.text();
         console.log(errorData || "server error occurred");
-        console.log(errorData || "server error occurred");
       }
       const data = await res.json();
       console.log(data);
     }
   };
-}
+
 
   const moveToHome = async () => {
     try {
@@ -72,7 +70,6 @@ export default function Login({ navigation }) {
       });
       if (!res.ok) {
         const errorData = await res.text();
-        throw new Error(errorData || "server error occurred");
         throw new Error(errorData || "server error occurred");
       }
       const data = await res.json();
@@ -121,7 +118,7 @@ export default function Login({ navigation }) {
             >
               <Text style={styles.btnLogin}>Register</Text>
             </Button>
-            <Button onPress={() => { navigation.navigate("AddSong") }}>
+            <Button onPress={() => { navigation.navigate("ArtistRegistration") }}>
             <Text style={styles.btnLogin}>Enter As Artist</Text>
           </Button>
           </View>

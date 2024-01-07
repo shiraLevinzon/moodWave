@@ -98,7 +98,7 @@ useEffect(() => {
             <Text style={styles.nameSong}>{song.name}</Text>
             <Text style={styles.artistNameSong}>{song.name}</Text>
            </View>
-          <View style={styles.addToPlaylist}><Feather name="more-horizontal" size={24} color="black" onPress={openOverlay} /></View>
+          <View style={styles.addToPlaylist}><Feather name="more-horizontal" size={24} color="black"  /></View>
       <View style={styles.controlButtons}>
   <TouchableOpacity onPress={seekBackward}>
  

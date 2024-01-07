@@ -1,9 +1,11 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect} from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import { Camera } from "expo-camera";
+import { Camera , isAvailableAsync} from "expo-camera";
 import axios from "axios";
 import * as ImageManipulator from "expo-image-manipulator";
 import { FormContext } from "../context/data";
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+
 
 export default function CameraPage({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -22,7 +24,7 @@ export default function CameraPage({ navigation }) {
   };
 
   const askPermission = async () => {
-    const { status } = await Camera.requestPermissionsAsync();
+    const { status } = await Camera.requestCameraPermissionsAsync();
     setHasPermission(status === "granted");
   };
   const resizeImage = async (imageUri) => {
@@ -118,6 +120,11 @@ export default function CameraPage({ navigation }) {
 
     return maxFeeling;
   };
+  useEffect(() => {
+    askPermission();
+    console.log("bjmnb");
+  }, [])
+  
 
   return (
     <View style={styles.container}>
@@ -129,10 +136,12 @@ export default function CameraPage({ navigation }) {
       >
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={takePicture} style={styles.button}>
-            <Text style={styles.text}>Take Picture</Text>
-          </TouchableOpacity>
+            {/* <Text style={styles.text}>Take Picture</Text> */}
+            <MaterialIcons name="enhance-photo-translate" size={54} color="black" />          
+            </TouchableOpacity>
           <TouchableOpacity onPress={toggleCameraType} style={styles.button}>
-            <Text style={styles.text}>Toggle Camera</Text>
+          <Ionicons name="ios-camera-reverse-sharp" size={24} color="black" />
+            {/* <Text style={styles.text}>Toggle Camera</Text> */}
           </TouchableOpacity>
         </View>
       </Camera>
@@ -156,12 +165,17 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
+    marginBottom:128,
+    marginTop:128,
+    marginLeft:24,
+    marginRight:24,
+    borderRadius:5,
   },
   buttonContainer: {
     flex: 1,
     backgroundColor: "transparent",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
   },
   button: {
     alignSelf: "flex-end",

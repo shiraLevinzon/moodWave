@@ -7,7 +7,7 @@ const sendEmail = require("../utils/nodeMailer");
 
 const artistJoiSchema = {
   login: Joi.object().keys({
-    artistCode: Joi.string(),
+    email: Joi.string(),
     password: Joi.string(),
   }),
   simpleRegister: Joi.object().keys({
@@ -31,8 +31,8 @@ const checkIfUserExists = async (email) => {
   return false;
 };
 
-const findArtist = async (artistCode) => {
-  const artist = await Artist.findOne({ artistCode });
+const findArtist = async (email) => {
+  const artist = await Artist.findOne({ email: email });
   if (artist) return artist;
   return false;
 };
@@ -81,8 +81,8 @@ exports.simpleRegister = async (req, res, next) => {
   try {
     const validate = artistJoiSchema.simpleRegister.validate(body);
     if (validate.error) throw Error(validate.error);
-    if (!(await isAdmin(userId)))
-      throw new Error("You not allowd to add an artist");
+    // if (!(await isAdmin(userId)))
+    //   throw new Error("You not allowd to add an artist");
     if (await checkIfUserExists(body.email)) {
       throw new Error("Already in the system");
     }
@@ -102,15 +102,16 @@ exports.simpleRegister = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   const body = req.body;
   try {
-    sendEmail();
+    //sendEmail();
     const validate = artistJoiSchema.login.validate(body);
     if (validate.error) throw Error(validate.error);
-    const artist = await findArtist(body.artistCode);
+    const artist = await findArtist(body.email);
+    console.log(artist);
     if (!artist || !(await bcrypt.compare(body.password, artist.password))) {
       throw new Error("code or password not valid");
     }
     const token = generateToken(artist);
-    return res.send({ artist, token });
+    return res.status(201).send({ artist, token });
   } catch (error) {
     next(error);
   }
