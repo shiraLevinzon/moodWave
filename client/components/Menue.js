@@ -15,7 +15,6 @@ import { Ionicons } from "@expo/vector-icons";
 import HomeStack from "../routes/homeStack";
 import PlaylistStack from "../routes/playlistStack";
 import CameraStack from "../routes/CameraStack";
-import Rooms from "../pages/romms";
 import profileStack from "../routes/profileStack";
 
 export default function Menue() {
@@ -31,8 +30,7 @@ export default function Menue() {
   const Tab = createBottomTabNavigator();
   console.log("welcome to menue");
   return (
-    <NavigationContainer independent={true}>
-      <Tab.Navigator>
+    
     <NavigationContainer independent={true} theme={MyTheme}>
       <Tab.Navigator >
         <Tab.Screen
