@@ -9,7 +9,7 @@ import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 export default function CameraPage({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
-  const { setSonglist } = useContext(FormContext);
+  const { setSonglist, setPlaylistName } = useContext(FormContext);
 
   const cameraRef = useRef(null);
   const [type, setType] = useState(Camera.Constants.Type.front);
@@ -83,7 +83,9 @@ export default function CameraPage({ navigation }) {
         response.data.faces[0].attributes.emotion
       );
       setfeel({ feeling: maxFeeling });
+
       fetchSongsByEmo(maxFeeling);
+      setPlaylistName(maxFeeling);
       console.log(maxFeeling);
       // Handle the result as needed
     } catch (error) {

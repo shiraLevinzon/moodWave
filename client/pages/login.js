@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ImageBackground, StyleSheet, View } from "react-native";
+import { ImageBackground, StyleSheet, View,SafeAreaView } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { FormContext } from "../context/data";
 import { TouchableWithoutFeedback, Keyboard } from "react-native";
@@ -138,15 +138,20 @@ export default function Login({ navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.viewImgAndMood}>
-          <Text style={styles.loginCoteret}>MOOD WAVE</Text>
-          <ImageBackground
+        <ImageBackground
             source={{
               uri: "https://images.pexels.com/photos/1202130/pexels-photo-1202130.jpeg?auto=compress&cs=tinysrgb&w=600",
             }}
             imageStyle={styles.imgSong}
           />
+          {/* <View>
+          <Text style={styles.loginCoteret}>MOOD </Text>
+          <Text style={styles.loginCoteret}> WAVE</Text>
+          </View> */}
+          <Text style={styles.loginCoteret}>MOOD WAVE</Text>
+         
         </View>
         <View style={styles.boxDeatails}>
           <Text style={styles.textLogin}>email:</Text>
@@ -186,7 +191,7 @@ export default function Login({ navigation }) {
             </Button>
           </View>
         </View>
-      </View>
+      </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 }
@@ -209,7 +214,7 @@ const styles = StyleSheet.create({
   },
   loginCoteret: {
     fontSize: 20,
-    paddingTop: 50,
+    // paddingTop: 50,
     display: "flex",
     alignItems: "center",
     textAlign: "center",
@@ -241,4 +246,4 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   viewLogin: { paddingTop: 50 },
-})
+});

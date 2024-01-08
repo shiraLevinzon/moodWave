@@ -98,30 +98,38 @@ export const UserRegister = ({ navigation }) => {
       <TextInput
         style={styles.input}
         placeholder="Username"
+        placeholderTextColor="white"
         onChangeText={(text) => setUserData({ ...userData, userName: text })}
       />
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor="white"
         onChangeText={(text) => setUserData({ ...userData, email: text })}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
         secureTextEntry
+        placeholderTextColor="white"
         onChangeText={(text) => setUserData({ ...userData, password: text })}
       />
       <TextInput
         style={styles.input}
         placeholder="Country"
+        placeholderTextColor="white"
         onChangeText={(text) => setUserData({ ...userData, country: text })}
       />
       <TextInput
         style={styles.input}
         placeholder="Birth Date"
+        placeholderTextColor="white"
         onChangeText={(text) => setUserData({ ...userData, birthDate: text })}
       />
-      <Button title="Register" onPress={handleRegister} />
+     
+      <View style={styles.buttonContainer}>
+        <Button title="Register"  buttonStyle={styles.searchButton} containerStyle={styles.buttonContainerStyle}   titleStyle={styles.searchButtonText}  onPress={handleRegister} />
+      </View>
     </View>
   );
 };
@@ -131,16 +139,45 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     paddingHorizontal: 16,
+    backgroundColor:"black"
+  },
+  buttonContainer: {
+    backgroundColor: "purple",
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5, // Set the shadow for Android
+  },
+
+  searchButton: {
+    backgroundColor: "purple",
+    color:"black",
+   
+  },
+  searchButtonText: {
+    color: "black",
+  },
+  buttonContainerStyle: {
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 16,
     textAlign: "center",
+    color:"purple"
   },
   input: {
     height: 40,
     borderColor: "gray",
+    color:"white",
     borderWidth: 1,
     marginBottom: 12,
     paddingHorizontal: 10,

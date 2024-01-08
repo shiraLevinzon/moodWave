@@ -13,7 +13,7 @@ const HomeStack = () => {
       <Stack.Screen
         name="Home"
         component={Home}
-        options={{ title: "My Playlist" }}
+        options={{ title: "Home" }}
       />
       <Stack.Screen
         name="Playlist"

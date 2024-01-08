@@ -7,6 +7,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
 import { FormContext } from "../context/data";
+import { useFocusEffect } from "@react-navigation/native";
 
 export const Song = ({ route }) => {
   const song = route.params?.song || "Default Value";
@@ -170,6 +171,16 @@ export const Song = ({ route }) => {
     updateStatus();
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      // Cleanup function to stop the song when the screen gains focus
+      return () => {
+        if (isPlaying && sound) {
+          sound.stopAsync();
+        }
+      };
+    }, [isPlaying, sound])
+  );
  
 
   return (
