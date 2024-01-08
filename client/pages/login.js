@@ -150,7 +150,6 @@ export default function Login({ navigation }) {
             style={styles.input.stringValue}
             keyboardType="visible-password"
             value={loginData.password}
-            value={loginData.password}
             onChangeText={(text) =>
               setLoginData({ ...loginData, password: text })
             }
@@ -165,6 +164,14 @@ export default function Login({ navigation }) {
               }}
             >
               <Text style={styles.btnLogin}>Register</Text>
+            </Button>
+
+            <Button
+              onPress={() => {
+                navigation.navigate("ArtistRegistration");
+              }}
+            >
+              <Text style={styles.btnLogin}>Enter As Artist</Text>
             </Button>
           </View>
         </View>
