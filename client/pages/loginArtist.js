@@ -11,7 +11,7 @@ const ArtistLogin = ({navigation}) => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://192.168.0.128:3000/api/v1/artists/login', {
+      const response = await fetch('http://192.168.0.135:3000/api/v1/artists/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,6 +29,7 @@ const ArtistLogin = ({navigation}) => {
       } else {
         // Login failed, handle accordingly
         console.error('Failed to login artist:', response.statusText);
+        alert("Failed to login artist");
       }
     } catch (error) {
       console.error('Error during artist login:', error);

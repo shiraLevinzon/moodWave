@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     // paddingTop:20,
-    color: "black",
+    color: "white",
    alignItems:"center",
    justifyContent:"center",
    flexDirection: "row",
