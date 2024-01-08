@@ -1,4 +1,5 @@
-import { DarkTheme, NavigationContainer } from "@react-navigation/native";
+import React from "react";
+import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon, Provider as PaperProvider } from "react-native-paper";
 
@@ -7,27 +8,37 @@ import CameraPage from "../pages/camera";
 import Rooms from "../pages/romms";
 import Profile from "../pages/profile";
 import { Entypo } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import { View } from "react-native";
-
+import HomeStack from "../routes/homeStack";
 import PlaylistStack from "../routes/playlistStack";
 import CameraStack from "../routes/CameraStack";
-import HomeStack from "../routes/homeStack";
+import Rooms from "../pages/romms";
 import profileStack from "../routes/profileStack";
 
 export default function Menue() {
+  const MyTheme = {
+    ...DarkTheme, // or DefaultTheme
+    dark: true,
+    colors: {
+      ...DarkTheme.colors, // or DefaultTheme.colors
+      background: "black", // Adjust as needed
+    },
+  };
+  
   const Tab = createBottomTabNavigator();
   console.log("welcome to menue");
   return (
     <NavigationContainer independent={true}>
       <Tab.Navigator>
+    <NavigationContainer independent={true} theme={MyTheme}>
+      <Tab.Navigator >
         <Tab.Screen
           name="Home"
           component={HomeStack}
-          options={{
+          options={{headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <Entypo name="home" size={size} color={"purple"} />
             ),
@@ -38,7 +49,7 @@ export default function Menue() {
         <Tab.Screen
           name="Playlist"
           component={PlaylistStack}
-          options={{
+          options={{ headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="playlist-music"
@@ -52,7 +63,7 @@ export default function Menue() {
         <Tab.Screen
           name="Camera"
           component={CameraStack}
-          options={{
+          options={{ headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <AntDesign name="camera" size={24} color="purple" />
             ),
@@ -62,7 +73,7 @@ export default function Menue() {
         <Tab.Screen
           name="Rooms"
           component={Rooms}
-          options={{
+          options={{ headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="user-friends" size={24} color="purple" />
             ),
@@ -72,7 +83,7 @@ export default function Menue() {
         <Tab.Screen
           name="Profile"
           component={profileStack}
-          options={{
+          options={{ headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="person-circle" size={24} color="purple" />
             ),

@@ -14,7 +14,7 @@ export const UserRegister = ({ navigation }) => {
 
   const getToken = async (dataToLogin) => {
     try {
-      const res = await fetch(`http://192.168.0.179:3000/api/v1/users/login`, {
+      const res = await fetch(`http://192.168.0.135:3000/api/v1/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,7 +38,7 @@ export const UserRegister = ({ navigation }) => {
     };
 
     const res = await fetch(
-      `http://192.168.0.179:3000/api/v1/playlists/createPlaylist`,
+      `http://192.168.0.135:3000/api/v1/playlists/createPlaylist`,
       {
         method: "POST",
         headers: {
@@ -69,7 +69,7 @@ export const UserRegister = ({ navigation }) => {
         }
       );
       if (!response.ok) {
-        const errorData = await res.text();
+        const errorData = await response.text();
         throw new Error(errorData || "server error occurred");
       }
       // const data = await response.json();

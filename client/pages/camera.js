@@ -1,9 +1,10 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import { Camera } from "expo-camera";
+import { Camera, isAvailableAsync } from "expo-camera";
 import axios from "axios";
 import * as ImageManipulator from "expo-image-manipulator";
 import { FormContext } from "../context/data";
+import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 
 export default function CameraPage({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -12,6 +13,7 @@ export default function CameraPage({ navigation }) {
 
   const cameraRef = useRef(null);
   const [type, setType] = useState(Camera.Constants.Type.front);
+  const [feel, setfeel] = useState(null);
 
   const toggleCameraType = () => {
     setType(
@@ -22,7 +24,7 @@ export default function CameraPage({ navigation }) {
   };
 
   const askPermission = async () => {
-    const { status } = await Camera.requestPermissionsAsync();
+    const { status } = await Camera.requestCameraPermissionsAsync();
     setHasPermission(status === "granted");
   };
   const resizeImage = async (imageUri) => {
@@ -80,6 +82,7 @@ export default function CameraPage({ navigation }) {
       const maxFeeling = findMaxFeeling(
         response.data.faces[0].attributes.emotion
       );
+      setfeel({ feeling: maxFeeling });
       fetchSongsByEmo(maxFeeling);
       console.log(maxFeeling);
       // Handle the result as needed
@@ -93,7 +96,7 @@ export default function CameraPage({ navigation }) {
   const fetchSongsByEmo = async (emo) => {
     try {
       const response = await fetch(
-        `http://192.168.0.179:3000/api/v1/songs/songByEmo/${emo}`
+        `http://192.168.0.135:3000/api/v1/songs/songByEmo/${emo}`
       );
       const data = await response.json();
 
@@ -118,6 +121,10 @@ export default function CameraPage({ navigation }) {
 
     return maxFeeling;
   };
+  useEffect(() => {
+    askPermission();
+    console.log("bjmnb");
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -129,14 +136,24 @@ export default function CameraPage({ navigation }) {
       >
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={takePicture} style={styles.button}>
-            <Text style={styles.text}>Take Picture</Text>
+            {/* <Text style={styles.text}>Take Picture</Text> */}
+            <MaterialIcons
+              name="enhance-photo-translate"
+              size={54}
+              color="black"
+            />
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleCameraType} style={styles.button}>
-            <Text style={styles.text}>Toggle Camera</Text>
+            <Ionicons name="ios-camera-reverse-sharp" size={24} color="black" />
+            {/* <Text style={styles.text}>Toggle Camera</Text> */}
           </TouchableOpacity>
         </View>
       </Camera>
-
+      {feel && (
+        <View>
+          <Text style={styles.playlistCoteret}>{feel.feeling}</Text>
+        </View>
+      )}
       {capturedImage && (
         <View style={styles.previewContainer}>
           <Image
@@ -156,12 +173,17 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
+    marginBottom: 128,
+    marginTop: 128,
+    marginLeft: 24,
+    marginRight: 24,
+    borderRadius: 5,
   },
   buttonContainer: {
     flex: 1,
     backgroundColor: "transparent",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
   },
   button: {
     alignSelf: "flex-end",
@@ -188,5 +210,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: "white",
+  },
+  playlistCoteret: {
+    fontSize: 24,
+    fontWeight: "bold",
+    // paddingTop:20,
+    color: "black",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    textAlign: "center",
+    borderColor: "white",
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
   },
 });

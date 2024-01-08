@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { ImageBackground, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { FormContext } from "../context/data";
 import { TouchableWithoutFeedback, Keyboard } from "react-native";
+import { Image } from "react-native-elements";
 
 export default function Login({ navigation }) {
   const { currentUser, setCurrentUser, defaultPlaylists, setDefaultPlaylists } =
@@ -83,7 +84,7 @@ export default function Login({ navigation }) {
     // console.log("getdefault");
     try {
       const res = await fetch(
-        `http://192.168.0.179:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
+        `http://192.168.0.135:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
         {
           method: "GET",
           headers: {
@@ -106,7 +107,7 @@ export default function Login({ navigation }) {
 
   const moveToHome = async () => {
     try {
-      const res = await fetch(`http://192.168.0.179:3000/api/v1/users/login`, {
+      const res = await fetch(`http://192.168.0.135:3000/api/v1/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -115,7 +116,6 @@ export default function Login({ navigation }) {
       });
       if (!res.ok) {
         const errorData = await res.text();
-        throw new Error(errorData || "server error occurred");
         throw new Error(errorData || "server error occurred");
       }
       const data = await res.json();
@@ -139,7 +139,15 @@ export default function Login({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <Text style={styles.loginCoteret}>MOOD WAVE</Text>
+        <View style={styles.viewImgAndMood}>
+          <Text style={styles.loginCoteret}>MOOD WAVE</Text>
+          <ImageBackground
+            source={{
+              uri: "https://images.pexels.com/photos/1202130/pexels-photo-1202130.jpeg?auto=compress&cs=tinysrgb&w=600",
+            }}
+            imageStyle={styles.imgSong}
+          />
+        </View>
         <View style={styles.boxDeatails}>
           <Text style={styles.textLogin}>email:</Text>
           <TextInput
@@ -168,6 +176,14 @@ export default function Login({ navigation }) {
             >
               <Text style={styles.btnLogin}>Register</Text>
             </Button>
+
+            <Button
+              onPress={() => {
+                navigation.navigate("ArtistRegistration");
+              }}
+            >
+              <Text style={styles.btnLogin}>Enter As Artist</Text>
+            </Button>
           </View>
         </View>
       </View>
@@ -181,6 +197,15 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     paddingTop: 40,
     paddingHorizontal: 20,
+  },
+  viewImgAndMood: {
+    flexDirection: "row",
+  },
+  imgSong: {
+    width: 100,
+    height: 132,
+    marginTop: 60,
+    marginLeft: 20,
   },
   loginCoteret: {
     fontSize: 20,

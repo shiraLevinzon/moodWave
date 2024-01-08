@@ -79,7 +79,7 @@ export default function AddNewPlaylist({ navigation }) {
       <Text style={styles.coteretCreate}>CREATE YOUR PLAYLIST</Text>
 
       <Button color="purple" title="Create" onPress={giveName} />
-      
+
       <FlatList
         data={allSongs}
         renderItem={(item) => (
@@ -91,7 +91,6 @@ export default function AddNewPlaylist({ navigation }) {
               color="black"
               onPress={() => addToPlaylist(item)}
             />
-            
 
             <View style={styles.songDeatails}>
               <Text style={styles.itemName}>{item.item.name}</Text>
@@ -104,10 +103,9 @@ export default function AddNewPlaylist({ navigation }) {
               <Image style={{ width: 70, height: 70 }} src={item.item.image} />
             </View>
           </View>
-        
         )}
       />
-   
+
       <Modal
         animationType="fade"
         transparent={true}
@@ -151,7 +149,31 @@ const styles = StyleSheet.create({
   allPage: {
     flex: 1,
     backgroundColor: "black",
-   
+  },
+  buttonContainer: {
+    backgroundColor: "purple",
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5, // Set the shadow for Android
+  },
+
+  searchButton: {
+    backgroundColor: "purple",
+    color: "black",
+  },
+  searchButtonText: {
+    color: "black",
+  },
+  buttonContainerStyle: {
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
   },
 
   coteretCreate: {
@@ -170,7 +192,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    numcolums:2
+    numcolums: 2,
   },
 
   itemName: {

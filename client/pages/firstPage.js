@@ -4,7 +4,7 @@ import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import LoginStack from "../routes/loginStack";
 
-import { StyleSheet, View, useColorScheme } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-elements";
 import Menue from "../components/Menue";
 
@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 export default function FirstPage() {
   const colorScheme = useColorScheme();
   return (
-    <NavigationContainer independent={true} theme={DarkTheme}>
+    <NavigationContainer independent={true}>
       <Tab.Navigator
         screenOptions={{ headerShown: false, tabBarStyle: { display: "none" } }}
       >
