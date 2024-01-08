@@ -1,43 +1,43 @@
-import React, { useState ,useContext} from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import React, { useState, useContext } from "react";
+import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { FormContext } from "../context/data";
 
-const ArtistLogin = ({navigation}) => {
+const ArtistLogin = ({ navigation }) => {
   const { setCurrentUser } = useContext(FormContext);
   const [loginData, setLoginData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://192.168.0.135:3000/api/v1/artists/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginData),
-      });
+      const response = await fetch(
+        "http://192.168.0.135:3000/api/v1/artists/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(loginData),
+        }
+      );
 
-      if (response.status===201) {
+      if (response.status === 201) {
         // Login successful, handle accordingly
         const data = await response.json();
         setCurrentUser(data);
         console.log(data);
-        console.log('Artist logged in successfully');
+        console.log("Artist logged in successfully");
         navigation.navigate("AddSong");
       } else {
         // Login failed, handle accordingly
-        console.error('Failed to login artist:', response.statusText);
+        console.error("Failed to login artist:", response.statusText);
         alert("Failed to login artist");
       }
     } catch (error) {
-      console.error('Error during artist login:', error);
+      console.error("Error during artist login:", error);
     }
   };
-
- 
-  
 
   return (
     <View style={styles.container}>
@@ -60,10 +60,14 @@ const ArtistLogin = ({navigation}) => {
 
       {/* Other login fields, if any */}
       <View style={styles.buttonContainer}>
-        <Button title="Login"  buttonStyle={styles.searchButton} containerStyle={styles.buttonContainerStyle}   titleStyle={styles.searchButtonText}  onPress={handleLogin} />
+        <Button
+          title="Login"
+          buttonStyle={styles.searchButton}
+          containerStyle={styles.buttonContainerStyle}
+          titleStyle={styles.searchButtonText}
+          onPress={handleLogin}
+        />
       </View>
-
-     
     </View>
   );
 };
@@ -71,9 +75,9 @@ const ArtistLogin = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: 20,
-    backgroundColor:"black"
+    backgroundColor: "black",
   },
   buttonContainer: {
     backgroundColor: "purple",
@@ -91,8 +95,7 @@ const styles = StyleSheet.create({
 
   searchButton: {
     backgroundColor: "purple",
-    color:"black",
-   
+    color: "black",
   },
   searchButtonText: {
     color: "white",
@@ -103,13 +106,13 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
-    color:"purple"
+    color: "purple",
   },
   input: {
     height: 40,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderWidth: 1,
     marginBottom: 15,
     paddingHorizontal: 10,

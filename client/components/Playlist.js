@@ -48,7 +48,7 @@ export default function Playlist({ navigation }) {
   const addSongToFavorites = async (song) => {
     console.log("------------------add-----------------------");
     const res = await fetch(
-      `http://192.168.0.135:3000/api/v1/playlists/${defaultPlaylists["My Favorites"]._id}/addSong`,
+      `http://192.168.0.179:3000/api/v1/playlists/${defaultPlaylists["My Favorites"]._id}/addSong`,
       {
         method: "PATCH",
         headers: {
@@ -79,7 +79,7 @@ export default function Playlist({ navigation }) {
   const deleteSongFromFavorites = async (song) => {
     console.log("------------------delete-----------------------");
     const res = await fetch(
-      `http://192.168.0.135:3000/api/v1/playlists/${defaultPlaylists["My Favorites"]._id}/deleteSong`,
+      `http://192.168.0.179:3000/api/v1/playlists/${defaultPlaylists["My Favorites"]._id}/deleteSong`,
       {
         method: "PATCH",
         headers: {
@@ -126,7 +126,7 @@ export default function Playlist({ navigation }) {
   const getPlaylistByName = async (playlistName) => {
     try {
       const res = await fetch(
-        `http://192.168.0.135:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
+        `http://192.168.0.179:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
         {
           method: "GET",
           headers: {

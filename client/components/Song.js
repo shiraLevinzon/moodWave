@@ -48,7 +48,7 @@ export const Song = ({ route }) => {
     console.log("jjj");
     const songToAdd = { song: song._id };
     const res = await fetch(
-      `http://192.168.0.135:3000/api/v1/playlists/${defaultPlaylists["Heard Recently"]._id}/addSong`,
+      `http://192.168.0.179:3000/api/v1/playlists/${defaultPlaylists["Heard Recently"]._id}/addSong`,
       {
         method: "PATCH",
         headers: {
@@ -68,7 +68,7 @@ export const Song = ({ route }) => {
   const deleteFromHeardRecently = async (songToDel) => {
     const songToDelete = { song: songToDel };
     const res = await fetch(
-      `http://192.168.0.135:3000/api/v1/playlists/${defaultPlaylists["Heard Recently"]._id}/deleteSong`,
+      `http://192.168.0.179:3000/api/v1/playlists/${defaultPlaylists["Heard Recently"]._id}/deleteSong`,
       {
         method: "PATCH",
         headers: {
