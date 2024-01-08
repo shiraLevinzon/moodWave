@@ -81,7 +81,7 @@ export default function Login({ navigation }) {
     console.log("getdefault");
     try {
       const res = await fetch(
-        `http://192.168.0.128:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
+        `http://192.168.0.135:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
         {
           method: "GET",
           headers: {
@@ -104,7 +104,7 @@ export default function Login({ navigation }) {
 
   const moveToHome = async () => {
     try {
-      const res = await fetch(`http://192.168.0.179:3000/api/v1/users/login`, {
+      const res = await fetch(`http://192.168.0.135:3000/api/v1/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

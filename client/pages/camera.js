@@ -14,6 +14,7 @@ export default function CameraPage({ navigation }) {
 
   const cameraRef = useRef(null);
   const [type, setType] = useState(Camera.Constants.Type.front);
+  const [feel, setfeel] = useState(null);
 
   const toggleCameraType = () => {
     setType(
@@ -82,6 +83,7 @@ export default function CameraPage({ navigation }) {
       const maxFeeling = findMaxFeeling(
         response.data.faces[0].attributes.emotion
       );
+      setfeel({feeling:maxFeeling})
       fetchSongsByEmo(maxFeeling);
       console.log(maxFeeling);
       // Handle the result as needed
@@ -95,7 +97,7 @@ export default function CameraPage({ navigation }) {
   const fetchSongsByEmo = async (emo) => {
     try {
       const response = await fetch(
-        `http://192.168.0.128:3000/api/v1/songs/songByEmo/${emo}`
+        `http://192.168.0.135:3000/api/v1/songs/songByEmo/${emo}`
       );
       const data = await response.json();
 
@@ -145,7 +147,11 @@ export default function CameraPage({ navigation }) {
           </TouchableOpacity>
         </View>
       </Camera>
-
+      {feel && (
+        <View>
+          <Text style={styles.playlistCoteret}>{feel.feeling}</Text>
+        </View>
+      )}
       {capturedImage && (
         <View style={styles.previewContainer}>
           <Image
@@ -154,6 +160,7 @@ export default function CameraPage({ navigation }) {
           />
         </View>
       )}
+      
     </View>
   );
 }
@@ -202,5 +209,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: "white",
+  },
+  playlistCoteret: {
+    fontSize: 24,
+    fontWeight: "bold",
+    // paddingTop:20,
+    color: "black",
+   alignItems:"center",
+   justifyContent:"center",
+   flexDirection: "row",
+   textAlign:"center",
+   borderColor: 'white',
+    borderBottomWidth: 1, 
+    borderTopWidth: 1,  
+   
   },
 });

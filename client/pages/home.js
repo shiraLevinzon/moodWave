@@ -19,7 +19,7 @@ import { FormContext } from "../context/data";
 export default function Home({ navigation }) {
 
  
-  const { setSonglist, searchQuery, setSearchQuery  } = useContext(FormContext);
+  const { setSonglist, setPlaylistName, searchQuery, setSearchQuery  } = useContext(FormContext);
 
   const [weather, setWeather] = useState(null);
   const [holiday, setHoliday] = useState(null);
