@@ -117,7 +117,7 @@ export default function MyPlaylist({ navigation }) {
               <View style={styles.viewItem}>
                 <ImageBackground
                   source={{
-                    uri: "https://images.pexels.com/photos/957040/night-photograph-starry-sky-night-sky-star-957040.jpeg?auto=compress&cs=tinysrgb&w=600",
+                    uri: "https://images.pexels.com/photos/534283/pexels-photo-534283.jpeg?auto=compress&cs=tinysrgb&w=600",
                   }}
                   style={styles.backgroundImage}
                   imageStyle={styles.imageStyle}

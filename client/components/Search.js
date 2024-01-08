@@ -18,7 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 // import { debounce } from 'lodash';
 import { KeyboardAvoidingView } from "react-native";
 
-export default function Search({ changePage }) {
+export default function Search({changePage}) {
   //  const [searchQuery, setSearchQuery] = useState('');
   const { searchQuery, setSearchQuery, songlist, setSonglist } =
     useContext(FormContext);
@@ -26,6 +26,7 @@ export default function Search({ changePage }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [heartColor, setHeartColor] = useState([]);
 
+  
   const [visible, setVisible] = useState(false);
   const [filter, setFilter] = useState([]);
 
@@ -47,6 +48,7 @@ export default function Search({ changePage }) {
     setVisible(!visible);
   };
 
+
   const handleSearch = (text) => {
     // Update the searchQuery state directly
     setSearchQuery(text);
@@ -55,7 +57,7 @@ export default function Search({ changePage }) {
     const filteredList = songlist.filter(
       (song) =>
         song.name.toLowerCase().includes(text.toLowerCase()) ||
-        `${song.artistCode?.firstName} ${song.artistCode?.lastName}`
+       `${song.artistCode?.firstName} ${song.artistCode?.lastName}`
           .toLowerCase()
           .includes(text.toLowerCase())
     );
@@ -84,54 +86,43 @@ export default function Search({ changePage }) {
   return (
     <View>
       <View style={styles.buttonContainer}>
-        <Button
-          title="Search"
-          buttonStyle={styles.searchButton}
-          containerStyle={styles.buttonContainerStyle}
-          titleStyle={styles.searchButtonText}
-          onPress={openOverlay}
-        />
+        <Button title="Search"  buttonStyle={styles.searchButton} containerStyle={styles.buttonContainerStyle}   titleStyle={styles.searchButtonText}  onPress={openOverlay} />
       </View>
 
-      <Overlay
-        isVisible={visible}
-        onBackdropPress={openOverlay}
-        style={styles.overlatView}
-      >
+      <Overlay isVisible={visible} onBackdropPress={openOverlay} style={styles.overlatView}>
         <Button
           title="back"
-          buttonStyle={styles.searchButton}
-          containerStyle={styles.buttonContainerStyle}
-          titleStyle={styles.searchButtonText}
+          buttonStyle={styles.searchButton} containerStyle={styles.buttonContainerStyle}   titleStyle={styles.searchButtonText}
           onPress={closeOverlay}
         />
 
         <KeyboardAvoidingView behavior="padding" style={styles.overlay}>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.searchInput}
-              placeholder="click song or artist..."
-              value={searchQuery}
-              // onChangeText={(text) => {
-              //   setSearchQuery(text);
-              //   handleSearch();
-              // }}
-              onChangeText={(text) => setSearchQuery(text)}
-            />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="click song or artist..."
+            value={searchQuery}
+            // onChangeText={(text) => {
+            //   setSearchQuery(text);
+            //   handleSearch();
+            // }}
+            onChangeText={(text) => setSearchQuery(text)}
+          />
           </View>
+         
+            <View style={styles.overlayContent}>
 
-          <View style={styles.overlayContent}>
-            <FlatList
-              data={filter}
-              renderItem={({ item, index }) => (
-                <View style={styles.viewItem}>
-                  <AntDesign
-                    name="heart"
-                    size={30}
-                    color={heartColor[index] ? "red" : "gray"}
-                    style={styles.heartItem}
-                    onPress={() => handlePress(item, index)}
-                  />
+              <FlatList
+                data={filter}
+                renderItem={({ item, index }) => (
+                  <View style={styles.viewItem}>
+                      <AntDesign
+              name="heart"
+              size={30}
+              color={heartColor[index] ? "red" : "gray"}
+              style={styles.heartItem}
+              onPress={() => handlePress(item, index)}
+            />
 
                   <View style={styles.songDeatails}>
                     <Text
@@ -161,16 +152,17 @@ export default function Search({ changePage }) {
 }
 
 const styles = StyleSheet.create({
-  searchInput: {
-    borderRadius: 10,
 
-    backgroundColor: "black",
-    borderColor: "white",
-    borderWidth: 1,
-    borderWidth: 1,
+  searchInput:{
+    borderRadius:10,
+ 
+    backgroundColor:"black",
+     borderColor: 'white',
+    borderWidth: 1, 
+    borderWidth: 1,  
   },
-
-  overlatView: { backgroundColor: "black" },
+  
+  overlatView:{ backgroundColor: "black"},
   overlay: {
     width: 370,
     height: 600,
@@ -193,7 +185,8 @@ const styles = StyleSheet.create({
 
   searchButton: {
     backgroundColor: "purple",
-    color: "black",
+    color:"black",
+   
   },
   searchButtonText: {
     color: "black",
