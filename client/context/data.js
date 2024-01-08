@@ -27,7 +27,8 @@ const Provider = ({ children }) => {
     setCurrentUser,
     playlistName,
     setPlaylistName,
-    defaultPlaylists, setDefaultPlaylists
+    defaultPlaylists,
+    setDefaultPlaylists,
   };
   return <FormContext.Provider value={shared}>{children}</FormContext.Provider>;
 };

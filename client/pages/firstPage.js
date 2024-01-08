@@ -1,49 +1,37 @@
-import React, { useEffect, useState } from 'react'
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useEffect, useState } from "react";
+import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import LoginStack from "../routes/loginStack";
 
-
-
-
-import { StyleSheet, View } from 'react-native';
-import { Text } from 'react-native-elements';
-import Menue from '../components/Menue';
-
+import { StyleSheet, View } from "react-native";
+import { Text } from "react-native-elements";
+import Menue from "../components/Menue";
 
 const Tab = createBottomTabNavigator();
 
 export default function FirstPage() {
-
-  
-  console.log("Rendering FirstPage");
+  const colorScheme = useColorScheme();
   return (
     <NavigationContainer independent={true}>
-      
-      <Tab.Navigator screenOptions={{ headerShown: false,  tabBarStyle: {  display: "none",}, }} >
+      <Tab.Navigator
+        screenOptions={{ headerShown: false, tabBarStyle: { display: "none" } }}
+      >
         <Tab.Screen
           name="LoginPage"
           component={LoginStack}
           options={{ headerShown: false }}
         />
 
-
-      <Tab.Screen
+        <Tab.Screen
           name="menue"
           component={Menue}
-          options={{ headerShown:false }}
+          options={{ headerShown: false }}
         />
       </Tab.Navigator>
     </NavigationContainer>
   );
-
 }
-
-
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -54,8 +42,6 @@ const styles = StyleSheet.create({
   },
   splashText: {
     fontSize: 24,
-    color: "white", // Set your desired text color
+    color: "white", // Set your desired text color
   },
 });
-
-

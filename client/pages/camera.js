@@ -1,11 +1,10 @@
-import React, { useState, useRef, useContext, useEffect} from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import { Camera , isAvailableAsync} from "expo-camera";
+import { Camera, isAvailableAsync } from "expo-camera";
 import axios from "axios";
 import * as ImageManipulator from "expo-image-manipulator";
 import { FormContext } from "../context/data";
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-
+import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 
 export default function CameraPage({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -83,7 +82,7 @@ export default function CameraPage({ navigation }) {
       const maxFeeling = findMaxFeeling(
         response.data.faces[0].attributes.emotion
       );
-      setfeel({feeling:maxFeeling})
+      setfeel({ feeling: maxFeeling });
       fetchSongsByEmo(maxFeeling);
       console.log(maxFeeling);
       // Handle the result as needed
@@ -125,8 +124,7 @@ export default function CameraPage({ navigation }) {
   useEffect(() => {
     askPermission();
     console.log("bjmnb");
-  }, [])
-  
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -139,10 +137,14 @@ export default function CameraPage({ navigation }) {
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={takePicture} style={styles.button}>
             {/* <Text style={styles.text}>Take Picture</Text> */}
-            <MaterialIcons name="enhance-photo-translate" size={54} color="black" />          
-            </TouchableOpacity>
+            <MaterialIcons
+              name="enhance-photo-translate"
+              size={54}
+              color="black"
+            />
+          </TouchableOpacity>
           <TouchableOpacity onPress={toggleCameraType} style={styles.button}>
-          <Ionicons name="ios-camera-reverse-sharp" size={24} color="black" />
+            <Ionicons name="ios-camera-reverse-sharp" size={24} color="black" />
             {/* <Text style={styles.text}>Toggle Camera</Text> */}
           </TouchableOpacity>
         </View>
@@ -160,7 +162,6 @@ export default function CameraPage({ navigation }) {
           />
         </View>
       )}
-      
     </View>
   );
 }
@@ -172,11 +173,11 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
-    marginBottom:128,
-    marginTop:128,
-    marginLeft:24,
-    marginRight:24,
-    borderRadius:5,
+    marginBottom: 128,
+    marginTop: 128,
+    marginLeft: 24,
+    marginRight: 24,
+    borderRadius: 5,
   },
   buttonContainer: {
     flex: 1,
