@@ -30,7 +30,7 @@ export default function AddNewPlaylist({ navigation }) {
       console.log(
         "-------------------------------------------------------------"
       );
-      const res = await fetch(`http://192.168.0.135:3000/api/v1/songs`);
+      const res = await fetch(`http://192.168.0.179:3000/api/v1/songs`);
       const data = await res.json();
       console.log(data);
       setAllSongs(data);
@@ -56,7 +56,7 @@ export default function AddNewPlaylist({ navigation }) {
       name: playlistName.name,
     };
     const res = await fetch(
-      `http://192.168.0.135:3000/api/v1/playlists/createPlaylist`,
+      `http://192.168.0.179:3000/api/v1/playlists/createPlaylist`,
       {
         method: "POST",
         headers: {
@@ -76,12 +76,10 @@ export default function AddNewPlaylist({ navigation }) {
 
   return (
     <View style={styles.allPage}>
-     
-     <View style={styles.buttonContainer}>
-        <Button title="Create"  onPress={giveName}  buttonStyle={styles.searchButton} containerStyle={styles.buttonContainerStyle}   titleStyle={styles.searchButtonText}/>
-      </View>
-     
-      
+      <Text style={styles.coteretCreate}>CREATE YOUR PLAYLIST</Text>
+
+      <Button color="purple" title="Create" onPress={giveName} />
+
       <FlatList
         data={allSongs}
         renderItem={(item) => (
@@ -93,7 +91,6 @@ export default function AddNewPlaylist({ navigation }) {
               color="black"
               onPress={() => addToPlaylist(item)}
             />
-            
 
             <View style={styles.songDeatails}>
               <Text style={styles.itemName}>{item.item.name}</Text>
@@ -106,10 +103,9 @@ export default function AddNewPlaylist({ navigation }) {
               <Image style={{ width: 70, height: 70 }} src={item.item.image} />
             </View>
           </View>
-        
         )}
       />
-   
+
       <Modal
         animationType="fade"
         transparent={true}
@@ -153,7 +149,6 @@ const styles = StyleSheet.create({
   allPage: {
     flex: 1,
     backgroundColor: "black",
-   
   },
   buttonContainer: {
     backgroundColor: "purple",
@@ -171,8 +166,7 @@ const styles = StyleSheet.create({
 
   searchButton: {
     backgroundColor: "purple",
-    color:"black",
-   
+    color: "black",
   },
   searchButtonText: {
     color: "black",
@@ -198,7 +192,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    numcolums:2
+    numcolums: 2,
   },
 
   itemName: {

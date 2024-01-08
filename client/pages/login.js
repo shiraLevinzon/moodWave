@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ImageBackground, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { FormContext } from "../context/data";
-import { TouchableWithoutFeedback, Keyboard } from "react-native";  
+import { TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Image } from "react-native-elements";
 
 export default function Login({ navigation }) {
@@ -66,8 +66,10 @@ export default function Login({ navigation }) {
 
   useEffect(() => {
     const updateDefaultsPlaylists = async () => {
-      console.log("current is change");
-      console.log(currentUser);
+      // console.log("current is change");
+      console.log(!currentUser.token);
+      if (!currentUser.token) return;
+
       const heardRecently = await getDefaultPlaylistsId("Heard Recently");
       const myFavorites = await getDefaultPlaylistsId("My Favorites");
       setDefaultPlaylists({
@@ -79,7 +81,7 @@ export default function Login({ navigation }) {
   }, [currentUser]);
 
   const getDefaultPlaylistsId = async (playlistName) => {
-    console.log("getdefault");
+    // console.log("getdefault");
     try {
       const res = await fetch(
         `http://192.168.0.135:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
@@ -134,20 +136,17 @@ export default function Login({ navigation }) {
     }
   };
 
-
- 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View style={styles.viewImgAndMood}>
-       
-        <Text style={styles.loginCoteret}>MOOD WAVE</Text>
-        <ImageBackground
-          source={{ uri: "https://images.pexels.com/photos/1202130/pexels-photo-1202130.jpeg?auto=compress&cs=tinysrgb&w=600"}}
-        
-          imageStyle={styles.imgSong}
-        />
-      
+          <Text style={styles.loginCoteret}>MOOD WAVE</Text>
+          <ImageBackground
+            source={{
+              uri: "https://images.pexels.com/photos/1202130/pexels-photo-1202130.jpeg?auto=compress&cs=tinysrgb&w=600",
+            }}
+            imageStyle={styles.imgSong}
+          />
         </View>
         <View style={styles.boxDeatails}>
           <Text style={styles.textLogin}>email:</Text>
@@ -162,7 +161,6 @@ export default function Login({ navigation }) {
             style={styles.input.stringValue}
             keyboardType="visible-password"
             value={loginData.password}
-            
             onChangeText={(text) =>
               setLoginData({ ...loginData, password: text })
             }
@@ -200,15 +198,14 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingHorizontal: 20,
   },
-  viewImgAndMood:{
+  viewImgAndMood: {
     flexDirection: "row",
-  
   },
   imgSong: {
     width: 100,
     height: 132,
-    marginTop:60,
-    marginLeft:20
+    marginTop: 60,
+    marginLeft: 20,
   },
   loginCoteret: {
     fontSize: 20,

@@ -52,6 +52,7 @@ exports.getAllPlaylists = async (req, res, next) => {
         model: "Artist",
       },
     });
+    console.log(playlists);
     res.send(playlists);
   } catch (error) {
     console.log(error);
@@ -87,11 +88,15 @@ exports.addSong = async (req, res, next) => {
     console.log(p);
     const newSongs = [...p.songs, body.song];
     console.log(newSongs);
-    const playlist = await Playlist.updateOne(
+    const playlist = await Playlist.findOneAndUpdate(
       { _id: playlistId },
-      { songs: newSongs }
+      { songs: newSongs },
+      { new: true }
     );
-    res.send(playlist);
+    const song = await Song.findOne({ _id: body.song });
+    // console.log(song);
+
+    res.send(song);
   } catch (error) {
     console.log(error);
     next(error);
