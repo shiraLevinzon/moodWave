@@ -45,6 +45,7 @@ const ArtistLogin = ({navigation}) => {
       <TextInput
         style={styles.input}
         placeholder="Enter your email"
+        placeholderTextColor="white"
         onChangeText={(text) => setLoginData({ ...loginData, email: text })}
       />
 
@@ -52,13 +53,17 @@ const ArtistLogin = ({navigation}) => {
       <TextInput
         style={styles.input}
         placeholder="Enter your password"
+        placeholderTextColor="white"
         secureTextEntry
         onChangeText={(text) => setLoginData({ ...loginData, password: text })}
       />
 
       {/* Other login fields, if any */}
+      <View style={styles.buttonContainer}>
+        <Button title="Login"  buttonStyle={styles.searchButton} containerStyle={styles.buttonContainerStyle}   titleStyle={styles.searchButtonText}  onPress={handleLogin} />
+      </View>
 
-      <Button title="Login" onPress={handleLogin} />
+     
     </View>
   );
 };
@@ -68,11 +73,39 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
+    backgroundColor:"black"
+  },
+  buttonContainer: {
+    backgroundColor: "purple",
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5, // Set the shadow for Android
+  },
+
+  searchButton: {
+    backgroundColor: "purple",
+    color:"black",
+   
+  },
+  searchButtonText: {
+    color: "white",
+  },
+  buttonContainerStyle: {
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
   },
   label: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
+    color:"purple"
   },
   input: {
     height: 40,

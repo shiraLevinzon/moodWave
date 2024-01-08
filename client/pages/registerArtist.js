@@ -58,10 +58,14 @@ const ArtistRegistration = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-         <Button title='Go To Login' onPress={() => { navigation.navigate("ArtistLogin") }}/>
+      <View style={styles.buttonContainer1}>
+        <Button title="Go To Login" onPress={() => { navigation.navigate("ArtistLogin") }}  buttonStyle={styles.searchButton} containerStyle={styles.buttonContainerStyle}   titleStyle={styles.searchButtonText}/>
+      </View>
+     
       <Text style={styles.label}>First Name</Text>
       <TextInput
         style={styles.input}
+        placeholderTextColor="white"
         placeholder="Enter your first name"
         onChangeText={(text) => setArtistData({ ...artistData, firstName: text })}
       />
@@ -70,6 +74,7 @@ const ArtistRegistration = ({navigation}) => {
       <TextInput
         style={styles.input}
         placeholder="Enter your last name"
+        placeholderTextColor="white"
         onChangeText={(text) => setArtistData({ ...artistData, lastName: text })}
       />
 
@@ -77,6 +82,7 @@ const ArtistRegistration = ({navigation}) => {
       <TextInput
         style={styles.input}
         placeholder="Enter your email"
+        placeholderTextColor="white"
         onChangeText={(text) => setArtistData({ ...artistData, email: text })}
       />
 
@@ -84,25 +90,33 @@ const ArtistRegistration = ({navigation}) => {
       <TextInput
         style={styles.input}
         placeholder="Enter your password"
+        placeholderTextColor="white"
         secureTextEntry
         onChangeText={(text) => setArtistData({ ...artistData, password: text })}
       />
 
       <Text style={styles.label}>Genres</Text>
+
+<View style={{backgroundColor:"white"}}>
       <MultipleSelectList
           setSelected={(val) => setSelectedGen(val)}
           data={dataGenges}
           save="value"
           onSelect={() => setArtistData({ ...artistData, genres: selectedGen })}
           label="Genres"
-        />
-
+          // boxStyles={{backgroundColor:"black"}} 
+          // inputStyles={{color:"white"}} 
+          // placeholderTextColor="white"
+         
+        /> 
+</View>
       {/* Image upload field (you can use a library for image uploading) */}
 
       <Text style={styles.label}>Country</Text>
       <TextInput
         style={styles.input}
         placeholder="Enter your country"
+        placeholderTextColor="white"
         onChangeText={(text) => setArtistData({ ...artistData, country: text })}
       />
 
@@ -110,29 +124,79 @@ const ArtistRegistration = ({navigation}) => {
       <TextInput
         style={styles.input}
         placeholder="Birth Date"
+        placeholderTextColor="white"
         onChangeText={(text) => setArtistData({ ...artistData, birthDate: text })}
       />
       <TextInput
         style={styles.input}
         placeholder="Image"
+        placeholderTextColor="white"
         onChangeText={(text) => setArtistData({ ...artistData, image: text })}
       />
-
-      <Button title="Register" onPress={handleRegister} />
+       <View style={styles.buttonContainer}>
+        <Button title="Register"  buttonStyle={styles.searchButton} containerStyle={styles.buttonContainerStyle}   titleStyle={styles.searchButtonText}  onPress={handleRegister} />
+      </View>
+      
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  whiteText: {
+    color: 'white',
+  
+    // Add any other styles you need
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     padding: 20,
+     backgroundColor:"black"
+  },
+  buttonContainer1:{
+  backgroundColor: "purple",
+  borderRadius: 10, // Set the border radius
+  overflow: "hidden", // Ensure the border radius is applied correctly
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 0.1,
+  },
+  shadowOpacity: 0.5,
+  shadowRadius: 3.84,
+  elevation: 5,},
+
+  buttonContainer: {
+    backgroundColor: "purple",
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5, // Set the shadow for Android
+  },
+
+  searchButton: {
+    backgroundColor: "purple",
+    color:"black",
+   
+  },
+  searchButtonText: {
+    color: "white",
+  },
+  buttonContainerStyle: {
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
   },
   label: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
+    color:"purple"
   },
   input: {
     height: 40,

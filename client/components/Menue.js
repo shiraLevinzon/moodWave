@@ -1,12 +1,7 @@
 import React from "react";
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Icon, Provider as PaperProvider } from "react-native-paper";
 
-import MyPlaylist from "../pages/myPlaylist";
-import CameraPage from "../pages/camera";
-import Rooms from "../pages/romms";
-import Profile from "../pages/profile";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
@@ -15,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import HomeStack from "../routes/homeStack";
 import PlaylistStack from "../routes/playlistStack";
 import CameraStack from "../routes/CameraStack";
+import Rooms from "../pages/romms";
 import profileStack from "../routes/profileStack";
 
 export default function Menue() {
@@ -31,6 +27,7 @@ export default function Menue() {
   console.log("welcome to menue");
   return (
     
+
     <NavigationContainer independent={true} theme={MyTheme}>
       <Tab.Navigator >
         <Tab.Screen
