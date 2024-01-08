@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { ImageBackground, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { FormContext } from "../context/data";
 import { TouchableWithoutFeedback, Keyboard } from "react-native";  
+import { Image } from "react-native-elements";
 
 export default function Login({ navigation }) {
   const { currentUser, setCurrentUser, defaultPlaylists, setDefaultPlaylists } =
@@ -133,10 +134,21 @@ export default function Login({ navigation }) {
     }
   };
 
+
+ 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
+        <View style={styles.viewImgAndMood}>
+       
         <Text style={styles.loginCoteret}>MOOD WAVE</Text>
+        <ImageBackground
+          source={{ uri: "https://images.pexels.com/photos/1202130/pexels-photo-1202130.jpeg?auto=compress&cs=tinysrgb&w=600"}}
+        
+          imageStyle={styles.imgSong}
+        />
+      
+        </View>
         <View style={styles.boxDeatails}>
           <Text style={styles.textLogin}>email:</Text>
           <TextInput
@@ -150,6 +162,7 @@ export default function Login({ navigation }) {
             style={styles.input.stringValue}
             keyboardType="visible-password"
             value={loginData.password}
+            
             onChangeText={(text) =>
               setLoginData({ ...loginData, password: text })
             }
@@ -186,6 +199,16 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     paddingTop: 40,
     paddingHorizontal: 20,
+  },
+  viewImgAndMood:{
+    flexDirection: "row",
+  
+  },
+  imgSong: {
+    width: 100,
+    height: 132,
+    marginTop:60,
+    marginLeft:20
   },
   loginCoteret: {
     fontSize: 20,

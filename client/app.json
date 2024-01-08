@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/logo.jpeg",
+      "image": "./assets/maby.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

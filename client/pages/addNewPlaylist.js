@@ -76,9 +76,11 @@ export default function AddNewPlaylist({ navigation }) {
 
   return (
     <View style={styles.allPage}>
-      <Text style={styles.coteretCreate}>CREATE YOUR PLAYLIST</Text>
-
-      <Button color="purple" title="Create" onPress={giveName} />
+     
+     <View style={styles.buttonContainer}>
+        <Button title="Create"  onPress={giveName}  buttonStyle={styles.searchButton} containerStyle={styles.buttonContainerStyle}   titleStyle={styles.searchButtonText}/>
+      </View>
+     
       
       <FlatList
         data={allSongs}
@@ -152,6 +154,32 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
    
+  },
+  buttonContainer: {
+    backgroundColor: "purple",
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5, // Set the shadow for Android
+  },
+
+  searchButton: {
+    backgroundColor: "purple",
+    color:"black",
+   
+  },
+  searchButtonText: {
+    color: "black",
+  },
+  buttonContainerStyle: {
+    borderRadius: 10, // Set the border radius
+    overflow: "hidden", // Ensure the border radius is applied correctly
   },
 
   coteretCreate: {
