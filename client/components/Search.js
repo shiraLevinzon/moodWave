@@ -18,7 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 // import { debounce } from 'lodash';
 import { KeyboardAvoidingView } from "react-native";
 
-export default function Search({changePage}) {
+export default function Search({ changePage }) {
   //  const [searchQuery, setSearchQuery] = useState('');
   const { searchQuery, setSearchQuery, songlist, setSonglist } =
     useContext(FormContext);
@@ -26,30 +26,26 @@ export default function Search({changePage}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [heartColor, setHeartColor] = useState([]);
 
-  
   const [visible, setVisible] = useState(false);
   const [filter, setFilter] = useState([]);
 
-    // const debouncedSearch = debounce(handleSearch, 300);
-  
-    const openOverlay = async() => {
-      setVisible(!visible);
-      try {
-        const response = await fetch(
-          `http://192.168.0.128:3000/api/v1/songs/`
-        );
-        const data = await response.json();
-        setSonglist(data);
-        setFilter(data)
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
+  // const debouncedSearch = debounce(handleSearch, 300);
+
+  const openOverlay = async () => {
+    setVisible(!visible);
+    try {
+      const response = await fetch(`http://192.168.0.179:3000/api/v1/songs/`);
+      const data = await response.json();
+      setSonglist(data);
+      setFilter(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const closeOverlay = () => {
     setVisible(!visible);
   };
-
 
   const handleSearch = (text) => {
     // Update the searchQuery state directly
@@ -88,70 +84,76 @@ export default function Search({changePage}) {
   return (
     <View>
       <View style={styles.buttonContainer}>
-        <Button title="Search"  buttonStyle={styles.searchButton} containerStyle={styles.buttonContainerStyle}   titleStyle={styles.searchButtonText}  onPress={openOverlay} />
+        <Button
+          title="Search"
+          buttonStyle={styles.searchButton}
+          containerStyle={styles.buttonContainerStyle}
+          titleStyle={styles.searchButtonText}
+          onPress={openOverlay}
+        />
       </View>
 
-      <Overlay isVisible={visible} onBackdropPress={openOverlay} style={styles.overlatView}>
+      <Overlay
+        isVisible={visible}
+        onBackdropPress={openOverlay}
+        style={styles.overlatView}
+      >
         <Button
           title="back"
-          buttonStyle={styles.searchButton} containerStyle={styles.buttonContainerStyle}   titleStyle={styles.searchButtonText}
+          buttonStyle={styles.searchButton}
+          containerStyle={styles.buttonContainerStyle}
+          titleStyle={styles.searchButtonText}
           onPress={closeOverlay}
         />
 
         <KeyboardAvoidingView behavior="padding" style={styles.overlay}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="click song or artist..."
-            value={searchQuery}
-            // onChangeText={(text) => {
-            //   setSearchQuery(text);
-            //   handleSearch();
-            // }}
-            onChangeText={(text) => setSearchQuery(text)}
-          />
-          </View>
-         
-            <View style={styles.overlayContent}>
-
-              <FlatList
-                data={filter}
-                renderItem={({ item, index }) => (
-                  <View style={styles.viewItem}>
-                      <AntDesign
-              name="heart"
-              size={30}
-              color={heartColor[index] ? "red" : "gray"}
-              style={styles.heartItem}
-              onPress={() => handlePress(item, index)}
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="click song or artist..."
+              value={searchQuery}
+              // onChangeText={(text) => {
+              //   setSearchQuery(text);
+              //   handleSearch();
+              // }}
+              onChangeText={(text) => setSearchQuery(text)}
             />
+          </View>
 
-                    <View style={styles.songDeatails}>
-                      <Text
-                        style={styles.itemName}
-                        onPress={() => {
-                          setVisible(!visible);
-                          changePage(item)
+          <View style={styles.overlayContent}>
+            <FlatList
+              data={filter}
+              renderItem={({ item, index }) => (
+                <View style={styles.viewItem}>
+                  <AntDesign
+                    name="heart"
+                    size={30}
+                    color={heartColor[index] ? "red" : "gray"}
+                    style={styles.heartItem}
+                    onPress={() => handlePress(item, index)}
+                  />
 
-                        }}
-                      >
-                        {item.name}
-                      </Text>
-                      <Text
-                        style={styles.itemArtistName}
-                      >{`${item.artistCode?.firstName} ${item.artistCode?.lastName}`}</Text>
-                    </View>
-                    <View style={styles.imgItem}>
-                      <Image
-                        style={{ width: 70, height: 70 }}
-                        src={item.image}
-                      />
-                    </View>
+                  <View style={styles.songDeatails}>
+                    <Text
+                      style={styles.itemName}
+                      onPress={() => {
+                        setVisible(!visible);
+                        changePage(item);
+                      }}
+                    >
+                      {item.name}
+                    </Text>
+                    <Text
+                      style={styles.itemArtistName}
+                    >{`${item.artistCode?.firstName} ${item.artistCode?.lastName}`}</Text>
                   </View>
-                )}
-              />
-            </View>
-         
+                  <View style={styles.imgItem}>
+                    <Image style={{ width: 70, height: 70 }} src={item.image} />
+                  </View>
+                </View>
+              )}
+            />
+          </View>
         </KeyboardAvoidingView>
       </Overlay>
     </View>
@@ -159,17 +161,16 @@ export default function Search({changePage}) {
 }
 
 const styles = StyleSheet.create({
+  searchInput: {
+    borderRadius: 10,
 
-  searchInput:{
-    borderRadius:10,
- 
-    backgroundColor:"black",
-     borderColor: 'white',
-    borderWidth: 1, 
-    borderWidth: 1,  
+    backgroundColor: "black",
+    borderColor: "white",
+    borderWidth: 1,
+    borderWidth: 1,
   },
-  
-  overlatView:{ backgroundColor: "black"},
+
+  overlatView: { backgroundColor: "black" },
   overlay: {
     width: 370,
     height: 600,
@@ -192,8 +193,7 @@ const styles = StyleSheet.create({
 
   searchButton: {
     backgroundColor: "purple",
-    color:"black",
-   
+    color: "black",
   },
   searchButtonText: {
     color: "black",

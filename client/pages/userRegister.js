@@ -59,7 +59,7 @@ export const UserRegister = ({ navigation }) => {
     userData.birthDate = convertToDate(userData.birthDate);
     try {
       const response = await fetch(
-        "http://192.168.0.128:3000/api/v1/users/register",
+        "http://192.168.0.179:3000/api/v1/users/register",
         {
           method: "POST",
           headers: {

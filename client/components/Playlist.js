@@ -4,41 +4,49 @@ import { Text } from "react-native-paper";
 import { FormContext } from "../context/data";
 import { AntDesign } from "@expo/vector-icons";
 import { color } from "react-native-elements/dist/helpers";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Playlist({ navigation }) {
   const {
     songlist,
     setSonglist,
     playlistName,
+    setPlaylists,
+    playlists,
     likeSongList,
     setLikeSongList,
     defaultPlaylists,
     setDefaultPlaylists,
     currentUser,
   } = useContext(FormContext);
-  const [heartColor, setHeartColor] = useState({});
+  const [heartColor, setHeartColor] = useState([]);
 
-  useEffect(() => {
-    console.log(defaultPlaylists);
-    const favorites = defaultPlaylists["My Favorites"].songs;
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log(
+        "--------defaults---------",
+        defaultPlaylists["My Favorites"].songs
+      );
+      const favorites = defaultPlaylists["My Favorites"].songs;
 
-    // Use functional update to correctly update heartColor state
-    setHeartColor((prevHeartColor) => {
-      const updatedColors = { ...prevHeartColor };
+      setHeartColor((prevHeartColor) => {
+        const updatedColors = [...prevHeartColor];
 
-      songlist.forEach((song, index) => {
-        if (favorites.includes(song._id)) {
-          updatedColors[index] = "red";
-        } else {
-          updatedColors[index] = "grey";
-        }
+        songlist.forEach((song, index) => {
+          if (favorites.includes(song._id)) {
+            updatedColors[index] = "red";
+          } else {
+            updatedColors[index] = "grey";
+          }
+        });
+
+        return updatedColors;
       });
-
-      return updatedColors;
-    });
-  }, [songlist, defaultPlaylists]);
+    }, [songlist, defaultPlaylists])
+  );
 
   const addSongToFavorites = async (song) => {
+    console.log("------------------add-----------------------");
     const res = await fetch(
       `http://192.168.0.179:3000/api/v1/playlists/${defaultPlaylists["My Favorites"]._id}/addSong`,
       {
@@ -65,8 +73,11 @@ export default function Playlist({ navigation }) {
         songs: newFavorites,
       },
     }));
+
   };
+
   const deleteSongFromFavorites = async (song) => {
+    console.log("------------------delete-----------------------");
     const res = await fetch(
       `http://192.168.0.179:3000/api/v1/playlists/${defaultPlaylists["My Favorites"]._id}/deleteSong`,
       {
@@ -83,7 +94,7 @@ export default function Playlist({ navigation }) {
       throw new Error(errorData || "server error occurred");
     }
     const data = await res.json();
-
+    console.log("delete", song);
     const newFavorites = defaultPlaylists["My Favorites"].songs.filter(
       (song1) => song1 != null && song1 != song.song
     );
@@ -94,19 +105,20 @@ export default function Playlist({ navigation }) {
         songs: newFavorites,
       },
     }));
+    setSonglist([...newFavorites.songs]);
   };
-
   const handlePress = async (event, item, index) => {
     console.log(
       "---------------------------------------------------------------------"
     );
     const favorites = defaultPlaylists["My Favorites"].songs;
-    console.log("favorite:", favorites);
     if (favorites.includes(item._id)) {
-      setHeartColor({ ...heartColor, [index]: "grey" });
+      // setHeartColor({ ...heartColor, [index]: "grey" });
       deleteSongFromFavorites({ song: item._id });
     } else {
-      setHeartColor({ ...heartColor, [index]: "red" });
+      heartColor[index] = "red";
+      setHeartColor([...heartColor]);
+      // setHeartColor({ ...heartColor, [index]: "red" });
       addSongToFavorites({ song: item._id });
     }
   };
@@ -127,10 +139,9 @@ export default function Playlist({ navigation }) {
         throw new Error(`Server error: ${res.status} ${res.statusText}`);
       }
       const data = await res.json();
-      console.log(data);
     } catch (error) {
       console.error("Error in getPlaylistByName:", error.message);
-      return false; // Return false on error
+      return false; 
     }
   };
 
@@ -156,7 +167,6 @@ export default function Playlist({ navigation }) {
               <Text
                 style={styles.itemName}
                 onPress={() => {
-                  console.log(item);
                   navigation.navigate("Song", { song: item });
                 }}
               >

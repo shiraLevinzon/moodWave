@@ -224,7 +224,9 @@ export const Song = ({ route }) => {
       <View style={styles.viewImgSong}>
         <Image style={styles.imgSong} src={song.image} />
         <Text style={styles.nameSong}>{song.name}</Text>
-        <Text style={styles.artistNameSong}>{song.name}</Text>
+        <Text
+          style={styles.artistNameSong}
+        >{`${song.artistCode?.firstName} ${song.artistCode?.lastName}`}</Text>
       </View>
 
       <View style={styles.addToPlaylist}>

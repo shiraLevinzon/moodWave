@@ -65,8 +65,10 @@ export default function Login({ navigation }) {
 
   useEffect(() => {
     const updateDefaultsPlaylists = async () => {
-      console.log("current is change");
-      console.log(currentUser);
+      // console.log("current is change");
+      console.log(!currentUser.token);
+      if (!currentUser.token) return;
+
       const heardRecently = await getDefaultPlaylistsId("Heard Recently");
       const myFavorites = await getDefaultPlaylistsId("My Favorites");
       setDefaultPlaylists({
@@ -78,10 +80,10 @@ export default function Login({ navigation }) {
   }, [currentUser]);
 
   const getDefaultPlaylistsId = async (playlistName) => {
-    console.log("getdefault");
+    // console.log("getdefault");
     try {
       const res = await fetch(
-        `http://192.168.0.128:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
+        `http://192.168.0.179:3000/api/v1/playlists/playlistsByName?pname=${playlistName}`,
         {
           method: "GET",
           headers: {
@@ -150,7 +152,6 @@ export default function Login({ navigation }) {
           <TextInput
             style={styles.input.stringValue}
             keyboardType="visible-password"
-            value={loginData.password}
             value={loginData.password}
             onChangeText={(text) =>
               setLoginData({ ...loginData, password: text })

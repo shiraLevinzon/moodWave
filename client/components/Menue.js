@@ -1,9 +1,9 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon, Provider as PaperProvider } from "react-native-paper";
 
 import MyPlaylist from "../pages/myPlaylist";
-import CameraPage from '../pages/camera';
+import CameraPage from "../pages/camera";
 import Rooms from "../pages/romms";
 import Profile from "../pages/profile";
 import { Entypo } from "@expo/vector-icons";
@@ -19,20 +19,19 @@ import HomeStack from "../routes/homeStack";
 import profileStack from "../routes/profileStack";
 
 export default function Menue() {
-
-  
   const Tab = createBottomTabNavigator();
   console.log("welcome to menue");
   return (
     <NavigationContainer independent={true}>
-      <Tab.Navigator >
+      <Tab.Navigator>
         <Tab.Screen
           name="Home"
           component={HomeStack}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Entypo name="home" size={size} color={"purple"} />
-            ),headerShown: false
+            ),
+            headerShown: false,
           }}
         />
 
@@ -46,7 +45,8 @@ export default function Menue() {
                 size={24}
                 color="purple"
               />
-            ),headerShown: false
+            ),
+            headerShown: false,
           }}
         />
         <Tab.Screen
@@ -55,7 +55,8 @@ export default function Menue() {
           options={{
             tabBarIcon: ({ color, size }) => (
               <AntDesign name="camera" size={24} color="purple" />
-            ),headerShown: false
+            ),
+            headerShown: false,
           }}
         />
         <Tab.Screen
@@ -64,7 +65,8 @@ export default function Menue() {
           options={{
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="user-friends" size={24} color="purple" />
-            ),headerShown: false
+            ),
+            headerShown: false,
           }}
         />
         <Tab.Screen
@@ -73,7 +75,8 @@ export default function Menue() {
           options={{
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="person-circle" size={24} color="purple" />
-            ),headerShown: false
+            ),
+            headerShown: false,
           }}
         />
       </Tab.Navigator>
