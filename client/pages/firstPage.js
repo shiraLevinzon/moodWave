@@ -44,6 +44,7 @@ export default function FirstPage() {
 
 
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
