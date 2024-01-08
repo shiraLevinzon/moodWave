@@ -11,7 +11,6 @@ import Menue from "../components/Menue";
 const Tab = createBottomTabNavigator();
 
 export default function FirstPage() {
-  const colorScheme = useColorScheme();
   return (
     <NavigationContainer independent={true}>
       <Tab.Navigator

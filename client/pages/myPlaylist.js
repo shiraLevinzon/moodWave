@@ -139,9 +139,9 @@ export default function MyPlaylist({ navigation }) {
             )}
           />
         </View>
-        <View style={styles.viewCoterte}>
+        {/* <View style={styles.viewCoterte}>
           <Text style={styles.playlistCoteret}>MY FAVORITS:</Text>
-        </View>
+        </View> */}
         <AntDesign
           name="pluscircleo"
           size={50}

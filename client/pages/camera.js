@@ -96,7 +96,7 @@ export default function CameraPage({ navigation }) {
   const fetchSongsByEmo = async (emo) => {
     try {
       const response = await fetch(
-        `http://192.168.0.135:3000/api/v1/songs/songByEmo/${emo}`
+        `http://192.168.0.179:3000/api/v1/songs/songByEmo/${emo}`
       );
       const data = await response.json();
 

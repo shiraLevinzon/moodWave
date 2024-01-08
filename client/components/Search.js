@@ -29,21 +29,19 @@ export default function Search({ changePage }) {
   const [visible, setVisible] = useState(false);
   const [filter, setFilter] = useState([]);
 
-    // const debouncedSearch = debounce(handleSearch, 300);
-  
-    const openOverlay = async() => {
-      setVisible(!visible);
-      try {
-        const response = await fetch(
-          `http://192.168.0.135:3000/api/v1/songs/`
-        );
-        const data = await response.json();
-        setSonglist(data);
-        setFilter(data)
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
+  // const debouncedSearch = debounce(handleSearch, 300);
+
+  const openOverlay = async () => {
+    setVisible(!visible);
+    try {
+      const response = await fetch(`http://192.168.0.179:3000/api/v1/songs/`);
+      const data = await response.json();
+      setSonglist(data);
+      setFilter(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const closeOverlay = () => {
     setVisible(!visible);
@@ -156,32 +154,6 @@ export default function Search({ changePage }) {
               )}
             />
           </View>
-                    <View style={styles.songDeatails}>
-                      <Text
-                        style={styles.itemName}
-                        onPress={() => {
-                           setVisible(!visible);
-                          changePage(item)
-
-                        }}
-                      >
-                        {item.name}
-                      </Text>
-                      <Text
-                        style={styles.itemArtistName}
-                      >{`${item.artistCode?.firstName} ${item.artistCode?.lastName}`}</Text>
-                    </View>
-                    <View style={styles.imgItem}>
-                      <Image
-                        style={{ width: 70, height: 70 }}
-                        src={item.image}
-                      />
-                    </View>
-                  </View>
-                )}
-              />
-            </View>
-         
         </KeyboardAvoidingView>
       </Overlay>
     </View>

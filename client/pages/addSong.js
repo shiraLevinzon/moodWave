@@ -146,7 +146,7 @@ export default function AddSong() {
     console.log(JSON.stringify(songData));
 
     try {
-      const response = await fetch("http://192.168.0.128:3000/api/v1/songs", {
+      const response = await fetch("http://192.168.0.179:3000/api/v1/songs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
