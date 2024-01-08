@@ -20,7 +20,7 @@ export default function FirstPage() {
   console.log("Rendering FirstPage");
   return (
     <NavigationContainer independent={true}>
-      <Tab.Navigator screenOptions={{ headerShown: false,  tabBarStyle: {  display: "none",}, }} >
+      
       <Tab.Navigator screenOptions={{ headerShown: false,  tabBarStyle: {  display: "none",}, }} >
         <Tab.Screen
           name="LoginPage"
@@ -41,7 +41,7 @@ export default function FirstPage() {
 }
 
 
-}
+
 
 
 const styles = StyleSheet.create({

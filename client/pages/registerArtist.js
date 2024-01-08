@@ -35,7 +35,7 @@ const ArtistRegistration = ({navigation}) => {
 
   const handleRegister = async () => {
     try {
-      const response = await fetch('http://192.168.0.135:3000/api/v1/artists/register', {
+      const response = await fetch('http://192.168.0.128:3000/api/v1/artists/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

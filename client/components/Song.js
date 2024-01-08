@@ -170,6 +170,8 @@ export const Song = ({ route }) => {
     updateStatus();
   };
 
+ 
+
   return (
     <View style={styles.container}>
       <View style={styles.viewImgSong}>
