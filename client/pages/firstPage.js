@@ -21,7 +21,6 @@ export default function FirstPage() {
   return (
     <NavigationContainer independent={true}>
       <Tab.Navigator screenOptions={{ headerShown: false,  tabBarStyle: {  display: "none",}, }} >
-      <Tab.Navigator screenOptions={{ headerShown: false,  tabBarStyle: {  display: "none",}, }} >
         <Tab.Screen
           name="LoginPage"
           component={LoginStack}
@@ -41,7 +40,7 @@ export default function FirstPage() {
 }
 
 
-}
+
 
 
 const styles = StyleSheet.create({
